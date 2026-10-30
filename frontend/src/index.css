@@ -8,17 +8,17 @@
   --border-color: rgba(255, 255, 255, 0.08);
   --border-subtle: rgba(255, 255, 255, 0.05);
   --border-glow: rgba(56, 189, 248, 0.25);
-  
+
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
-  
+
   --accent-blue: #0284c7;
   --accent-cyan: #06b6d4;
   --accent-cyan-bright: #38bdf8;
   --accent-violet: #8b5cf6;
   --accent-indigo: #6366f1;
-  
+
   --triage-red: #ef4444;
   --triage-red-bright: #f87171;
   --triage-red-dark: #991b1b;
@@ -27,7 +27,7 @@
   --triage-green: #10b981;
   --triage-green-bright: #34d399;
   --triage-black: #475569;
-  
+
   --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
 }
@@ -50,7 +50,7 @@ body {
   font-family: var(--font-sans);
   min-height: 100vh;
   overflow-x: hidden;
-  background-image: 
+  background-image:
     radial-gradient(circle at 12% 10%, rgba(2, 132, 199, 0.07) 0%, transparent 45%),
     radial-gradient(circle at 88% 85%, rgba(239, 68, 68, 0.06) 0%, transparent 45%),
     radial-gradient(circle at 50% 45%, rgba(99, 102, 241, 0.04) 0%, transparent 60%);
@@ -115,10 +115,13 @@ button:focus-visible {
 
 /* Pulse Animations */
 @keyframes pulseGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.5;
     transform: scale(1.15);
@@ -126,10 +129,13 @@ button:focus-visible {
 }
 
 @keyframes pulseBorderRed {
-  0%, 100% {
+
+  0%,
+  100% {
     border-color: rgba(239, 68, 68, 0.7);
     box-shadow: 0 0 20px rgba(239, 68, 68, 0.35);
   }
+
   50% {
     border-color: rgba(239, 68, 68, 0.3);
     box-shadow: 0 0 10px rgba(239, 68, 68, 0.15);
@@ -137,10 +143,13 @@ button:focus-visible {
 }
 
 @keyframes pulseBorderCyan {
-  0%, 100% {
+
+  0%,
+  100% {
     border-color: rgba(56, 189, 248, 0.7);
     box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
   }
+
   50% {
     border-color: rgba(56, 189, 248, 0.3);
     box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
@@ -152,6 +161,7 @@ button:focus-visible {
     opacity: 0;
     transform: translateY(6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -162,6 +172,7 @@ button:focus-visible {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

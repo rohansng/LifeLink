@@ -70,7 +70,7 @@ While generative AI excels at processing natural language and recognizing visual
 LIFELINK resolves the tension between unstructured perception and provable safety through a **Neuro-Symbolic Architecture**:
 
 $$\text{Neuro-Symbolic Division of Labor}$$
-$$\boxed{\textbf{Cognitive AI (Gemini)} \xrightarrow{\text{Perception \& Extraction}} \textbf{Mathematical Optimizer (OR-Tools)} \xrightarrow{\text{Feasibility Guarantee}} \textbf{Human Commander}}$$
+$$\boxed{\textbf{Cognitive AI (Gemini)} \xrightarrow{\text{Perception and Extraction}} \textbf{Mathematical Optimizer (OR-Tools)} \xrightarrow{\text{Feasibility Guarantee}} \textbf{Human Commander}}$$
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
