@@ -106,4 +106,20 @@ export const api = {
     const res = await fetch(`${API_BASE}/recommendations/${id}/execute`, { method: 'POST' });
     return handleResponse(res);
   },
+
+  // Incident Simulation Engine (Phase 3)
+  async getSimulationStatus() {
+    const res = await fetch(`${API_BASE}/simulation/status`);
+    return handleResponse(res);
+  },
+
+  async simulateNextEvent() {
+    const res = await fetch(`${API_BASE}/simulation/next`, { method: 'POST' });
+    return handleResponse(res);
+  },
+
+  async resetSimulation() {
+    const res = await fetch(`${API_BASE}/simulation/reset`, { method: 'POST' });
+    return handleResponse(res);
+  },
 };

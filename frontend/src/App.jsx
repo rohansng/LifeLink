@@ -7,8 +7,9 @@ import AmbulancesPanel from './components/AmbulancesPanel';
 import VictimZonesPanel from './components/VictimZonesPanel';
 import CommandPanel from './components/CommandPanel';
 import TimelinePanel from './components/TimelinePanel';
+import SimulationEngineBar from './components/SimulationEngineBar';
 import { api } from './services/api';
-import { RefreshCw, Database, Radio } from 'lucide-react';
+import { RefreshCw, Database } from 'lucide-react';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -16,36 +17,61 @@ export default function App() {
   const [dashboardData, setDashboardData] = useState(null);
   const [selectedEntity, setSelectedEntity] = useState(null);
   const [activeTab, setActiveTab] = useState('ALL');
-  const [isResetting, setIsResetting] = useState(false);
+  
+  // Phase 3 Simulation Engine State
+  const [simulationStatus, setSimulationStatus] = useState(null);
+  const [lastEventResult, setLastEventResult] = useState(null);
+  const [isSimulating, setIsSimulating] = useState(false);
 
   // Load live state from FastAPI backend
-  const loadDashboard = async () => {
+  const loadDashboard = async (showLoading = false) => {
     try {
-      setLoading(true);
+      if (showLoading) setLoading(true);
       setError(null);
-      const data = await api.getDashboardState();
-      setDashboardData(data);
+      const [dash, sim] = await Promise.all([
+        api.getDashboardState(),
+        api.getSimulationStatus(),
+      ]);
+      setDashboardData(dash);
+      setSimulationStatus(sim);
     } catch (err) {
       console.error('Failed to load dashboard from backend:', err);
       setError(err.message);
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadDashboard();
+    loadDashboard(true);
   }, []);
 
-  const handleResetScenario = async () => {
+  // Handle Step Advancement
+  const handleSimulateNextEvent = async () => {
     try {
-      setIsResetting(true);
-      await api.resetScenario();
-      await loadDashboard();
+      setIsSimulating(true);
+      const stepResult = await api.simulateNextEvent();
+      setLastEventResult(stepResult);
+      // Immediately refresh full dashboard state with recalculated models
+      await loadDashboard(false);
     } catch (err) {
-      console.error('Failed to reset scenario:', err);
+      console.error('Failed to simulate next event:', err);
     } finally {
-      setIsResetting(false);
+      setIsSimulating(false);
+    }
+  };
+
+  // Handle Simulation Reset
+  const handleResetSimulation = async () => {
+    try {
+      setIsSimulating(true);
+      await api.resetSimulation();
+      setLastEventResult(null);
+      await loadDashboard(false);
+    } catch (err) {
+      console.error('Failed to reset simulation:', err);
+    } finally {
+      setIsSimulating(false);
     }
   };
 
@@ -63,7 +89,7 @@ export default function App() {
       }}>
         <div className="live-indicator" style={{ width: '16px', height: '16px' }} />
         <h2 style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '1px' }}>
-          HYDRATING LIFELINK CRISIS DATA MODEL...
+          HYDRATING LIFELINK INCIDENT ENGINE...
         </h2>
         <p className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
           Connecting to FastAPI backend @ http://localhost:8000/api/v1/dashboard
@@ -89,7 +115,7 @@ export default function App() {
         <h2>Backend Connection Error</h2>
         <p style={{ color: 'var(--text-secondary)', maxWidth: '500px' }}>{error}</p>
         <button
-          onClick={loadDashboard}
+          onClick={() => loadDashboard(true)}
           style={{
             background: 'var(--accent-blue)',
             color: '#fff',
@@ -119,66 +145,20 @@ export default function App() {
 
   return (
     <div style={{ maxWidth: '1680px', margin: '0 auto', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {/* 1. Header */}
+      {/* 1. Header with simulation banner, brand, and incident title */}
       <Header incident={incident} />
 
-      {/* Backend Synchronization Status Ribbon */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '8px 14px',
-        background: 'rgba(2, 132, 199, 0.08)',
-        border: '1px solid rgba(2, 132, 199, 0.25)',
-        borderRadius: '6px',
-        fontSize: '11px',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-cyan)' }}>
-          <Database size={14} />
-          <span><strong>PHASE 2 DATA MESH ACTIVE:</strong> Hydrated via FastAPI REST APIs (9 Core Entities)</span>
-          <span>•</span>
-          <span className="mono" style={{ color: 'var(--text-secondary)' }}>Host: 127.0.0.1:8000</span>
-        </div>
+      {/* 2. Phase 3: Real-Time Incident Simulation Engine Ribbon */}
+      <SimulationEngineBar
+        simulationStatus={simulationStatus}
+        lastEventResult={lastEventResult}
+        onSimulateNext={handleSimulateNextEvent}
+        onResetSimulation={handleResetSimulation}
+        isSimulating={isSimulating}
+        onDismissEventCard={() => setLastEventResult(null)}
+      />
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <button
-            onClick={loadDashboard}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--text-secondary)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              fontSize: '11px',
-              fontWeight: '600',
-            }}
-          >
-            <RefreshCw size={12} />
-            <span>Poll Live State</span>
-          </button>
-          <span>|</span>
-          <button
-            onClick={handleResetScenario}
-            disabled={isResetting}
-            style={{
-              background: 'rgba(239, 68, 68, 0.15)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              color: 'var(--triage-red)',
-              cursor: 'pointer',
-              padding: '2px 8px',
-              borderRadius: '4px',
-              fontSize: '11px',
-              fontWeight: '700',
-            }}
-          >
-            {isResetting ? 'Resetting...' : 'Reset to Scenario Baseline'}
-          </button>
-        </div>
-      </div>
-
-      {/* 2. Top KPI Statistics Row (Victims 214, Critical 31, Ambulances 5, Hospitals 3, Available ICU 4, Unassigned 27) */}
+      {/* 3. Top KPI Statistics Row (Dynamically changes with each simulation event) */}
       <TopStats stats={statistics} />
 
       {/* Entity Inspection Alert Banner */}
@@ -223,7 +203,7 @@ export default function App() {
           {[
             { id: 'ALL', label: 'Tactical Command Overview' },
             { id: 'RESOURCES', label: 'Hospital & Ambulance Grid' },
-            { id: 'TIMELINE', label: 'Full Incident Timeline' },
+            { id: 'TIMELINE', label: `Incident Timeline (${events.length} Events)` },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -246,7 +226,7 @@ export default function App() {
         </div>
 
         <div className="mono" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-          CRISIS DEFICIT: <strong>{statistics?.critical || 31} CRITICAL : {statistics?.total_icu_beds || 4} ICU BEDS (7.75x DEFICIT)</strong>
+          CRISIS DEFICIT: <strong>{statistics?.critical || 31} CRITICAL : {statistics?.total_icu_beds || 4} ICU BEDS</strong>
         </div>
       </div>
 
@@ -275,7 +255,7 @@ export default function App() {
             <CommandPanel
               priorityActions={recommendations}
               alerts={events.filter((e) => e.severity === 'critical' || e.category === 'ALERT')}
-              onActionExecuted={loadDashboard}
+              onActionExecuted={() => loadDashboard(false)}
             />
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
@@ -322,7 +302,7 @@ export default function App() {
         borderTop: '1px solid var(--border-color)',
         marginTop: '10px',
       }}>
-        LIFELINK Command Center • Phase 2 Complete: Live REST APIs Connected • Deterministic Constraint Models Ready for Optimization
+        LIFELINK Command Center • Phase 3 Complete: Real-Time Incident Simulation Engine Active • 5 Killer Demo Events Verified
       </footer>
     </div>
   );
