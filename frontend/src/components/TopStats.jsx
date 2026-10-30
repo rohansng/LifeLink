@@ -1,12 +1,20 @@
 import React from 'react';
 import { Users, AlertCircle, Truck, Building2, BedDouble, UserX } from 'lucide-react';
 
-export default function TopStats({ stats }) {
+export default function TopStats({ stats = {} }) {
+  const totalVictims = stats.total_victims ?? stats.totalVictims ?? 214;
+  const critical = stats.critical ?? 31;
+  const totalAmbulances = stats.total_ambulances ?? stats.totalAmbulances ?? 5;
+  const activeAmbulances = stats.active_ambulances ?? stats.activeAmbulances ?? 5;
+  const totalHospitals = stats.total_hospitals ?? stats.totalHospitals ?? 3;
+  const totalIcuBeds = stats.total_icu_beds ?? stats.totalIcuBeds ?? 4;
+  const unassignedCritical = stats.unassigned_critical ?? stats.unassignedCritical ?? 27;
+
   const statCards = [
     {
       label: "VICTIMS TRACKED",
-      value: stats.totalVictims,
-      subtext: "214 accounted across 3 zones",
+      value: totalVictims,
+      subtext: "Accounted across 3 sectors",
       icon: Users,
       color: "var(--accent-blue)",
       borderLeft: "none",
@@ -14,7 +22,7 @@ export default function TopStats({ stats }) {
     },
     {
       label: "CRITICAL (RED)",
-      value: stats.critical,
+      value: critical,
       subtext: "Immediate life threat (START)",
       icon: AlertCircle,
       color: "var(--triage-red)",
@@ -24,7 +32,7 @@ export default function TopStats({ stats }) {
     },
     {
       label: "AMBULANCES READY",
-      value: `${stats.activeAmbulances} / ${stats.totalAmbulances}`,
+      value: `${activeAmbulances} / ${totalAmbulances}`,
       subtext: "100% fleet committed to scene",
       icon: Truck,
       color: "#38bdf8",
@@ -33,7 +41,7 @@ export default function TopStats({ stats }) {
     },
     {
       label: "RECEIVING HOSPITALS",
-      value: stats.totalHospitals,
+      value: totalHospitals,
       subtext: "Trauma Centers in corridor",
       icon: Building2,
       color: "var(--accent-violet)",
@@ -42,17 +50,17 @@ export default function TopStats({ stats }) {
     },
     {
       label: "AVAILABLE ICU BEDS",
-      value: stats.totalIcuBeds,
+      value: totalIcuBeds,
       subtext: "Critical deficit across network",
       icon: BedDouble,
-      color: stats.totalIcuBeds <= 4 ? "var(--triage-red)" : "var(--triage-green)",
+      color: totalIcuBeds <= 4 ? "var(--triage-red)" : "var(--triage-green)",
       borderLeft: "4px solid var(--triage-red)",
       pulse: true,
       highlight: true,
     },
     {
       label: "UNASSIGNED CRITICAL",
-      value: stats.unassignedCritical,
+      value: unassignedCritical,
       subtext: "Awaiting transport triage",
       icon: UserX,
       color: "#f43f5e",

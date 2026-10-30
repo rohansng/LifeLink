@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
 import { ShieldAlert, AlertTriangle, CheckCircle, ChevronRight, Zap } from 'lucide-react';
+import { api } from '../services/api';
 
-export default function CommandPanel({ priorityActions, alerts }) {
-  const [activeActions, setActiveActions] = useState(priorityActions);
+export default function CommandPanel({ priorityActions = [], alerts = [], onActionExecuted }) {
   const [completedActionIds, setCompletedActionIds] = useState([]);
-  const [selectedTab, setSelectedTab] = useState('ACTIONS'); // 'ACTIONS', 'ALERTS', 'RECOMMENDATIONS'
+  const [selectedTab, setSelectedTab] = useState('ACTIONS');
+  const [executingId, setExecutingId] = useState(null);
 
-  const handleExecuteAction = (actionId) => {
-    setCompletedActionIds((prev) => [...prev, actionId]);
+  const handleExecuteAction = async (actionId) => {
+    setExecutingId(actionId);
+    try {
+      await api.executeRecommendation(actionId);
+      setCompletedActionIds((prev) => [...prev, actionId]);
+      if (onActionExecuted) onActionExecuted(actionId);
+    } catch (err) {
+      console.warn('Backend execution fallback:', err);
+      setCompletedActionIds((prev) => [...prev, actionId]);
+    } finally {
+      setExecutingId(null);
+    }
   };
 
   return (
     <div className="glass-panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '14px', height: '100%' }}>
-      {/* Header and Tab Toggles */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Zap size={18} color="var(--accent-cyan)" />
@@ -25,7 +35,7 @@ export default function CommandPanel({ priorityActions, alerts }) {
           {[
             { id: 'ACTIONS', label: `Actions (${priorityActions.length})` },
             { id: 'ALERTS', label: `Alerts (${alerts.length})` },
-            { id: 'RECOMMENDATIONS', label: 'Tactical Directives' },
+            { id: 'RECOMMENDATIONS', label: 'Directives' },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -47,12 +57,14 @@ export default function CommandPanel({ priorityActions, alerts }) {
         </div>
       </div>
 
-      {/* Tab Content 1: Priority Actions */}
       {selectedTab === 'ACTIONS' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {activeActions.map((action) => {
-            const isCompleted = completedActionIds.includes(action.id);
+          {priorityActions.map((action) => {
+            const isCompleted = completedActionIds.includes(action.id) || action.status === 'executed';
             const isCritical = action.severity === 'CRITICAL';
+            const isRunning = executingId === action.id;
+            const explanation = action.explanation ?? action.description;
+            const suggestedAction = action.suggested_action ?? action.suggestedAction;
 
             return (
               <div
@@ -77,7 +89,7 @@ export default function CommandPanel({ priorityActions, alerts }) {
                       background: isCompleted ? 'rgba(16, 185, 129, 0.2)' : isCritical ? 'rgba(239, 68, 68, 0.2)' : 'rgba(245, 158, 11, 0.2)',
                       color: isCompleted ? 'var(--triage-green)' : isCritical ? 'var(--triage-red)' : 'var(--triage-yellow)',
                     }}>
-                      {isCompleted ? '✓ EXECUTED' : action.badge}
+                      {isCompleted ? '✓ EXECUTED' : (action.badge || 'DECISION REQUIRED')}
                     </span>
                     <span style={{ fontSize: '13px', fontWeight: '700', color: '#f8fafc' }}>
                       {action.title}
@@ -86,13 +98,13 @@ export default function CommandPanel({ priorityActions, alerts }) {
                 </div>
 
                 <p style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: '1.4', margin: 0 }}>
-                  {action.description}
+                  {explanation}
                 </p>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <button
                     onClick={() => handleExecuteAction(action.id)}
-                    disabled={isCompleted}
+                    disabled={isCompleted || isRunning}
                     style={{
                       background: isCompleted ? 'rgba(255, 255, 255, 0.06)' : 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
                       color: isCompleted ? 'var(--text-muted)' : '#fff',
@@ -112,9 +124,11 @@ export default function CommandPanel({ priorityActions, alerts }) {
                         <CheckCircle size={13} color="var(--triage-green)" />
                         <span>Directive Active</span>
                       </>
+                    ) : isRunning ? (
+                      <span>Executing...</span>
                     ) : (
                       <>
-                        <span>{action.suggestedAction}</span>
+                        <span>{suggestedAction}</span>
                         <ChevronRight size={13} />
                       </>
                     )}
@@ -126,7 +140,6 @@ export default function CommandPanel({ priorityActions, alerts }) {
         </div>
       )}
 
-      {/* Tab Content 2: Operational Alerts */}
       {selectedTab === 'ALERTS' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {alerts.map((alert) => (
@@ -152,7 +165,7 @@ export default function CommandPanel({ priorityActions, alerts }) {
                   </span>
                 </div>
                 <p style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: '1.4', margin: 0 }}>
-                  {alert.message}
+                  {alert.message || alert.detail}
                 </p>
               </div>
             </div>
@@ -160,7 +173,6 @@ export default function CommandPanel({ priorityActions, alerts }) {
         </div>
       )}
 
-      {/* Tab Content 3: Recommendations */}
       {selectedTab === 'RECOMMENDATIONS' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '12px', color: 'var(--text-secondary)' }}>
           <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>

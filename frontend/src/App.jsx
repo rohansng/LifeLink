@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import TopStats from './components/TopStats';
 import IncidentMap from './components/IncidentMap';
@@ -7,22 +7,181 @@ import AmbulancesPanel from './components/AmbulancesPanel';
 import VictimZonesPanel from './components/VictimZonesPanel';
 import CommandPanel from './components/CommandPanel';
 import TimelinePanel from './components/TimelinePanel';
-import { SYNTHETIC_INCIDENT } from './data/syntheticCrisis';
+import { api } from './services/api';
+import { RefreshCw, Database, Radio } from 'lucide-react';
 
 export default function App() {
-  const [incident] = useState(SYNTHETIC_INCIDENT);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [dashboardData, setDashboardData] = useState(null);
   const [selectedEntity, setSelectedEntity] = useState(null);
-  const [activeTab, setActiveTab] = useState('ALL'); // 'ALL', 'RESOURCES', 'TIMELINE'
+  const [activeTab, setActiveTab] = useState('ALL');
+  const [isResetting, setIsResetting] = useState(false);
+
+  // Load live state from FastAPI backend
+  const loadDashboard = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await api.getDashboardState();
+      setDashboardData(data);
+    } catch (err) {
+      console.error('Failed to load dashboard from backend:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadDashboard();
+  }, []);
+
+  const handleResetScenario = async () => {
+    try {
+      setIsResetting(true);
+      await api.resetScenario();
+      await loadDashboard();
+    } catch (err) {
+      console.error('Failed to reset scenario:', err);
+    } finally {
+      setIsResetting(false);
+    }
+  };
+
+  if (loading && !dashboardData) {
+    return (
+      <div style={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'var(--bg-primary)',
+        color: '#f8fafc',
+        gap: '16px',
+      }}>
+        <div className="live-indicator" style={{ width: '16px', height: '16px' }} />
+        <h2 style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '1px' }}>
+          HYDRATING LIFELINK CRISIS DATA MODEL...
+        </h2>
+        <p className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+          Connecting to FastAPI backend @ http://localhost:8000/api/v1/dashboard
+        </p>
+      </div>
+    );
+  }
+
+  if (error && !dashboardData) {
+    return (
+      <div style={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'var(--bg-primary)',
+        color: 'var(--triage-red)',
+        gap: '16px',
+        padding: '20px',
+        textAlign: 'center',
+      }}>
+        <h2>Backend Connection Error</h2>
+        <p style={{ color: 'var(--text-secondary)', maxWidth: '500px' }}>{error}</p>
+        <button
+          onClick={loadDashboard}
+          style={{
+            background: 'var(--accent-blue)',
+            color: '#fff',
+            border: 'none',
+            padding: '10px 18px',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontWeight: '600',
+          }}
+        >
+          Retry Connection
+        </button>
+      </div>
+    );
+  }
+
+  const {
+    incident,
+    statistics,
+    sectors = [],
+    hospitals = [],
+    ambulances = [],
+    roads = [],
+    events = [],
+    recommendations = [],
+  } = dashboardData || {};
 
   return (
     <div style={{ maxWidth: '1680px', margin: '0 auto', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {/* 1. Header with simulation banner, brand, and incident title */}
+      {/* 1. Header */}
       <Header incident={incident} />
 
-      {/* 2. Top KPI Statistics Row (Victims 214, Critical 31, Ambulances 5, Hospitals 3, Available ICU 4, Unassigned 27) */}
-      <TopStats stats={incident.statistics} />
+      {/* Backend Synchronization Status Ribbon */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '8px 14px',
+        background: 'rgba(2, 132, 199, 0.08)',
+        border: '1px solid rgba(2, 132, 199, 0.25)',
+        borderRadius: '6px',
+        fontSize: '11px',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-cyan)' }}>
+          <Database size={14} />
+          <span><strong>PHASE 2 DATA MESH ACTIVE:</strong> Hydrated via FastAPI REST APIs (9 Core Entities)</span>
+          <span>•</span>
+          <span className="mono" style={{ color: 'var(--text-secondary)' }}>Host: 127.0.0.1:8000</span>
+        </div>
 
-      {/* Entity Inspection Alert Banner (if entity is clicked on map or panel) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <button
+            onClick={loadDashboard}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--text-secondary)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              fontSize: '11px',
+              fontWeight: '600',
+            }}
+          >
+            <RefreshCw size={12} />
+            <span>Poll Live State</span>
+          </button>
+          <span>|</span>
+          <button
+            onClick={handleResetScenario}
+            disabled={isResetting}
+            style={{
+              background: 'rgba(239, 68, 68, 0.15)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              color: 'var(--triage-red)',
+              cursor: 'pointer',
+              padding: '2px 8px',
+              borderRadius: '4px',
+              fontSize: '11px',
+              fontWeight: '700',
+            }}
+          >
+            {isResetting ? 'Resetting...' : 'Reset to Scenario Baseline'}
+          </button>
+        </div>
+      </div>
+
+      {/* 2. Top KPI Statistics Row (Victims 214, Critical 31, Ambulances 5, Hospitals 3, Available ICU 4, Unassigned 27) */}
+      <TopStats stats={statistics} />
+
+      {/* Entity Inspection Alert Banner */}
       {selectedEntity && (
         <div className="glass-panel" style={{
           padding: '10px 16px',
@@ -38,7 +197,7 @@ export default function App() {
             </span>
             <strong style={{ color: '#fff' }}>{selectedEntity.data.name || selectedEntity.data.callsign}</strong>
             <span style={{ color: 'var(--text-secondary)' }}>
-              {selectedEntity.data.description || selectedEntity.data.assignedTo || `${selectedEntity.data.icuBedsAvailable} ICU beds open`}
+              {selectedEntity.data.description || selectedEntity.data.assignment_description || `${selectedEntity.data.icu} ICU beds open`}
             </span>
           </div>
 
@@ -87,7 +246,7 @@ export default function App() {
         </div>
 
         <div className="mono" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-          CRISIS RATIO: <strong>31 CRITICAL : 4 ICU BEDS (7.75x DEFICIT)</strong>
+          CRISIS DEFICIT: <strong>{statistics?.critical || 31} CRITICAL : {statistics?.total_icu_beds || 4} ICU BEDS (7.75x DEFICIT)</strong>
         </div>
       </div>
 
@@ -98,15 +257,15 @@ export default function App() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <IncidentMap
               incident={incident}
-              victimZones={incident.victimZones}
-              hospitals={incident.hospitals}
-              ambulances={incident.ambulances}
-              roadDisruptions={incident.roadDisruptions}
+              victimZones={sectors}
+              hospitals={hospitals}
+              ambulances={ambulances}
+              roadDisruptions={roads}
               onSelectEntity={setSelectedEntity}
             />
 
             <VictimZonesPanel
-              victimZones={incident.victimZones}
+              victimZones={sectors}
               onSelectZone={(zone) => setSelectedEntity({ type: 'SECTOR', data: zone })}
             />
           </div>
@@ -114,18 +273,19 @@ export default function App() {
           {/* Right Column: Command Panel + Hospitals & Ambulances */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <CommandPanel
-              priorityActions={incident.priorityActions}
-              alerts={incident.alerts}
+              priorityActions={recommendations}
+              alerts={events.filter((e) => e.severity === 'critical' || e.category === 'ALERT')}
+              onActionExecuted={loadDashboard}
             />
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               <HospitalsPanel
-                hospitals={incident.hospitals}
+                hospitals={hospitals}
                 onSelectHospital={(hosp) => setSelectedEntity({ type: 'HOSPITAL', data: hosp })}
               />
 
               <AmbulancesPanel
-                ambulances={incident.ambulances}
+                ambulances={ambulances}
                 onSelectAmbulance={(amb) => setSelectedEntity({ type: 'AMBULANCE', data: amb })}
               />
             </div>
@@ -133,24 +293,24 @@ export default function App() {
         </div>
       )}
 
-      {/* Alternative View: Dedicated Resources Grid */}
+      {/* Dedicated Resources Grid */}
       {activeTab === 'RESOURCES' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
           <HospitalsPanel
-            hospitals={incident.hospitals}
+            hospitals={hospitals}
             onSelectHospital={(hosp) => setSelectedEntity({ type: 'HOSPITAL', data: hosp })}
           />
 
           <AmbulancesPanel
-            ambulances={incident.ambulances}
+            ambulances={ambulances}
             onSelectAmbulance={(amb) => setSelectedEntity({ type: 'AMBULANCE', data: amb })}
           />
         </div>
       )}
 
-      {/* Alternative View or Bottom Section: Incident Timeline */}
+      {/* Incident Timeline */}
       {(activeTab === 'ALL' || activeTab === 'TIMELINE') && (
-        <TimelinePanel timeline={incident.timeline} />
+        <TimelinePanel timeline={events} />
       )}
 
       {/* Footer Info */}
@@ -162,7 +322,7 @@ export default function App() {
         borderTop: '1px solid var(--border-color)',
         marginTop: '10px',
       }}>
-        LIFELINK Command Center • Simulation Environment • Built for Hackathon Demonstration • North-Star Metric: Time to Actionable, Feasible Plan
+        LIFELINK Command Center • Phase 2 Complete: Live REST APIs Connected • Deterministic Constraint Models Ready for Optimization
       </footer>
     </div>
   );

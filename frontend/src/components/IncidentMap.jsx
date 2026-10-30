@@ -5,31 +5,43 @@ import { Layers, AlertTriangle, Shield, Navigation } from 'lucide-react';
 
 export default function IncidentMap({
   incident,
-  victimZones,
-  hospitals,
-  ambulances,
-  roadDisruptions,
+  victimZones = [],
+  hospitals = [],
+  ambulances = [],
+  roadDisruptions = [],
   onSelectEntity,
 }) {
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const layersGroupRef = useRef({});
 
-  const [activeFilter, setActiveFilter] = useState('ALL'); // 'ALL', 'VICTIMS', 'HOSPITALS', 'AMBULANCES', 'ROADS'
+  const [activeFilter, setActiveFilter] = useState('ALL');
+
+  // Helper coordinate normalizers for backend and synthetic models
+  const getIncidentCoords = () => {
+    if (incident?.coordinates) return [incident.coordinates.lat, incident.coordinates.lng];
+    if (incident?.location) return [incident.location.latitude, incident.location.longitude];
+    return [37.7749, -122.4194];
+  };
+
+  const getEntityCoords = (item) => {
+    if (Array.isArray(item.coordinates)) return item.coordinates;
+    if (item.location) return [item.location.latitude, item.location.longitude];
+    return [37.7749, -122.4194];
+  };
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
-    if (mapInstanceRef.current) return; // Prevent double initialization
+    if (mapInstanceRef.current) return;
 
-    // Initialize Leaflet Map centered on disaster coordinates
+    const centerCoords = getIncidentCoords();
     const map = L.map(mapContainerRef.current, {
-      center: [incident.coordinates.lat, incident.coordinates.lng],
+      center: centerCoords,
       zoom: 13,
       zoomControl: true,
       attributionControl: false,
     });
 
-    // Dark theme CartoDB basemap tiles
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
       maxZoom: 19,
       subdomains: 'abcd',
@@ -37,7 +49,6 @@ export default function IncidentMap({
 
     mapInstanceRef.current = map;
 
-    // Groups for filtering
     const groups = {
       zones: L.layerGroup().addTo(map),
       hospitals: L.layerGroup().addTo(map),
@@ -46,11 +57,19 @@ export default function IncidentMap({
     };
     layersGroupRef.current = groups;
 
-    // 1. Render Victim Zones & Incident Epicenter
+    // 1. Victim Zones
     victimZones.forEach((zone) => {
-      // Zone Perimeter circle
-      const circle = L.circle(zone.coordinates, {
-        radius: zone.radiusMeters,
+      const coords = getEntityCoords(zone);
+      const totalVictims = zone.total_victims ?? zone.totalVictims ?? 0;
+      const criticalCount = zone.critical_count ?? zone.triage?.critical ?? 0;
+      const seriousCount = zone.serious_count ?? zone.triage?.serious ?? 0;
+      const radius = zone.radius_meters ?? zone.radiusMeters ?? 250;
+      const desc = zone.description ?? '';
+      const hazard = zone.hazard ?? 'HAZARD ZONE';
+      const access = zone.access_status ?? zone.accessStatus ?? 'RESTRICTED';
+
+      L.circle(coords, {
+        radius: radius,
         color: '#ef4444',
         weight: 1.5,
         fillColor: '#ef4444',
@@ -58,36 +77,31 @@ export default function IncidentMap({
         dashArray: '4, 4',
       }).addTo(groups.zones);
 
-      // Custom HTML Marker Pin
       const zoneHtml = `
         <div class="map-pin-zone" style="text-align: center; cursor: pointer;">
           <div style="background: rgba(239, 68, 68, 0.9); border: 2px solid #fff; border-radius: 50%; width: 34px; height: 34px; margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 16px rgba(239, 68, 68, 0.8);">
-            <span style="color: #fff; font-weight: 800; font-size: 13px; font-family: monospace;">${zone.totalVictims}</span>
+            <span style="color: #fff; font-weight: 800; font-size: 13px; font-family: monospace;">${totalVictims}</span>
           </div>
           <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255, 255, 255, 0.2); padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; color: #f8fafc; margin-top: 4px; white-space: nowrap; display: inline-block;">
-            ${zone.id}: ${zone.triage.critical} Red
+            ${zone.id}: ${criticalCount} Red
           </div>
         </div>
       `;
 
-      const zoneIcon = L.divIcon({
-        html: zoneHtml,
-        className: 'custom-leaflet-pin',
-        iconSize: [80, 50],
-        iconAnchor: [40, 25],
-      });
-
-      const marker = L.marker(zone.coordinates, { icon: zoneIcon }).addTo(groups.zones);
+      const marker = L.marker(coords, {
+        icon: L.divIcon({ html: zoneHtml, className: 'custom-leaflet-pin', iconSize: [80, 50], iconAnchor: [40, 25] }),
+      }).addTo(groups.zones);
 
       marker.bindPopup(`
         <div style="color: #0f172a; padding: 4px; font-family: sans-serif;">
           <h4 style="margin: 0 0 4px 0; color: #b91c1c; font-size: 14px;">${zone.name}</h4>
-          <p style="font-size: 12px; margin: 0 0 6px 0; color: #475569;">${zone.description}</p>
+          <p style="font-size: 12px; margin: 0 0 6px 0; color: #475569;">${desc}</p>
           <div style="font-size: 11px; background: #fee2e2; border-left: 3px solid #dc2626; padding: 4px 6px; margin-bottom: 6px;">
-            <strong>Casualties:</strong> ${zone.totalVictims} Total | <span style="color: #dc2626; font-weight: bold;">${zone.triage.critical} Critical (Red)</span> | ${zone.triage.serious} Yellow
+            <strong>Casualties:</strong> ${totalVictims} Total | <span style="color: #dc2626; font-weight: bold;">${criticalCount} Critical</span> | ${seriousCount} Serious
           </div>
           <div style="font-size: 11px; color: #64748b;">
-            <strong>Access:</strong> ${zone.accessStatus}
+            <strong>Hazard:</strong> ${hazard}<br />
+            <strong>Access:</strong> ${access}
           </div>
         </div>
       `);
@@ -95,39 +109,41 @@ export default function IncidentMap({
       marker.on('click', () => onSelectEntity && onSelectEntity({ type: 'ZONE', data: zone }));
     });
 
-    // 2. Render Receiving Hospitals
+    // 2. Receiving Hospitals
     hospitals.forEach((hosp) => {
+      const coords = getEntityCoords(hosp);
+      const icuAvailable = hosp.icu ?? hosp.icuBedsAvailable ?? 0;
+      const icuTotal = hosp.icu_total ?? hosp.icuTotalBeds ?? 20;
+      const specialties = hosp.supported_specialties ?? hosp.specialties ?? [];
+      const eta = hosp.eta_minutes ?? hosp.etaMinutes ?? 10.0;
+      const dist = hosp.distance_km ?? hosp.distanceKm ?? 5.0;
+
       const hospHtml = `
         <div class="map-pin-hosp" style="text-align: center; cursor: pointer;">
           <div style="background: #0284c7; border: 2px solid #38bdf8; border-radius: 6px; width: 32px; height: 32px; margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 14px rgba(56, 189, 248, 0.6);">
             <span style="color: #fff; font-weight: 800; font-size: 13px;">🏥</span>
           </div>
           <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid #38bdf8; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; color: #38bdf8; margin-top: 4px; white-space: nowrap; display: inline-block;">
-            ${hosp.name.split(' ')[0]}: ${hosp.icuBedsAvailable} ICU
+            ${hosp.name.split(' ')[0]}: ${icuAvailable} ICU
           </div>
         </div>
       `;
 
-      const hospIcon = L.divIcon({
-        html: hospHtml,
-        className: 'custom-leaflet-hosp',
-        iconSize: [90, 50],
-        iconAnchor: [45, 25],
-      });
-
-      const marker = L.marker(hosp.coordinates, { icon: hospIcon }).addTo(groups.hospitals);
+      const marker = L.marker(coords, {
+        icon: L.divIcon({ html: hospHtml, className: 'custom-leaflet-hosp', iconSize: [90, 50], iconAnchor: [45, 25] }),
+      }).addTo(groups.hospitals);
 
       marker.bindPopup(`
         <div style="color: #0f172a; padding: 4px; font-family: sans-serif;">
           <h4 style="margin: 0 0 4px 0; color: #0369a1; font-size: 14px;">${hosp.name}</h4>
-          <div style="font-size: 12px; font-weight: bold; color: ${hosp.icuBedsAvailable > 1 ? '#047857' : '#b91c1c'}; margin-bottom: 6px;">
-            ICU Beds Open: ${hosp.icuBedsAvailable} of ${hosp.icuTotalBeds}
+          <div style="font-size: 12px; font-weight: bold; color: ${icuAvailable > 1 ? '#047857' : '#b91c1c'}; margin-bottom: 6px;">
+            ICU Beds Open: ${icuAvailable} of ${icuTotal}
           </div>
           <div style="font-size: 11px; margin-bottom: 4px;">
-            <strong>Specialties:</strong> ${hosp.specialties.join(', ')}
+            <strong>Specialties:</strong> ${specialties.join(', ')}
           </div>
           <div style="font-size: 11px; color: #64748b;">
-            <strong>ETA from Incident:</strong> ${hosp.etaMinutes} min (${hosp.distanceKm} km)
+            <strong>ETA from Incident:</strong> ${eta} min (${dist} km)
           </div>
         </div>
       `);
@@ -135,9 +151,13 @@ export default function IncidentMap({
       marker.on('click', () => onSelectEntity && onSelectEntity({ type: 'HOSPITAL', data: hosp }));
     });
 
-    // 3. Render Ambulances
+    // 3. Ambulances
     ambulances.forEach((amb) => {
-      const isALS = amb.type.includes('ALS');
+      const coords = getEntityCoords(amb);
+      const isALS = amb.type?.includes('ALS');
+      const assignment = amb.assignment_description ?? amb.assignedTo ?? 'Active Transport';
+      const crew = amb.crew_lead ?? amb.crewLead ?? 'Paramedic Unit';
+
       const ambHtml = `
         <div class="map-pin-amb" style="text-align: center; cursor: pointer;">
           <div style="background: ${isALS ? '#8b5cf6' : '#0d9488'}; border: 2px solid #fff; border-radius: 50%; width: 28px; height: 28px; margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px ${isALS ? 'rgba(139, 92, 246, 0.7)' : 'rgba(13, 148, 136, 0.7)'};">
@@ -149,26 +169,21 @@ export default function IncidentMap({
         </div>
       `;
 
-      const ambIcon = L.divIcon({
-        html: ambHtml,
-        className: 'custom-leaflet-amb',
-        iconSize: [60, 44],
-        iconAnchor: [30, 22],
-      });
-
-      const marker = L.marker(amb.coordinates, { icon: ambIcon }).addTo(groups.ambulances);
+      const marker = L.marker(coords, {
+        icon: L.divIcon({ html: ambHtml, className: 'custom-leaflet-amb', iconSize: [60, 44], iconAnchor: [30, 22] }),
+      }).addTo(groups.ambulances);
 
       marker.bindPopup(`
         <div style="color: #0f172a; padding: 4px; font-family: sans-serif;">
-          <h4 style="margin: 0 0 2px 0; color: #6d28d9; font-size: 13px;">${amb.callsign} (${amb.type.split(' ')[0]})</h4>
+          <h4 style="margin: 0 0 2px 0; color: #6d28d9; font-size: 13px;">${amb.callsign} (${amb.type})</h4>
           <div style="font-size: 11px; font-weight: bold; color: #1e293b; margin-bottom: 4px;">
             Status: ${amb.status}
           </div>
           <div style="font-size: 11px; margin-bottom: 4px; color: #475569;">
-            <strong>Assignment:</strong> ${amb.assignedTo}
+            <strong>Assignment:</strong> ${assignment}
           </div>
           <div style="font-size: 11px; color: #64748b;">
-            <strong>Lead:</strong> ${amb.crewLead}
+            <strong>Lead:</strong> ${crew}
           </div>
         </div>
       `);
@@ -176,27 +191,33 @@ export default function IncidentMap({
       marker.on('click', () => onSelectEntity && onSelectEntity({ type: 'AMBULANCE', data: amb }));
     });
 
-    // 4. Render Road Disruption Corridors
+    // 4. Road Disruptions
     roadDisruptions.forEach((road) => {
-      const polyline = L.polyline([road.coordinatesStart, road.coordinatesEnd], {
-        color: '#ef4444',
-        weight: 6,
-        opacity: 0.85,
-        dashArray: '8, 8',
-      }).addTo(groups.roads);
+      const start = road.start_latitude !== undefined ? [road.start_latitude, road.start_longitude] : road.coordinatesStart;
+      const end = road.end_latitude !== undefined ? [road.end_latitude, road.end_longitude] : road.coordinatesEnd;
+      const delay = road.detour_penalty_minutes ?? road.detourPenaltyMinutes ?? 0.0;
 
-      polyline.bindPopup(`
-        <div style="color: #0f172a; padding: 4px; font-family: sans-serif;">
-          <h4 style="margin: 0 0 4px 0; color: #b91c1c; font-size: 13px;">⛔ ${road.name}</h4>
-          <div style="font-size: 11px; font-weight: bold; color: #dc2626; margin-bottom: 4px;">
-            Status: ${road.status}
+      if (start && end) {
+        const polyline = L.polyline([start, end], {
+          color: '#ef4444',
+          weight: 6,
+          opacity: 0.85,
+          dashArray: '8, 8',
+        }).addTo(groups.roads);
+
+        polyline.bindPopup(`
+          <div style="color: #0f172a; padding: 4px; font-family: sans-serif;">
+            <h4 style="margin: 0 0 4px 0; color: #b91c1c; font-size: 13px;">⛔ ${road.name}</h4>
+            <div style="font-size: 11px; font-weight: bold; color: #dc2626; margin-bottom: 4px;">
+              Status: ${road.status}
+            </div>
+            <p style="font-size: 11px; margin: 0 0 4px 0; color: #475569;">${road.reason}</p>
+            <div style="font-size: 11px; color: #b91c1c;">
+              <strong>Detour Penalty:</strong> +${delay} min
+            </div>
           </div>
-          <p style="font-size: 11px; margin: 0 0 4px 0; color: #475569;">${road.reason}</p>
-          <div style="font-size: 11px; color: #b91c1c;">
-            <strong>Transit Detour Penalty:</strong> +${road.detourPenaltyMinutes} min
-          </div>
-        </div>
-      `);
+        `);
+      }
     });
 
     return () => {
@@ -205,13 +226,12 @@ export default function IncidentMap({
     };
   }, [incident, victimZones, hospitals, ambulances, roadDisruptions]);
 
-  // Handle Layer Filtering
+  // Filtering
   useEffect(() => {
     if (!mapInstanceRef.current || !layersGroupRef.current.zones) return;
     const map = mapInstanceRef.current;
     const { zones, hospitals: hospGroup, ambulances: ambGroup, roads } = layersGroupRef.current;
 
-    // Reset all layers
     if (map.hasLayer(zones)) map.removeLayer(zones);
     if (map.hasLayer(hospGroup)) map.removeLayer(hospGroup);
     if (map.hasLayer(ambGroup)) map.removeLayer(ambGroup);
@@ -235,7 +255,6 @@ export default function IncidentMap({
 
   return (
     <div className="glass-panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', height: '100%', minHeight: '520px' }}>
-      {/* Map Header Controls */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '10px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Navigation size={18} color="var(--accent-cyan)" />
@@ -247,7 +266,6 @@ export default function IncidentMap({
           </span>
         </div>
 
-        {/* Layer Filter Buttons */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           {[
             { id: 'ALL', label: 'All Layers' },
@@ -278,11 +296,9 @@ export default function IncidentMap({
         </div>
       </div>
 
-      {/* Map Canvas Container */}
       <div style={{ position: 'relative', flex: 1, minHeight: '440px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
         <div ref={mapContainerRef} style={{ width: '100%', height: '100%', minHeight: '440px' }} />
 
-        {/* Floating Map Legend */}
         <div style={{
           position: 'absolute',
           bottom: '12px',
@@ -317,7 +333,6 @@ export default function IncidentMap({
           </div>
         </div>
 
-        {/* Live Status Overlay Pill */}
         <div style={{
           position: 'absolute',
           top: '12px',

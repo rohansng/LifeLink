@@ -1,14 +1,14 @@
 import React from 'react';
 import { Truck, Clock, ShieldCheck, Activity } from 'lucide-react';
 
-export default function AmbulancesPanel({ ambulances, onSelectAmbulance }) {
+export default function AmbulancesPanel({ ambulances = [], onSelectAmbulance }) {
   return (
     <div className="glass-panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Truck size={18} color="#38bdf8" />
           <h2 style={{ fontSize: '15px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '-0.3px' }}>
-            EMS Ambulances (5 Active)
+            EMS Fleet ({ambulances.length} Active)
           </h2>
         </div>
         <div className="mono" style={{ fontSize: '11px', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: '4px' }}>
@@ -18,8 +18,12 @@ export default function AmbulancesPanel({ ambulances, onSelectAmbulance }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {ambulances.map((amb) => {
-          const isALS = amb.type.includes('ALS');
-          const isTransporting = amb.status === 'TRANSPORTING';
+          const isALS = amb.type?.includes('ALS');
+          const isTransporting = amb.status?.toLowerCase().includes('transport');
+          const assignment = amb.assignment_description ?? amb.assignedTo ?? 'Active Transport';
+          const crew = amb.crew_lead ?? amb.crewLead ?? 'Paramedic Unit';
+          const etaScene = amb.eta_scene_minutes ?? amb.etaSceneMinutes;
+          const etaHosp = amb.eta_hospital_minutes ?? amb.etaHospitalMinutes;
 
           return (
             <div
@@ -67,19 +71,20 @@ export default function AmbulancesPanel({ ambulances, onSelectAmbulance }) {
                   borderRadius: '4px',
                   background: isTransporting ? 'rgba(245, 158, 11, 0.15)' : 'rgba(56, 189, 248, 0.15)',
                   color: isTransporting ? '#fbbf24' : '#38bdf8',
+                  textTransform: 'uppercase',
                 }}>
                   {amb.status}
                 </span>
               </div>
 
               <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '6px' }}>
-                <span style={{ color: 'var(--text-muted)' }}>Target:</span> <strong>{amb.assignedTo}</strong>
+                <span style={{ color: 'var(--text-muted)' }}>Target:</span> <strong>{assignment}</strong>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', color: 'var(--text-muted)' }}>
-                <span>Lead: {amb.crewLead}</span>
+                <span>Lead: {crew}</span>
                 <span className="mono" style={{ color: 'var(--accent-cyan)', fontWeight: '600' }}>
-                  ETA: {amb.etaSceneMinutes !== undefined ? `${amb.etaSceneMinutes}m to scene` : `${amb.etaHospitalMinutes}m to hosp`}
+                  ETA: {etaScene !== undefined && etaScene !== null ? `${etaScene}m to scene` : `${etaHosp ?? 6.0}m to hosp`}
                 </span>
               </div>
             </div>
