@@ -17,6 +17,7 @@ import HospitalsPanel from './components/HospitalsPanel';
 import AmbulancesPanel from './components/AmbulancesPanel';
 import HospitalMatchModal from './components/HospitalMatchModal';
 import SimulationEvaluationModal from './components/SimulationEvaluationModal';
+import TacticalTelemetryPanel from './components/TacticalTelemetryPanel';
 import {
   ShieldAlert,
   Zap,
@@ -416,6 +417,8 @@ export default function App() {
                 victimZones={sectors}
                 onSelectZone={(zone) => setSelectedEntity({ type: 'SECTOR', data: zone })}
               />
+
+              <TacticalTelemetryPanel />
             </div>
 
             {/* Right Column: Receiving Hospitals & Fleet Status & Timeline */}
