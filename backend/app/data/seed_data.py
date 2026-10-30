@@ -154,48 +154,95 @@ def get_seed_victims() -> List[Victim]:
             amb_id = None
             hosp_id = None
 
+        # Ensure exact balance: 31 Critical, 67 Serious, 82 Moderate, 34 Unknown
+        if i == 30:
+            sev = VictimSeverity.SERIOUS
+            tag = "YELLOW"
+            cap = "orthopedic"
+            note = "Compound lower extremity fracture, hemodynamically stable"
+        elif i == 31:
+            sev = VictimSeverity.MODERATE
+            tag = "GREEN"
+            cap = "general"
+            note = "Ambulatory, facial abrasions and minor smoke inhalation"
+        else:
+            sev = VictimSeverity.CRITICAL
+            tag = "RED"
+
         victims.append(
             Victim(
                 id=v_id,
-                severity=VictimSeverity.CRITICAL,
+                severity=sev,
                 location=Location(latitude=lat, longitude=lon, sector=sector),
                 required_capability=cap,
                 status=status,
-                triage_tag="RED",
+                triage_tag=tag,
                 assigned_ambulance_id=amb_id,
                 assigned_hospital_id=hosp_id,
                 notes=note,
             )
         )
 
-    # 67 Serious (Yellow) Victims (V032 to V098)
+    # 67 Serious (Yellow) & Emergent Victims (V032 to V098)
     for i in range(32, 99):
         v_id = f"V{i:03d}"
         sector = "Sector Alpha" if i <= 65 else ("Sector Bravo" if i <= 89 else "Sector Charlie")
+        
+        # Specific showcase casualties
+        if i == 41:
+            # V041: Critical chest trauma requiring Trauma center
+            sev = VictimSeverity.CRITICAL
+            tag = "RED"
+            cap = "trauma"
+            note = "Critical blunt thoracic trauma, acute respiratory compromise"
+        elif i == 83:
+            # V083: Critical bleeding requiring Trauma + ICU
+            sev = VictimSeverity.CRITICAL
+            tag = "RED"
+            cap = "trauma + icu"
+            note = "Critical bleeding from pelvic crush injury, hypovolemic shock"
+        else:
+            sev = VictimSeverity.SERIOUS
+            tag = "YELLOW"
+            cap = "orthopedic" if i % 2 == 0 else "trauma"
+            note = "Compound extremity fracture or blunt abdominal trauma, vitals stable"
+
         victims.append(
             Victim(
                 id=v_id,
-                severity=VictimSeverity.SERIOUS,
+                severity=sev,
                 location=Location(latitude=37.7740 + (i * 0.00005), longitude=-122.4190 + (i * 0.00005), sector=sector),
-                required_capability="orthopedic" if i % 2 == 0 else "trauma",
+                required_capability=cap,
                 status=VictimStatus.UNASSIGNED,
-                triage_tag="YELLOW",
-                notes="Compound extremity fracture or blunt abdominal trauma, vitals stable",
+                triage_tag=tag,
+                notes=note,
             )
         )
 
-    # 82 Moderate (Green) Victims (V099 to V180)
+    # 82 Moderate (Green) & Delayed Surgical Victims (V099 to V180)
     for i in range(99, 181):
         v_id = f"V{i:03d}"
+        if i == 112:
+            # V112: Serious compound fracture requiring Surgery
+            sev = VictimSeverity.SERIOUS
+            tag = "YELLOW"
+            cap = "surgery"
+            note = "Serious open compound fracture requiring immediate surgical reduction"
+        else:
+            sev = VictimSeverity.MODERATE
+            tag = "GREEN"
+            cap = "general"
+            note = "Ambulatory, facial lacerations, mild particulate inhalation"
+
         victims.append(
             Victim(
                 id=v_id,
-                severity=VictimSeverity.MODERATE,
+                severity=sev,
                 location=Location(latitude=37.7730 + (i * 0.00004), longitude=-122.4170 + (i * 0.00004), sector="Sector Charlie"),
-                required_capability="general",
+                required_capability=cap,
                 status=VictimStatus.UNASSIGNED,
-                triage_tag="GREEN",
-                notes="Ambulatory, facial lacerations, mild particulate inhalation",
+                triage_tag=tag,
+                notes=note,
             )
         )
 
@@ -300,16 +347,19 @@ def get_seed_hospitals() -> List[Hospital]:
             name="Metro Trauma Center",
             type="Level 1 Trauma Center",
             location=Location(latitude=37.7870, longitude=-122.4040, address="1001 Potrero Ave"),
-            icu=2,
+            icu=0,
             icu_total=28,
-            trauma_available=True,
-            operating_rooms_open=2,
+            trauma_available=False,
+            operating_rooms_open=0,
             burn_beds_available=1,
+            ventilators_available=0,
+            doctors_available=2,
+            trauma_teams_available=0,
             blood=HospitalBloodInventory(O_negative=18, O_positive=14, A_positive=28),
             supported_specialties=["Neurosurgery", "Thoracic", "Vascular", "Ortho-Trauma", "General Trauma"],
             eta_minutes=8.2,
             distance_km=4.8,
-            status="SURGE_CRITICAL (93% Occupied)",
+            status="CRITICAL SATURATION (100% ICU & Trauma Occupied)",
         ),
         Hospital(
             id="H-B",
@@ -321,9 +371,12 @@ def get_seed_hospitals() -> List[Hospital]:
             trauma_available=True,
             operating_rooms_open=1,
             burn_beds_available=0,
+            ventilators_available=2,
+            doctors_available=4,
+            trauma_teams_available=1,
             blood=HospitalBloodInventory(O_negative=3, O_positive=8, A_positive=15),
             supported_specialties=["General Trauma", "Orthopedic Surgery", "Emergency Medicine"],
-            eta_minutes=12.5,
+            eta_minutes=13.0,
             distance_km=6.2,
             status="CRITICAL CAPACITY (95% Occupied)",
         ),
@@ -332,11 +385,14 @@ def get_seed_hospitals() -> List[Hospital]:
             name="Harborview Memorial Medical",
             type="Level 2 Specialized Facility",
             location=Location(latitude=37.7550, longitude=-122.3920, address="890 Third St"),
-            icu=1,
+            icu=2,
             icu_total=16,
             trauma_available=True,
             operating_rooms_open=1,
             burn_beds_available=3,
+            ventilators_available=2,
+            doctors_available=3,
+            trauma_teams_available=1,
             blood=HospitalBloodInventory(O_negative=4, O_positive=11, A_positive=19),
             supported_specialties=["Burn Intensive Care", "Pediatric Trauma", "Toxicology", "General Trauma"],
             eta_minutes=14.1,
@@ -402,6 +458,28 @@ def get_seed_resources() -> List[Resource]:
             location=Location(latitude=37.7700, longitude=-122.4150, sector="Sector Charlie"),
             allocated_to="Zone Charlie",
             notes="Field stabilization facility with 12 stretcher bays",
+        ),
+        Resource(
+            id="RES-06",
+            name="USAR Heavy Rescue Squad 1 (Metro Technical Rescue)",
+            category=ResourceCategory.INFRASTRUCTURE,
+            status=ResourceStatus.DEPLOYED,
+            quantity=1,
+            unit="squad",
+            location=Location(latitude=37.7765, longitude=-122.4180, sector="Sector Alpha"),
+            allocated_to="Zone Alpha Collapse Zone",
+            notes="Heavy pneumatic shoring & acoustic search sensors for trapped casualties",
+        ),
+        Resource(
+            id="RES-07",
+            name="USAR Heavy Rescue Squad 2 (County Extrication)",
+            category=ResourceCategory.INFRASTRUCTURE,
+            status=ResourceStatus.DEPLOYED,
+            quantity=1,
+            unit="squad",
+            location=Location(latitude=37.7725, longitude=-122.4230, sector="Sector Bravo"),
+            allocated_to="Zone Bravo Tanker Rubble",
+            notes="Hydraulic cutters, spreaders and thermal search for entrapped victims",
         ),
     ]
 

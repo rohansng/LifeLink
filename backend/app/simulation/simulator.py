@@ -219,6 +219,21 @@ class IncidentSimulationEngine:
         # Recalculate
         db.get_incident()
 
+        # Phase 10: Trigger Continuous Replanning Loop
+        try:
+            try:
+                from backend.app.replanning import replanning_engine
+            except ImportError:
+                from app.replanning import replanning_engine
+            replanning_engine.trigger_replan(
+                event_type="HOSPITAL_CAPACITY_CHANGE",
+                reason="Hospital B ICU capacity decreased from 2 to 1.",
+                hospital_id="H-B",
+                new_icu=1,
+            )
+        except Exception as e:
+            logger.warning(f"Failed to trigger continuous replan: {e}")
+
         return SimulationStepResult(
             step_number=2,
             event_type=SimulationEventType.HOSPITAL_CAPACITY_CHANGE,
@@ -298,7 +313,10 @@ class IncidentSimulationEngine:
     # O- blood: 18 -> 3 units
     # -------------------------------------------------------------
     def _execute_event_4_blood_shortage(self) -> SimulationStepResult:
-        # Metro Trauma O- negative blood plunges 18 -> 3
+        # Hospital B and Metro Trauma O- negative blood plunges 18 -> 3
+        hosp_b = db.hospitals.get("H-B")
+        if hosp_b:
+            hosp_b.blood.O_negative = 3
         hosp_a = db.hospitals.get("H-A")
         if hosp_a:
             hosp_a.blood.O_negative = 3
@@ -308,8 +326,8 @@ class IncidentSimulationEngine:
             id=f"EVT-SIM-04",
             timestamp="12:01:45",
             category=EventCategory.ALERT,
-            title="Critical Blood Shortage: O- Negative Drops 18 -> 3 Units",
-            detail="Metro Trauma surgical suites transfused 15 units during emergency laparotomies. Universal donor O- blood dropped from 18 to 3 units.",
+            title="Hospital B O- Blood Drops 18 -> 3 Units (Critical Shortage)",
+            detail="Hospital B and regional trauma surgical suites transfused 15 units during emergency resuscitations. Universal donor O- blood plummeted from 18 to 3 units.",
             severity=EventSeverity.CRITICAL,
         )
         db.add_event(evt)

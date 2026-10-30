@@ -37,12 +37,14 @@ app.include_router(simulation_router)
 
 
 @app.get("/")
+@app.get("/health")
 def health_check():
     return {
         "system": "LIFELINK",
-        "phase": "PHASE 2 - Data Model & Backend APIs Active",
+        "phase": "PHASE 14 - Autonomous Optimization & Evaluation Metrics Active",
         "status": "OPERATIONAL",
         "version": "2.0.0",
+        "notice": "DEMO / SIMULATION: LIFELINK provides decision-support recommendations using synthetic data. It does not provide medical diagnosis, replace emergency professionals, or autonomously make clinical decisions.",
         "endpoints": {
             "incidents": "/api/v1/incidents",
             "victims": "/api/v1/victims",
