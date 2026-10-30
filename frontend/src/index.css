@@ -1,15 +1,15 @@
 :root {
-  --bg-primary: #090d16;
-  --bg-secondary: #0f172a;
-  --bg-card: rgba(15, 23, 42, 0.75);
+  --bg-primary: #070a12;
+  --bg-secondary: #0d1322;
+  --bg-card: rgba(13, 19, 34, 0.82);
   --border-color: rgba(255, 255, 255, 0.08);
-  --border-glow: rgba(59, 130, 246, 0.25);
+  --border-glow: rgba(56, 189, 248, 0.25);
   
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
   
-  --accent-blue: #3b82f6;
+  --accent-blue: #0284c7;
   --accent-cyan: #06b6d4;
   --accent-violet: #8b5cf6;
   
@@ -35,8 +35,9 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.06) 0%, transparent 40%);
+    radial-gradient(circle at 10% 10%, rgba(2, 132, 199, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(239, 68, 68, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 60%);
 }
 
 .mono {
@@ -49,24 +50,24 @@ body {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.36);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .glass-panel:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
-/* Pulse animation for live updates */
+/* Live blinking beacon */
 @keyframes pulseGlow {
   0%, 100% {
     opacity: 1;
     transform: scale(1);
   }
   50% {
-    opacity: 0.6;
-    transform: scale(1.05);
+    opacity: 0.5;
+    transform: scale(1.1);
   }
 }
 
@@ -75,9 +76,40 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--triage-green);
-  box-shadow: 0 0 8px var(--triage-green);
-  animation: pulseGlow 2s infinite ease-in-out;
+  background-color: var(--triage-red);
+  box-shadow: 0 0 10px var(--triage-red);
+  animation: pulseGlow 1.8s infinite ease-in-out;
+}
+
+/* Leaflet dark theme customizations */
+.leaflet-container {
+  background-color: #050811 !important;
+  font-family: var(--font-sans) !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+.leaflet-popup-tip {
+  background: #0f172a !important;
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px !important;
+  line-height: 1.4 !important;
+}
+
+/* Custom Marker styles without default leaflet white borders */
+.custom-leaflet-pin,
+.custom-leaflet-hosp,
+.custom-leaflet-amb {
+  background: none !important;
+  border: none !important;
 }
 
 /* Custom scrollbars */
@@ -87,7 +119,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -96,5 +128,5 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.28);
 }
