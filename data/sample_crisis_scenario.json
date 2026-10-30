@@ -1,0 +1,133 @@
+{
+  "scenario_id": "MCI-SF-2026-01",
+  "name": "Highway 101 Southbound Multi-Vehicle Collision & HazMat Spill",
+  "description": "Commercial chemical tanker overturned involving four passenger vehicles. Toxic fumes reported. Multiple entrapments.",
+  "coordinates": {
+    "center_lat": 37.7710,
+    "center_lon": -122.4180
+  },
+  "patients": [
+    {
+      "id": "P-01",
+      "latitude": 37.7710,
+      "longitude": -122.4180,
+      "triage_category": "RED",
+      "urgency_weight": 96.0,
+      "required_specialties": ["NEUROSURGERY", "GENERAL_TRAUMA"],
+      "stabilization_time_minutes": 8.0,
+      "golden_hour_deadline_minutes": 35.0,
+      "notes": "Severe traumatic brain injury, unequal pupils, crushed lower extremities."
+    },
+    {
+      "id": "P-02",
+      "latitude": 37.7712,
+      "longitude": -122.4185,
+      "triage_category": "RED",
+      "urgency_weight": 90.0,
+      "required_specialties": ["CARDIOTHORACIC"],
+      "stabilization_time_minutes": 6.0,
+      "golden_hour_deadline_minutes": 40.0,
+      "notes": "Flail chest, paradoxical respirations, weak radial pulse."
+    },
+    {
+      "id": "P-03",
+      "latitude": 37.7715,
+      "longitude": -122.4178,
+      "triage_category": "YELLOW",
+      "urgency_weight": 65.0,
+      "required_specialties": ["ORTHOPEDIC"],
+      "stabilization_time_minutes": 4.0,
+      "golden_hour_deadline_minutes": 90.0,
+      "notes": "Open femur fracture, bleeding controlled, alert and oriented."
+    },
+    {
+      "id": "P-04",
+      "latitude": 37.7718,
+      "longitude": -122.4182,
+      "triage_category": "YELLOW",
+      "urgency_weight": 55.0,
+      "required_specialties": ["GENERAL_TRAUMA"],
+      "stabilization_time_minutes": 3.0,
+      "golden_hour_deadline_minutes": 120.0,
+      "notes": "Blunt abdominal trauma, seatbelt sign, vitals stable."
+    },
+    {
+      "id": "P-05",
+      "latitude": 37.7720,
+      "longitude": -122.4190,
+      "triage_category": "GREEN",
+      "urgency_weight": 20.0,
+      "required_specialties": [],
+      "stabilization_time_minutes": 2.0,
+      "golden_hour_deadline_minutes": 240.0,
+      "notes": "Ambulatory, facial lacerations, mild smoke inhalation."
+    }
+  ],
+  "ambulances": [
+    {
+      "id": "AMB-01",
+      "callsign": "Medic 1 (ALS)",
+      "latitude": 37.7650,
+      "longitude": -122.4120,
+      "ambulance_type": "ALS",
+      "capacity": 1,
+      "is_available": true
+    },
+    {
+      "id": "AMB-02",
+      "callsign": "Medic 4 (ALS)",
+      "latitude": 37.7800,
+      "longitude": -122.4250,
+      "ambulance_type": "ALS",
+      "capacity": 1,
+      "is_available": true
+    },
+    {
+      "id": "AMB-03",
+      "callsign": "Medic 7 (BLS)",
+      "latitude": 37.7600,
+      "longitude": -122.4300,
+      "ambulance_type": "BLS",
+      "capacity": 1,
+      "is_available": true
+    },
+    {
+      "id": "AMB-04",
+      "callsign": "Medic 9 (ALS)",
+      "latitude": 37.7850,
+      "longitude": -122.4050,
+      "ambulance_type": "ALS",
+      "capacity": 1,
+      "is_available": true
+    }
+  ],
+  "hospitals": [
+    {
+      "id": "HOSP-01",
+      "name": "San Francisco General Trauma Center (Level 1)",
+      "latitude": 37.7558,
+      "longitude": -122.4048,
+      "icu_capacity": 2,
+      "operating_rooms_available": 2,
+      "supported_specialties": ["GENERAL_TRAUMA", "NEUROSURGERY", "CARDIOTHORACIC", "ORTHOPEDIC"]
+    },
+    {
+      "id": "HOSP-02",
+      "name": "UCSF Medical Center Parnassus",
+      "latitude": 37.7631,
+      "longitude": -122.4578,
+      "icu_capacity": 2,
+      "operating_rooms_available": 1,
+      "supported_specialties": ["GENERAL_TRAUMA", "NEUROSURGERY", "ORTHOPEDIC"]
+    },
+    {
+      "id": "HOSP-03",
+      "name": "St. Mary's Medical Center",
+      "latitude": 37.7738,
+      "longitude": -122.4542,
+      "icu_capacity": 1,
+      "operating_rooms_available": 1,
+      "supported_specialties": ["GENERAL_TRAUMA", "ORTHOPEDIC"]
+    }
+  ]
+}
