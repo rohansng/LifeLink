@@ -9,6 +9,14 @@
 [![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini%20Multimodal-blueviolet.svg)](https://deepmind.google/technologies/gemini/)
 [![React 18](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Vite-61dafb.svg)](https://react.dev)
 [![Tests Passing](https://img.shields.io/badge/Tests-68%2F68%20Passing-success.svg)](file:///tests/run_tests.py)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live%20Demo-black?logo=vercel)](https://life-link.vercel.app)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Frohansng%2FLifeLink&project-name=lifelink&root-directory=frontend)
+
+---
+
+> 🚀 **LIVE CLOUD PREVIEW (VERCEL)**:  
+> **Interactive Live Demo**: [https://life-link.vercel.app](https://life-link.vercel.app)  
+> *(Features automatic client-side simulation fallback when remote Python solver is offline)*
 
 ---
 
@@ -279,6 +287,16 @@ Every replan publishes:
 ## 8. How to Run (Fresh Installation & Verification)
 
 LIFELINK is engineered to be **100% reproducible** from a fresh clone.
+
+### Option 0: Instant Cloud Deployment (Vercel)
+
+You can launch and explore the live interactive LIFELINK Command Center directly in your browser:
+* **Live Web App**: [https://life-link.vercel.app](https://life-link.vercel.app)
+* **1-Click Deploy your own fork**: [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Frohansng%2FLifeLink&project-name=lifelink&root-directory=frontend)
+
+*(Equipped with an automatic client-side fallback simulator so the complete 5-event mass-casualty crisis simulation runs deterministically even without an active local Python backend).*
+
+---
 
 ### Option A: Docker Compose (Recommended for Judges)
 
