@@ -10,10 +10,11 @@
 [![React 18](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Vite-61dafb.svg)](https://react.dev)
 [![Tests Passing](https://img.shields.io/badge/Tests-68%2F68%20Passing-success.svg)](file:///tests/run_tests.py)
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rohansng/LifeLink)
+[![Netlify Status](https://img.shields.io/badge/Netlify-Live%20Demo-00C7B7?logo=netlify&logoColor=white)](https://legendary-sprite-e5cbb1.netlify.app/)
 
 ---
 
-> 🌐 **Live Demo on Netlify**: [https://lifelink-crisis.netlify.app](https://lifelink-crisis.netlify.app)  
+> 🌐 **Live Production Web App on Netlify**: [https://legendary-sprite-e5cbb1.netlify.app/](https://legendary-sprite-e5cbb1.netlify.app/)  
 > ⚡ **1-Click Cloud Deployment**: [Deploy to Netlify](https://app.netlify.com/start/deploy?repository=https://github.com/rohansng/LifeLink)
 
 ---
@@ -292,7 +293,7 @@ Deploy the complete Command Center frontend to Netlify with zero configuration:
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rohansng/LifeLink)
 
-* **Production Netlify URL**: [https://lifelink-crisis.netlify.app](https://lifelink-crisis.netlify.app)
+* **Production Netlify URL**: [https://legendary-sprite-e5cbb1.netlify.app/](https://legendary-sprite-e5cbb1.netlify.app/)
 * **Configuration**: Pre-configured with [`netlify.toml`](file:///d:/LifeLink/netlify.toml) (Vite build, Node 20 runtime, SPA `_redirects` proxy fallback, and security headers).
 
 ---

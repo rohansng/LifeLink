@@ -18,7 +18,7 @@
 | Mode | Command / URL | Target Audience |
 |---|---|---|
 | **A. Interactive Web UI (Local)** | `http://localhost:3000` | Hackathon live presentation, visual UI walkthrough |
-| **B. Cloud Deployment (Netlify)** | [https://lifelink-crisis.netlify.app](https://lifelink-crisis.netlify.app) | Remote judges, zero-install instant evaluation |
+| **B. Cloud Deployment (Netlify)** | [https://legendary-sprite-e5cbb1.netlify.app/](https://legendary-sprite-e5cbb1.netlify.app/) | Remote judges, zero-install instant evaluation |
 | **C. Terminal Automation** | `python demo/run_demo.py` | 100% offline, guaranteed zero-latency terminal run |
 
 ---
