@@ -17,8 +17,8 @@
 
 | Mode | Command / URL | Target Audience |
 |---|---|---|
-| **A. Vercel Cloud Live Demo** | [https://life-link.vercel.app](https://life-link.vercel.app) | Instant browser access, judges, evaluators |
-| **B. Local Interactive Web UI**| `http://localhost:3000` | Hackathon live stage presentation |
+| **A. Interactive Web UI (Local)** | `http://localhost:3000` | Hackathon live presentation, visual UI walkthrough |
+| **B. Cloud Deployment (Netlify)** | [https://lifelink-crisis.netlify.app](https://lifelink-crisis.netlify.app) | Remote judges, zero-install instant evaluation |
 | **C. Terminal Automation** | `python demo/run_demo.py` | 100% offline, guaranteed zero-latency terminal run |
 
 ---
