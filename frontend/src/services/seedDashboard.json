@@ -1,1 +1,1908 @@
-﻿{"incident":{"id":"INC-2026-OMEGA-04","codename":"CENTRAL FREIGHT DERAILMENT & CHEMICAL TANKER RUPTURE","type":"Train Derailment / Toxic Inhalation / Structural Collapse","severity":"Level 3 Mass Casualty (Code Black)","location":{"latitude":37.7749,"longitude":-122.4194,"address":"Metro Industrial Rail Corridor, Milepost 14","sector":"Sector 7"},"declared_at":"11:42:00","elapsed_minutes":14,"status":"active","summary":"High-speed freight train derailment with 3 overturned pressurized ammonia tankers and catastrophic structural collapse of adjacent warehouse complex. 214 casualties reported across 3 primary impact sectors.","sectors":[{"id":"ZONE-ALPHA","name":"Sector Alpha ΓÇö Structural Collapse Epicenter","description":"Warehouse B roof collapse & heavy industrial machinery crush zone","location":{"latitude":37.7765,"longitude":-122.418,"address":null,"sector":"Sector Alpha"},"radius_meters":280.0,"total_victims":98,"critical_count":18,"serious_count":34,"moderate_count":32,"unknown_count":14,"hazard":"HIGH: Structural Instability / Active Rubble Settling","access_status":"RESTRICTED (Heavy Rescue Extrication Active)"},{"id":"ZONE-BRAVO","name":"Sector Bravo ΓÇö Chemical Vapor & Perimeter Highway","description":"Ammonia transfer pipeline rupture with toxic vapor dispersion","location":{"latitude":37.7725,"longitude":-122.423,"address":null,"sector":"Sector Bravo"},"radius_meters":350.0,"total_victims":72,"critical_count":9,"serious_count":24,"moderate_count":28,"unknown_count":11,"hazard":"CRITICAL: Toxic Chemical Inhalation Plume","access_status":"HAZMAT LEVEL B REQUIRED"},{"id":"ZONE-CHARLIE","name":"Sector Charlie ΓÇö Commuter Transit Concourse","description":"Secondary blast shockwave impact on commuter transit terminal","location":{"latitude":37.771,"longitude":-122.414,"address":null,"sector":"Sector Charlie"},"radius_meters":220.0,"total_victims":44,"critical_count":4,"serious_count":9,"moderate_count":22,"unknown_count":9,"hazard":"MODERATE: Flying Glass Shards & Stampede Crush","access_status":"ACCESSIBLE (Field Triage Staging Area Active)"}],"statistics":{"total_victims":214,"critical":31,"serious":67,"moderate":82,"unknown":34,"total_ambulances":5,"active_ambulances":5,"total_hospitals":3,"total_icu_beds":4,"unassigned_critical":27}},"statistics":{"total_victims":214,"critical":31,"serious":67,"moderate":82,"unknown":34,"total_ambulances":5,"active_ambulances":5,"total_hospitals":3,"total_icu_beds":4,"unassigned_critical":27},"sectors":[{"id":"ZONE-ALPHA","name":"Sector Alpha ΓÇö Structural Collapse Epicenter","description":"Warehouse B roof collapse & heavy industrial machinery crush zone","location":{"latitude":37.7765,"longitude":-122.418,"address":null,"sector":"Sector Alpha"},"radius_meters":280.0,"total_victims":98,"critical_count":18,"serious_count":34,"moderate_count":32,"unknown_count":14,"hazard":"HIGH: Structural Instability / Active Rubble Settling","access_status":"RESTRICTED (Heavy Rescue Extrication Active)"},{"id":"ZONE-BRAVO","name":"Sector Bravo ΓÇö Chemical Vapor & Perimeter Highway","description":"Ammonia transfer pipeline rupture with toxic vapor dispersion","location":{"latitude":37.7725,"longitude":-122.423,"address":null,"sector":"Sector Bravo"},"radius_meters":350.0,"total_victims":72,"critical_count":9,"serious_count":24,"moderate_count":28,"unknown_count":11,"hazard":"CRITICAL: Toxic Chemical Inhalation Plume","access_status":"HAZMAT LEVEL B REQUIRED"},{"id":"ZONE-CHARLIE","name":"Sector Charlie ΓÇö Commuter Transit Concourse","description":"Secondary blast shockwave impact on commuter transit terminal","location":{"latitude":37.771,"longitude":-122.414,"address":null,"sector":"Sector Charlie"},"radius_meters":220.0,"total_victims":44,"critical_count":4,"serious_count":9,"moderate_count":22,"unknown_count":9,"hazard":"MODERATE: Flying Glass Shards & Stampede Crush","access_status":"ACCESSIBLE (Field Triage Staging Area Active)"}],"hospitals":[{"id":"H-A","name":"Metro Trauma Center","type":"Level 1 Trauma Center","location":{"latitude":37.787,"longitude":-122.404,"address":"1001 Potrero Ave","sector":null},"icu":0,"icu_total":28,"trauma_available":false,"operating_rooms_open":0,"burn_beds_available":1,"ventilators_available":0,"doctors_available":2,"trauma_teams_available":0,"blood":{"O_negative":18,"O_positive":14,"A_positive":28},"supported_specialties":["Neurosurgery","Thoracic","Vascular","Ortho-Trauma","General Trauma"],"eta_minutes":8.2,"distance_km":4.8,"status":"CRITICAL SATURATION (100% ICU & Trauma Occupied)"},{"id":"H-B","name":"St. Jude Regional Hospital","type":"Level 2 Emergency Hospital","location":{"latitude":37.761,"longitude":-122.441,"address":"450 Stanyan St","sector":null},"icu":2,"icu_total":18,"trauma_available":true,"operating_rooms_open":1,"burn_beds_available":0,"ventilators_available":2,"doctors_available":4,"trauma_teams_available":1,"blood":{"O_negative":3,"O_positive":8,"A_positive":15},"supported_specialties":["General Trauma","Orthopedic Surgery","Emergency Medicine"],"eta_minutes":13.0,"distance_km":6.2,"status":"CRITICAL CAPACITY (95% Occupied)"},{"id":"H-C","name":"Harborview Memorial Medical","type":"Level 2 Specialized Facility","location":{"latitude":37.755,"longitude":-122.392,"address":"890 Third St","sector":null},"icu":2,"icu_total":16,"trauma_available":true,"operating_rooms_open":1,"burn_beds_available":3,"ventilators_available":2,"doctors_available":3,"trauma_teams_available":1,"blood":{"O_negative":4,"O_positive":11,"A_positive":19},"supported_specialties":["Burn Intensive Care","Pediatric Trauma","Toxicology","General Trauma"],"eta_minutes":14.1,"distance_km":7.9,"status":"SURGE ACTIVE (94% Occupied)"}],"ambulances":[{"id":"AMB-01","callsign":"Medic 1","type":"ALS","status":"dispatched","location":{"latitude":37.777,"longitude":-122.416,"address":null,"sector":"Sector Alpha"},"capacity":1,"assigned_victim_id":"V001","destination_hospital_id":"H-A","assignment_description":"Zone Alpha (Victim V001 - Tension Pneumothorax)","eta_scene_minutes":2.1,"eta_hospital_minutes":null,"crew_lead":"Paramedic Capt. Vance","equipment":["Mechanical Ventilator","Lucas CPR","Chest Decompression Kit"]},{"id":"AMB-02","callsign":"Medic 2","type":"ALS","status":"transporting","location":{"latitude":37.781,"longitude":-122.411,"address":null,"sector":"Metro Transit Corridor"},"capacity":1,"assigned_victim_id":"V004","destination_hospital_id":"H-A","assignment_description":"Metro Trauma (Victim V004 - Severe Head Trauma)","eta_scene_minutes":null,"eta_hospital_minutes":5.4,"crew_lead":"Paramedic Lt. O'Connor","equipment":["Ventilator","Video Laryngoscope","Blood Warmer"]},{"id":"AMB-03","callsign":"Medic 3","type":"BLS","status":"staged","location":{"latitude":37.7705,"longitude":-122.419,"address":null,"sector":"Sector Charlie Staging"},"capacity":2,"assigned_victim_id":null,"destination_hospital_id":null,"assignment_description":"Zone Charlie Staging Area (Awaiting Priority Extrication)","eta_scene_minutes":0.0,"eta_hospital_minutes":null,"crew_lead":"EMT S. Ramirez","equipment":["AED","Spinal Immobilization","Oxygen Delivery"]},{"id":"AMB-04","callsign":"Medic 4","type":"ALS","status":"extricating","location":{"latitude":37.774,"longitude":-122.421,"address":null,"sector":"Sector Bravo"},"capacity":1,"assigned_victim_id":"V007","destination_hospital_id":"H-C","assignment_description":"Zone Bravo (Victim V007 - Toxic Inhalation)","eta_scene_minutes":1.0,"eta_hospital_minutes":null,"crew_lead":"Paramedic J. Morales","equipment":["Cyanokit","PAPR Respiratory Protection","Advanced Airway"]},{"id":"AMB-05","callsign":"Medic 5","type":"BLS","status":"transporting","location":{"latitude":37.767,"longitude":-122.433,"address":null,"sector":"Southwest Corridor"},"capacity":2,"assigned_victim_id":"V012","destination_hospital_id":"H-B","assignment_description":"St. Jude Regional (Victim V012 & V035)","eta_scene_minutes":null,"eta_hospital_minutes":7.8,"crew_lead":"EMT D. Miller","equipment":["Traction Splints","Mass-Casualty Bandage Cache"]}],"resources":[{"id":"RES-01","name":"HazMat Decontamination Trailer Unit","category":"hazmat","status":"deployed","quantity":2,"unit":"trailers","location":{"latitude":37.773,"longitude":-122.422,"address":null,"sector":"Sector Bravo Perimeter"},"allocated_to":"Zone Bravo","notes":"Active gross decontam shower for ammonia-exposed casualties"},{"id":"RES-02","name":"Cyanokit / Hydroxocobalamin Antidote Cache","category":"medical_supplies","status":"deployed","quantity":12,"unit":"kits","location":{"latitude":37.774,"longitude":-122.421,"address":null,"sector":"Sector Bravo"},"allocated_to":"Medic 4","notes":"Antidotes for combustion by-product and toxic inhalations"},{"id":"RES-03","name":"Medevac 1 Air Rescue Helicopter","category":"air_transport","status":"available","quantity":1,"unit":"aircraft","location":{"latitude":37.78,"longitude":-122.4,"address":"Helipad 4","sector":null},"allocated_to":null,"notes":"Available for air-bridge bypass of severed highway corridor"},{"id":"RES-04","name":"Mass Casualty Splint & Bandage Pod","category":"medical_supplies","status":"deployed","quantity":150,"unit":"kits","location":{"latitude":37.771,"longitude":-122.414,"address":null,"sector":"Sector Charlie"},"allocated_to":"Zone Charlie","notes":"Field dressing supplies for walking wounded and delayed victims"},{"id":"RES-05","name":"Mobile Negative-Pressure Triage Tent","category":"infrastructure","status":"deployed","quantity":1,"unit":"tent","location":{"latitude":37.77,"longitude":-122.415,"address":null,"sector":"Sector Charlie"},"allocated_to":"Zone Charlie","notes":"Field stabilization facility with 12 stretcher bays"},{"id":"RES-06","name":"USAR Heavy Rescue Squad 1 (Metro Technical Rescue)","category":"infrastructure","status":"deployed","quantity":1,"unit":"squad","location":{"latitude":37.7765,"longitude":-122.418,"address":null,"sector":"Sector Alpha"},"allocated_to":"Zone Alpha Collapse Zone","notes":"Heavy pneumatic shoring & acoustic search sensors for trapped casualties"},{"id":"RES-07","name":"USAR Heavy Rescue Squad 2 (County Extrication)","category":"infrastructure","status":"deployed","quantity":1,"unit":"squad","location":{"latitude":37.7725,"longitude":-122.423,"address":null,"sector":"Sector Bravo"},"allocated_to":"Zone Bravo Tanker Rubble","notes":"Hydraulic cutters, spreaders and thermal search for entrapped victims"}],"roads":[{"id":"ROAD-01","name":"Highway 101 Southbound @ Industrial Overpass 4","status":"closed","reason":"Structural concrete debris & overturned 10,000-gal fuel tanker","detour_penalty_minutes":14.0,"start_latitude":37.778,"start_longitude":-122.414,"end_latitude":37.772,"end_longitude":-122.408},{"id":"ROAD-02","name":"Grand Avenue West Corridor","status":"congested","reason":"Evacuation bottleneck; restricted to priority emergency convoys","detour_penalty_minutes":6.5,"start_latitude":37.773,"start_longitude":-122.427,"end_latitude":37.768,"end_longitude":-122.438}],"responders":[{"id":"RESP-01","name":"Battalion Capt. Marcus Vance","agency":"Metro Fire & Rescue","role":"incident_commander","status":"on_scene","location":{"latitude":37.775,"longitude":-122.418,"address":null,"sector":"Command Post 1"},"assigned_sector":"Unified Command Post","radio_channel":"TAC-1"},{"id":"RESP-02","name":"Paramedic Lt. Sarah O'Connor","agency":"City EMS Command","role":"triage_officer","status":"on_scene","location":{"latitude":37.7765,"longitude":-122.418,"address":null,"sector":"Sector Alpha"},"assigned_sector":"Sector Alpha Triage","radio_channel":"TAC-2"},{"id":"RESP-03","name":"Capt. Jorge Morales","agency":"HazMat Task Force 1","role":"hazmat_specialist","status":"on_scene","location":{"latitude":37.7725,"longitude":-122.423,"address":null,"sector":"Sector Bravo"},"assigned_sector":"Sector Bravo Hot Zone","radio_channel":"HAZMAT-1"},{"id":"RESP-04","name":"EMT Specialist Sandra Ramirez","agency":"City EMS Command","role":"lead_paramedic","status":"staging","location":{"latitude":37.771,"longitude":-122.414,"address":null,"sector":"Sector Charlie"},"assigned_sector":"Sector Charlie Staging","radio_channel":"TAC-3"},{"id":"RESP-05","name":"Dr. Angela Reyes, MD","agency":"Metro Trauma Emergency Control","role":"incident_commander","status":"on_scene","location":{"latitude":37.787,"longitude":-122.404,"address":null,"sector":"Hospital Command"},"assigned_sector":"Regional Medical Direction","radio_channel":"MED-COMM"}],"events":[{"id":"EVT-01","timestamp":"11:42:00","category":"DISPATCH","title":"Freight Train Derailment Reported","detail":"911 calls report locomotive derailment, multi-car pileup, and structural collapse at Central Logistics corridor.","severity":"critical"},{"id":"EVT-02","timestamp":"11:43:20","category":"COMMAND","title":"Mass Casualty Incident Level 3 Declared","detail":"Battalion Chief 4 establishes unified on-scene command. Mutual aid alert triggered.","severity":"critical"},{"id":"EVT-03","timestamp":"11:45:50","category":"TRIAGE","title":"214 Casualties Estimated","detail":"Field triage reports 31 Red, 67 Yellow, 82 Green, and 34 Unknown in structural collapse zones.","severity":"warning"},{"id":"EVT-04","timestamp":"11:47:10","category":"HOSPITAL","title":"Hospital Bed Capacity Sweep Completed","detail":"Regional EMR telemetry returns only 4 available ICU beds across Metro Trauma (2), St. Jude (1), and Harborview (1).","severity":"critical"},{"id":"EVT-05","timestamp":"11:49:00","category":"OBSTACLE","title":"Highway 101 South Severed at Overpass 4","detail":"Collapsed gantry debris blocks road corridor. Rerouting traffic via Grand Ave (+14m detour).","severity":"warning"},{"id":"EVT-06","timestamp":"11:51:15","category":"DISPATCH","title":"Ambulance Fleet Capacity Exhausted","detail":"All 5 emergency units committed. 27 critical casualties lack immediate transport allocation.","severity":"critical"},{"id":"EVT-07","timestamp":"11:53:40","category":"ALERT","title":"Crisis Standards of Care Threshold Reached","detail":"Critical patient load exceeds available regional ICU capacity by a factor of 7.75x.","severity":"critical"}],"recommendations":[{"id":"REC-01","title":"DECLARE CRISIS STANDARDS OF CARE","severity":"CRITICAL","status":"pending","action_type":"REVERSE_TRIAGE","explanation":"Regional ICU capacity deficit is extreme: 31 critical casualties competing for 4 available ICU beds (7.75x deficit). Authorizing crisis standards of care permits reverse triage, expediting the discharge of stabilized ward patients to free critical care monitors and nursing staff.","suggested_action":"Authorize Crisis Standards Declaration","badge":"DECISION REQUIRED"},{"id":"REC-02","title":"REQUEST STATE MUTUAL AID (REGION II TIER 3)","severity":"URGENT","status":"pending","action_type":"MUTUAL_AID","explanation":"The municipal ambulance fleet is 100% committed (5 of 5 units). 27 critical red-triage patients remain unassigned at the scene. Requesting 15 mutual-aid ALS transport units from adjacent county will reduce the arrival gap by 42 minutes.","suggested_action":"Transmit Automated Mutual Aid Dispatch Call","badge":"FLEET EXHAUSTED"},{"id":"REC-03","title":"AIR-MEDICAL CASUALTY EVACUATION","severity":"URGENT","status":"pending","action_type":"AIR_EVAC","explanation":"Highway 101 is severed at Overpass 4 (+14 min detour). Dispatching Medevac 1 to the Industrial Park helipad allows direct aerial transport of 2 severe pediatric burn/crush casualties to Harborview Memorial, completely bypassing road bottlenecks.","suggested_action":"Clear Industrial Park LZ Heli-pad","badge":"AIRWAY PRIORITY"}],"triage_summary":{"total_assessed":214,"formula":"Priority Score = severity + urgency + capability - transport time + resource availability","counts":{"P1":31,"P2":67,"P3":82,"P4":34},"showcase":[{"victim_id":"V083","priority":"P1","score":151.3,"reason":"Critical bleeding ΓÇö Trauma + ICU required. Highway 101 severed (+14m detour) (23.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma + ICU","severity":"critical","sector":"Sector Bravo","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":28.0,"capability_points":16.0,"transport_penalty":12.7,"resource_availability_points":30.0,"total_score":151.3}},{"victim_id":"V041","priority":"P1","score":140.2,"reason":"Critical ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":18.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":140.2}},{"victim_id":"V112","priority":"P2","score":101.0,"reason":"Serious ΓÇö Surgery required. Highway 101 severed (+14m detour) (20.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Surgery","severity":"serious","sector":"Sector Charlie","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":14.0,"capability_points":13.0,"transport_penalty":11.0,"resource_availability_points":30.0,"total_score":101.0}}],"priority_queue":[{"victim_id":"V083","priority":"P1","score":151.3,"reason":"Critical bleeding ΓÇö Trauma + ICU required. Highway 101 severed (+14m detour) (23.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma + ICU","severity":"critical","sector":"Sector Bravo","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":28.0,"capability_points":16.0,"transport_penalty":12.7,"resource_availability_points":30.0,"total_score":151.3}},{"victim_id":"V002","priority":"P1","score":150.2,"reason":"Severe acute neurological trauma ΓÇö Neurosurgery + Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Neurosurgery + Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":20.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":150.2}},{"victim_id":"V004","priority":"P1","score":150.2,"reason":"Severe acute neurological trauma ΓÇö Neurosurgery + Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Neurosurgery + Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":20.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":150.2}},{"victim_id":"V006","priority":"P1","score":150.2,"reason":"Severe acute neurological trauma ΓÇö Neurosurgery + Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Neurosurgery + Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":20.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":150.2}},{"victim_id":"V008","priority":"P1","score":150.2,"reason":"Severe acute neurological trauma ΓÇö Neurosurgery + Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Neurosurgery + Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":20.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":150.2}},{"victim_id":"V010","priority":"P1","score":150.2,"reason":"Severe acute neurological trauma ΓÇö Neurosurgery + Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Neurosurgery + Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":20.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":150.2}},{"victim_id":"V012","priority":"P1","score":150.2,"reason":"Severe acute neurological trauma ΓÇö Neurosurgery + Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Neurosurgery + Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":20.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":150.2}},{"victim_id":"V014","priority":"P1","score":150.2,"reason":"Severe acute neurological trauma ΓÇö Neurosurgery + Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Neurosurgery + Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":20.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":150.2}},{"victim_id":"V016","priority":"P1","score":150.2,"reason":"Severe acute neurological trauma ΓÇö Neurosurgery + Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Neurosurgery + Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":20.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":150.2}},{"victim_id":"V018","priority":"P1","score":150.2,"reason":"Severe acute neurological trauma ΓÇö Neurosurgery + Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Neurosurgery + Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":20.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":150.2}},{"victim_id":"V020","priority":"P1","score":145.3,"reason":"Toxic vapor respiratory inhalation injury ΓÇö Thoracic Surgery required. Highway 101 severed (+14m detour) (23.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Thoracic Surgery","severity":"critical","sector":"Sector Bravo","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":20.0,"capability_points":18.0,"transport_penalty":12.7,"resource_availability_points":30.0,"total_score":145.3}},{"victim_id":"V022","priority":"P1","score":145.3,"reason":"Toxic vapor respiratory inhalation injury ΓÇö Thoracic Surgery required. Highway 101 severed (+14m detour) (23.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Thoracic Surgery","severity":"critical","sector":"Sector Bravo","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":20.0,"capability_points":18.0,"transport_penalty":12.7,"resource_availability_points":30.0,"total_score":145.3}},{"victim_id":"V024","priority":"P1","score":145.3,"reason":"Toxic vapor respiratory inhalation injury ΓÇö Thoracic Surgery required. Highway 101 severed (+14m detour) (23.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Thoracic Surgery","severity":"critical","sector":"Sector Bravo","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":20.0,"capability_points":18.0,"transport_penalty":12.7,"resource_availability_points":30.0,"total_score":145.3}},{"victim_id":"V026","priority":"P1","score":145.3,"reason":"Toxic vapor respiratory inhalation injury ΓÇö Thoracic Surgery required. Highway 101 severed (+14m detour) (23.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Thoracic Surgery","severity":"critical","sector":"Sector Bravo","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":20.0,"capability_points":18.0,"transport_penalty":12.7,"resource_availability_points":30.0,"total_score":145.3}},{"victim_id":"V001","priority":"P1","score":144.2,"reason":"Severe acute neurological trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":144.2}},{"victim_id":"V003","priority":"P1","score":144.2,"reason":"Severe acute neurological trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":144.2}},{"victim_id":"V005","priority":"P1","score":144.2,"reason":"Severe acute neurological trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":144.2}},{"victim_id":"V007","priority":"P1","score":144.2,"reason":"Severe acute neurological trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":144.2}},{"victim_id":"V009","priority":"P1","score":144.2,"reason":"Severe acute neurological trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":144.2}},{"victim_id":"V011","priority":"P1","score":144.2,"reason":"Severe acute neurological trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":144.2}},{"victim_id":"V013","priority":"P1","score":144.2,"reason":"Severe acute neurological trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":144.2}},{"victim_id":"V015","priority":"P1","score":144.2,"reason":"Severe acute neurological trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":144.2}},{"victim_id":"V017","priority":"P1","score":144.2,"reason":"Severe acute neurological trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":22.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":144.2}},{"victim_id":"V019","priority":"P1","score":143.3,"reason":"Toxic vapor respiratory inhalation injury ΓÇö Burn ICU + Toxicology required. Highway 101 severed (+14m detour) (23.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Burn ICU + Toxicology","severity":"critical","sector":"Sector Bravo","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":20.0,"capability_points":16.0,"transport_penalty":12.7,"resource_availability_points":30.0,"total_score":143.3}},{"victim_id":"V021","priority":"P1","score":143.3,"reason":"Toxic vapor respiratory inhalation injury ΓÇö Burn ICU + Toxicology required. Highway 101 severed (+14m detour) (23.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Burn ICU + Toxicology","severity":"critical","sector":"Sector Bravo","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":20.0,"capability_points":16.0,"transport_penalty":12.7,"resource_availability_points":30.0,"total_score":143.3}},{"victim_id":"V023","priority":"P1","score":143.3,"reason":"Toxic vapor respiratory inhalation injury ΓÇö Burn ICU + Toxicology required. Highway 101 severed (+14m detour) (23.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Burn ICU + Toxicology","severity":"critical","sector":"Sector Bravo","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":20.0,"capability_points":16.0,"transport_penalty":12.7,"resource_availability_points":30.0,"total_score":143.3}},{"victim_id":"V025","priority":"P1","score":143.3,"reason":"Toxic vapor respiratory inhalation injury ΓÇö Burn ICU + Toxicology required. Highway 101 severed (+14m detour) (23.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Burn ICU + Toxicology","severity":"critical","sector":"Sector Bravo","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":20.0,"capability_points":16.0,"transport_penalty":12.7,"resource_availability_points":30.0,"total_score":143.3}},{"victim_id":"V027","priority":"P1","score":143.3,"reason":"Toxic vapor respiratory inhalation injury ΓÇö Burn ICU + Toxicology required. Highway 101 severed (+14m detour) (23.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Burn ICU + Toxicology","severity":"critical","sector":"Sector Bravo","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":20.0,"capability_points":16.0,"transport_penalty":12.7,"resource_availability_points":30.0,"total_score":143.3}},{"victim_id":"V041","priority":"P1","score":140.2,"reason":"Critical ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Alpha","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":18.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":140.2}},{"victim_id":"V028","priority":"P1","score":135.0,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (20.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Charlie","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.0,"resource_availability_points":30.0,"total_score":135.0}},{"victim_id":"V029","priority":"P1","score":135.0,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (20.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"critical","sector":"Sector Charlie","triage_tag":"RED","breakdown":{"severity_points":90.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.0,"resource_availability_points":30.0,"total_score":135.0}},{"victim_id":"V112","priority":"P2","score":101.0,"reason":"Serious ΓÇö Surgery required. Highway 101 severed (+14m detour) (20.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Surgery","severity":"serious","sector":"Sector Charlie","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":14.0,"capability_points":13.0,"transport_penalty":11.0,"resource_availability_points":30.0,"total_score":101.0}},{"victim_id":"V091","priority":"P2","score":100.0,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (20.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Charlie","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.0,"resource_availability_points":30.0,"total_score":100.0}},{"victim_id":"V093","priority":"P2","score":100.0,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (20.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Charlie","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.0,"resource_availability_points":30.0,"total_score":100.0}},{"victim_id":"V095","priority":"P2","score":100.0,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (20.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Charlie","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.0,"resource_availability_points":30.0,"total_score":100.0}},{"victim_id":"V097","priority":"P2","score":100.0,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (20.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Charlie","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.0,"resource_availability_points":30.0,"total_score":100.0}},{"victim_id":"V033","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V035","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V037","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V039","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V043","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V045","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V047","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V049","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V051","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V053","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V055","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V057","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V059","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}},{"victim_id":"V061","priority":"P2","score":99.2,"reason":"Serious structural skeletal trauma ΓÇö Trauma required. Highway 101 severed (+14m detour) (21.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.","required_capability":"Trauma","severity":"serious","sector":"Sector Alpha","triage_tag":"YELLOW","breakdown":{"severity_points":55.0,"urgency_points":12.0,"capability_points":14.0,"transport_penalty":11.8,"resource_availability_points":30.0,"total_score":99.2}}]},"routing_summary":{"exemplar_chain":{"victim_id":"V083","victim_priority":"P1","victim_condition":"Critical bleeding from pelvic crush injury","ambulance_id":"AMB-04","ambulance_callsign":"Medic 4","ambulance_type":"ALS","hospital_id":"H-B","hospital_name":"Hospital B","active_route_id":"ROUTE-B","active_route_name":"Route B","eta_minutes":13.0,"route_options":[{"route_id":"ROUTE-A","name":"Route A","status":"BLOCKED","is_blocked":true,"status_icon":"Γ¥î","eta_minutes":27.0,"distance_km":5.4,"description":"BLOCKED: Concrete structural collapse & overturned fuel tanker at Overpass 4","corridor_road_ids":["ROAD-01"],"blockage_reason":"Structural concrete debris & overturned 10,000-gal fuel tanker"},{"route_id":"ROUTE-B","name":"Route B","status":"OPTIMAL","is_blocked":false,"status_icon":"Γ£ô","eta_minutes":13.0,"distance_km":6.8,"description":"Grand Ave Western Arterial with designated emergency contraflow lane","corridor_road_ids":["ROAD-02"],"blockage_reason":null},{"route_id":"ROUTE-C","name":"Route C","status":"CONGESTED","is_blocked":false,"status_icon":"ΓÜá","eta_minutes":22.0,"distance_km":8.9,"description":"Industrial perimeter bypass corridor","corridor_road_ids":[],"blockage_reason":null}],"chain_summary":"V083 ΓåÆ AMB-04 ΓåÆ Hospital B ΓåÆ Route B ΓåÆ 13 min","reroute_status":"REROUTED","reroute_note":"AMB-04: Route A Γ¥î | Route B Γ£ô (13 min)","is_feasible":true},"chains":[{"victim_id":"V083","victim_priority":"P1","victim_condition":"Critical bleeding from pelvic crush injury","ambulance_id":"AMB-04","ambulance_callsign":"Medic 4","ambulance_type":"ALS","hospital_id":"H-B","hospital_name":"Hospital B","active_route_id":"ROUTE-B","active_route_name":"Route B","eta_minutes":13.0,"route_options":[{"route_id":"ROUTE-A","name":"Route A","status":"BLOCKED","is_blocked":true,"status_icon":"Γ¥î","eta_minutes":27.0,"distance_km":5.4,"description":"BLOCKED: Concrete structural collapse & overturned fuel tanker at Overpass 4","corridor_road_ids":["ROAD-01"],"blockage_reason":"Structural concrete debris & overturned 10,000-gal fuel tanker"},{"route_id":"ROUTE-B","name":"Route B","status":"OPTIMAL","is_blocked":false,"status_icon":"Γ£ô","eta_minutes":13.0,"distance_km":6.8,"description":"Grand Ave Western Arterial with designated emergency contraflow lane","corridor_road_ids":["ROAD-02"],"blockage_reason":null},{"route_id":"ROUTE-C","name":"Route C","status":"CONGESTED","is_blocked":false,"status_icon":"ΓÜá","eta_minutes":22.0,"distance_km":8.9,"description":"Industrial perimeter bypass corridor","corridor_road_ids":[],"blockage_reason":null}],"chain_summary":"V083 ΓåÆ AMB-04 ΓåÆ Hospital B ΓåÆ Route B ΓåÆ 13 min","reroute_status":"REROUTED","reroute_note":"AMB-04: Route A Γ¥î | Route B Γ£ô (13 min)","is_feasible":true},{"victim_id":"V041","victim_priority":"P1","victim_condition":"Critical blunt thoracic trauma","ambulance_id":"AMB-04","ambulance_callsign":"Medic 4","ambulance_type":"ALS","hospital_id":"H-B","hospital_name":"Hospital B","active_route_id":"ROUTE-B","active_route_name":"Route B","eta_minutes":13.0,"route_options":[{"route_id":"ROUTE-A","name":"Route A","status":"BLOCKED","is_blocked":true,"status_icon":"Γ¥î","eta_minutes":27.0,"distance_km":5.4,"description":"BLOCKED: Concrete structural collapse & overturned fuel tanker at Overpass 4","corridor_road_ids":["ROAD-01"],"blockage_reason":"Structural concrete debris & overturned 10,000-gal fuel tanker"},{"route_id":"ROUTE-B","name":"Route B","status":"OPTIMAL","is_blocked":false,"status_icon":"Γ£ô","eta_minutes":13.0,"distance_km":6.8,"description":"Grand Ave Western Arterial with designated emergency contraflow lane","corridor_road_ids":["ROAD-02"],"blockage_reason":null},{"route_id":"ROUTE-C","name":"Route C","status":"CONGESTED","is_blocked":false,"status_icon":"ΓÜá","eta_minutes":22.0,"distance_km":8.9,"description":"Industrial perimeter bypass corridor","corridor_road_ids":[],"blockage_reason":null}],"chain_summary":"V041 ΓåÆ AMB-04 ΓåÆ Hospital B ΓåÆ Route B ΓåÆ 13 min","reroute_status":"REROUTED","reroute_note":"AMB-04: Route A Γ¥î | Route B Γ£ô (13 min)","is_feasible":true},{"victim_id":"V112","victim_priority":"P2","victim_condition":"Serious open compound fracture requiring immediate surgical reduction","ambulance_id":"AMB-03","ambulance_callsign":"Medic 3","ambulance_type":"BLS","hospital_id":"H-B","hospital_name":"Hospital B","active_route_id":"ROUTE-B","active_route_name":"Route B","eta_minutes":13.0,"route_options":[{"route_id":"ROUTE-A","name":"Route A","status":"BLOCKED","is_blocked":true,"status_icon":"Γ¥î","eta_minutes":27.0,"distance_km":5.4,"description":"BLOCKED: Concrete structural collapse & overturned fuel tanker at Overpass 4","corridor_road_ids":["ROAD-01"],"blockage_reason":"Structural concrete debris & overturned 10,000-gal fuel tanker"},{"route_id":"ROUTE-B","name":"Route B","status":"OPTIMAL","is_blocked":false,"status_icon":"Γ£ô","eta_minutes":13.0,"distance_km":6.8,"description":"Grand Ave Western Arterial with designated emergency contraflow lane","corridor_road_ids":["ROAD-02"],"blockage_reason":null},{"route_id":"ROUTE-C","name":"Route C","status":"CONGESTED","is_blocked":false,"status_icon":"ΓÜá","eta_minutes":22.0,"distance_km":8.9,"description":"Industrial perimeter bypass corridor","corridor_road_ids":[],"blockage_reason":null}],"chain_summary":"V112 ΓåÆ AMB-03 ΓåÆ Hospital B ΓåÆ Route B ΓåÆ 13 min","reroute_status":"REROUTED","reroute_note":"AMB-03: Route A Γ¥î | Route B Γ£ô (13 min)","is_feasible":true}]},"optimization_summary":{"solver":"Google OR-Tools MILP (SCIP/CBC)","objective_formula":"MAX (critical_patients + resource_utilization + expected_benefit - transit_penalty)","tracked_resources":{"icu_beds":4,"blood_units_o_neg":25,"ventilators":4,"doctors":9,"trauma_teams":2,"ambulances":5,"rescue_teams":2}}}
+{
+  "incident": {
+    "id": "INC-2026-OMEGA-04",
+    "codename": "CENTRAL FREIGHT DERAILMENT & CHEMICAL TANKER RUPTURE",
+    "type": "Train Derailment / Toxic Inhalation / Structural Collapse",
+    "severity": "Level 3 Mass Casualty (Code Black)",
+    "location": {
+      "latitude": 12.9716,
+      "longitude": 77.5946,
+      "address": "Bengaluru Central Rail Freight Corridor, Sector 7, Bengaluru, Karnataka 560001",
+      "sector": "Sector 7"
+    },
+    "declared_at": "11:42:00",
+    "elapsed_minutes": 14,
+    "status": "active",
+    "summary": "High-speed freight train derailment with 3 overturned pressurized ammonia tankers and catastrophic structural collapse of adjacent warehouse complex. 214 casualties reported across 3 primary impact sectors.",
+    "sectors": [
+      {
+        "id": "ZONE-ALPHA",
+        "name": "Sector Alpha \u2014 Structural Collapse Epicenter",
+        "description": "Warehouse B roof collapse & heavy industrial machinery crush zone",
+        "location": {
+          "latitude": 12.9765,
+          "longitude": 77.598,
+          "address": null,
+          "sector": "Sector Alpha"
+        },
+        "radius_meters": 280.0,
+        "total_victims": 98,
+        "critical_count": 18,
+        "serious_count": 34,
+        "moderate_count": 32,
+        "unknown_count": 14,
+        "hazard": "HIGH: Structural Instability / Active Rubble Settling",
+        "access_status": "RESTRICTED (Heavy Rescue Extrication Active)"
+      },
+      {
+        "id": "ZONE-BRAVO",
+        "name": "Sector Bravo \u2014 Chemical Vapor & Perimeter Highway",
+        "description": "Ammonia transfer pipeline rupture with toxic vapor dispersion",
+        "location": {
+          "latitude": 12.9725,
+          "longitude": 77.591,
+          "address": null,
+          "sector": "Sector Bravo"
+        },
+        "radius_meters": 350.0,
+        "total_victims": 72,
+        "critical_count": 9,
+        "serious_count": 24,
+        "moderate_count": 28,
+        "unknown_count": 11,
+        "hazard": "CRITICAL: Toxic Chemical Inhalation Plume",
+        "access_status": "HAZMAT LEVEL B REQUIRED"
+      },
+      {
+        "id": "ZONE-CHARLIE",
+        "name": "Sector Charlie \u2014 Commuter Transit Concourse",
+        "description": "Secondary blast shockwave impact on commuter transit terminal",
+        "location": {
+          "latitude": 12.968,
+          "longitude": 77.599,
+          "address": null,
+          "sector": "Sector Charlie"
+        },
+        "radius_meters": 220.0,
+        "total_victims": 44,
+        "critical_count": 4,
+        "serious_count": 9,
+        "moderate_count": 22,
+        "unknown_count": 9,
+        "hazard": "MODERATE: Flying Glass Shards & Stampede Crush",
+        "access_status": "ACCESSIBLE (Field Triage Staging Area Active)"
+      }
+    ],
+    "statistics": {
+      "total_victims": 214,
+      "critical": 31,
+      "serious": 67,
+      "moderate": 82,
+      "unknown": 34,
+      "total_ambulances": 5,
+      "active_ambulances": 5,
+      "total_hospitals": 3,
+      "total_icu_beds": 4,
+      "unassigned_critical": 27
+    }
+  },
+  "statistics": {
+    "total_victims": 214,
+    "critical": 31,
+    "serious": 67,
+    "moderate": 82,
+    "unknown": 34,
+    "total_ambulances": 5,
+    "active_ambulances": 5,
+    "total_hospitals": 3,
+    "total_icu_beds": 4,
+    "unassigned_critical": 27
+  },
+  "sectors": [
+    {
+      "id": "ZONE-ALPHA",
+      "name": "Sector Alpha \u2014 Structural Collapse Epicenter",
+      "description": "Warehouse B roof collapse & heavy industrial machinery crush zone",
+      "location": {
+        "latitude": 12.9765,
+        "longitude": 77.598,
+        "address": null,
+        "sector": "Sector Alpha"
+      },
+      "radius_meters": 280.0,
+      "total_victims": 98,
+      "critical_count": 18,
+      "serious_count": 34,
+      "moderate_count": 32,
+      "unknown_count": 14,
+      "hazard": "HIGH: Structural Instability / Active Rubble Settling",
+      "access_status": "RESTRICTED (Heavy Rescue Extrication Active)"
+    },
+    {
+      "id": "ZONE-BRAVO",
+      "name": "Sector Bravo \u2014 Chemical Vapor & Perimeter Highway",
+      "description": "Ammonia transfer pipeline rupture with toxic vapor dispersion",
+      "location": {
+        "latitude": 12.9725,
+        "longitude": 77.591,
+        "address": null,
+        "sector": "Sector Bravo"
+      },
+      "radius_meters": 350.0,
+      "total_victims": 72,
+      "critical_count": 9,
+      "serious_count": 24,
+      "moderate_count": 28,
+      "unknown_count": 11,
+      "hazard": "CRITICAL: Toxic Chemical Inhalation Plume",
+      "access_status": "HAZMAT LEVEL B REQUIRED"
+    },
+    {
+      "id": "ZONE-CHARLIE",
+      "name": "Sector Charlie \u2014 Commuter Transit Concourse",
+      "description": "Secondary blast shockwave impact on commuter transit terminal",
+      "location": {
+        "latitude": 12.968,
+        "longitude": 77.599,
+        "address": null,
+        "sector": "Sector Charlie"
+      },
+      "radius_meters": 220.0,
+      "total_victims": 44,
+      "critical_count": 4,
+      "serious_count": 9,
+      "moderate_count": 22,
+      "unknown_count": 9,
+      "hazard": "MODERATE: Flying Glass Shards & Stampede Crush",
+      "access_status": "ACCESSIBLE (Field Triage Staging Area Active)"
+    }
+  ],
+  "hospitals": [
+    {
+      "id": "H-A",
+      "name": "Metro Trauma Center",
+      "type": "Level 1 Trauma Center",
+      "location": {
+        "latitude": 12.963,
+        "longitude": 77.575,
+        "address": "Victoria Hospital Complex, Fort, Bengaluru",
+        "sector": null
+      },
+      "icu": 0,
+      "icu_total": 28,
+      "trauma_available": false,
+      "operating_rooms_open": 0,
+      "burn_beds_available": 1,
+      "ventilators_available": 0,
+      "doctors_available": 2,
+      "trauma_teams_available": 0,
+      "blood": {
+        "O_negative": 18,
+        "O_positive": 14,
+        "A_positive": 28
+      },
+      "supported_specialties": [
+        "Neurosurgery",
+        "Thoracic",
+        "Vascular",
+        "Ortho-Trauma",
+        "General Trauma"
+      ],
+      "eta_minutes": 8.2,
+      "distance_km": 4.8,
+      "status": "CRITICAL SATURATION (100% ICU & Trauma Occupied)"
+    },
+    {
+      "id": "H-B",
+      "name": "St. Jude Regional Hospital",
+      "type": "Level 2 Emergency Hospital",
+      "location": {
+        "latitude": 12.9725,
+        "longitude": 77.588,
+        "address": "St. Martha's Emergency Wing, Nrupathunga Rd, Bengaluru",
+        "sector": null
+      },
+      "icu": 2,
+      "icu_total": 18,
+      "trauma_available": true,
+      "operating_rooms_open": 1,
+      "burn_beds_available": 0,
+      "ventilators_available": 2,
+      "doctors_available": 4,
+      "trauma_teams_available": 1,
+      "blood": {
+        "O_negative": 3,
+        "O_positive": 8,
+        "A_positive": 15
+      },
+      "supported_specialties": [
+        "General Trauma",
+        "Orthopedic Surgery",
+        "Emergency Medicine"
+      ],
+      "eta_minutes": 13.0,
+      "distance_km": 6.2,
+      "status": "CRITICAL CAPACITY (95% Occupied)"
+    },
+    {
+      "id": "H-C",
+      "name": "Harborview Memorial Medical",
+      "type": "Level 2 Specialized Facility",
+      "location": {
+        "latitude": 12.983,
+        "longitude": 77.605,
+        "address": "Bowring & Lady Curzon Hospital, Shivaji Nagar, Bengaluru",
+        "sector": null
+      },
+      "icu": 2,
+      "icu_total": 16,
+      "trauma_available": true,
+      "operating_rooms_open": 1,
+      "burn_beds_available": 3,
+      "ventilators_available": 2,
+      "doctors_available": 3,
+      "trauma_teams_available": 1,
+      "blood": {
+        "O_negative": 4,
+        "O_positive": 11,
+        "A_positive": 19
+      },
+      "supported_specialties": [
+        "Burn Intensive Care",
+        "Pediatric Trauma",
+        "Toxicology",
+        "General Trauma"
+      ],
+      "eta_minutes": 14.1,
+      "distance_km": 7.9,
+      "status": "SURGE ACTIVE (94% Occupied)"
+    }
+  ],
+  "ambulances": [
+    {
+      "id": "AMB-01",
+      "callsign": "Medic 1",
+      "type": "ALS",
+      "status": "dispatched",
+      "location": {
+        "latitude": 12.977,
+        "longitude": 77.597,
+        "address": null,
+        "sector": "Sector Alpha"
+      },
+      "capacity": 1,
+      "assigned_victim_id": "V001",
+      "destination_hospital_id": "H-A",
+      "assignment_description": "Zone Alpha (Victim V001 - Tension Pneumothorax)",
+      "eta_scene_minutes": 2.1,
+      "eta_hospital_minutes": null,
+      "crew_lead": "Paramedic Capt. Vance",
+      "equipment": [
+        "Mechanical Ventilator",
+        "Lucas CPR",
+        "Chest Decompression Kit"
+      ]
+    },
+    {
+      "id": "AMB-02",
+      "callsign": "Medic 2",
+      "type": "ALS",
+      "status": "transporting",
+      "location": {
+        "latitude": 12.981,
+        "longitude": 77.601,
+        "address": null,
+        "sector": "Metro Transit Corridor"
+      },
+      "capacity": 1,
+      "assigned_victim_id": "V004",
+      "destination_hospital_id": "H-A",
+      "assignment_description": "Metro Trauma (Victim V004 - Severe Head Trauma)",
+      "eta_scene_minutes": null,
+      "eta_hospital_minutes": 5.4,
+      "crew_lead": "Paramedic Lt. O'Connor",
+      "equipment": [
+        "Ventilator",
+        "Video Laryngoscope",
+        "Blood Warmer"
+      ]
+    },
+    {
+      "id": "AMB-03",
+      "callsign": "Medic 3",
+      "type": "BLS",
+      "status": "staged",
+      "location": {
+        "latitude": 12.9675,
+        "longitude": 77.594,
+        "address": null,
+        "sector": "Sector Charlie Staging"
+      },
+      "capacity": 2,
+      "assigned_victim_id": null,
+      "destination_hospital_id": null,
+      "assignment_description": "Zone Charlie Staging Area (Awaiting Priority Extrication)",
+      "eta_scene_minutes": 0.0,
+      "eta_hospital_minutes": null,
+      "crew_lead": "EMT S. Ramirez",
+      "equipment": [
+        "AED",
+        "Spinal Immobilization",
+        "Oxygen Delivery"
+      ]
+    },
+    {
+      "id": "AMB-04",
+      "callsign": "Medic 4",
+      "type": "ALS",
+      "status": "extricating",
+      "location": {
+        "latitude": 12.974,
+        "longitude": 77.592,
+        "address": null,
+        "sector": "Sector Bravo"
+      },
+      "capacity": 1,
+      "assigned_victim_id": "V007",
+      "destination_hospital_id": "H-C",
+      "assignment_description": "Zone Bravo (Victim V007 - Toxic Inhalation)",
+      "eta_scene_minutes": 1.0,
+      "eta_hospital_minutes": null,
+      "crew_lead": "Paramedic J. Morales",
+      "equipment": [
+        "Cyanokit",
+        "PAPR Respiratory Protection",
+        "Advanced Airway"
+      ]
+    },
+    {
+      "id": "AMB-05",
+      "callsign": "Medic 5",
+      "type": "BLS",
+      "status": "transporting",
+      "location": {
+        "latitude": 12.964,
+        "longitude": 77.58,
+        "address": null,
+        "sector": "Southwest Corridor"
+      },
+      "capacity": 2,
+      "assigned_victim_id": "V012",
+      "destination_hospital_id": "H-B",
+      "assignment_description": "St. Jude Regional (Victim V012 & V035)",
+      "eta_scene_minutes": null,
+      "eta_hospital_minutes": 7.8,
+      "crew_lead": "EMT D. Miller",
+      "equipment": [
+        "Traction Splints",
+        "Mass-Casualty Bandage Cache"
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "id": "RES-01",
+      "name": "HazMat Decontamination Trailer Unit",
+      "category": "hazmat",
+      "status": "deployed",
+      "quantity": 2,
+      "unit": "trailers",
+      "location": {
+        "latitude": 12.973,
+        "longitude": 77.592,
+        "address": null,
+        "sector": "Sector Bravo Perimeter"
+      },
+      "allocated_to": "Zone Bravo",
+      "notes": "Active gross decontam shower for ammonia-exposed casualties"
+    },
+    {
+      "id": "RES-02",
+      "name": "Cyanokit / Hydroxocobalamin Antidote Cache",
+      "category": "medical_supplies",
+      "status": "deployed",
+      "quantity": 12,
+      "unit": "kits",
+      "location": {
+        "latitude": 12.974,
+        "longitude": 77.591,
+        "address": null,
+        "sector": "Sector Bravo"
+      },
+      "allocated_to": "Medic 4",
+      "notes": "Antidotes for combustion by-product and toxic inhalations"
+    },
+    {
+      "id": "RES-03",
+      "name": "Medevac 1 Air Rescue Helicopter",
+      "category": "air_transport",
+      "status": "available",
+      "quantity": 1,
+      "unit": "aircraft",
+      "location": {
+        "latitude": 12.98,
+        "longitude": 77.6,
+        "address": "Bengaluru HAL Helipad",
+        "sector": null
+      },
+      "allocated_to": null,
+      "notes": "Available for air-bridge bypass of severed highway corridor"
+    },
+    {
+      "id": "RES-04",
+      "name": "Mass Casualty Splint & Bandage Pod",
+      "category": "medical_supplies",
+      "status": "deployed",
+      "quantity": 150,
+      "unit": "kits",
+      "location": {
+        "latitude": 12.968,
+        "longitude": 77.599,
+        "address": null,
+        "sector": "Sector Charlie"
+      },
+      "allocated_to": "Zone Charlie",
+      "notes": "Field dressing supplies for walking wounded and delayed victims"
+    },
+    {
+      "id": "RES-05",
+      "name": "Mobile Negative-Pressure Triage Tent",
+      "category": "infrastructure",
+      "status": "deployed",
+      "quantity": 1,
+      "unit": "tent",
+      "location": {
+        "latitude": 12.968,
+        "longitude": 77.599,
+        "address": null,
+        "sector": "Sector Charlie"
+      },
+      "allocated_to": "Zone Charlie",
+      "notes": "Field stabilization facility with 12 stretcher bays"
+    },
+    {
+      "id": "RES-06",
+      "name": "USAR Heavy Rescue Squad 1 (Metro Technical Rescue)",
+      "category": "infrastructure",
+      "status": "deployed",
+      "quantity": 1,
+      "unit": "squad",
+      "location": {
+        "latitude": 12.9765,
+        "longitude": 77.598,
+        "address": null,
+        "sector": "Sector Alpha"
+      },
+      "allocated_to": "Zone Alpha Collapse Zone",
+      "notes": "Heavy pneumatic shoring & acoustic search sensors for trapped casualties"
+    },
+    {
+      "id": "RES-07",
+      "name": "USAR Heavy Rescue Squad 2 (County Extrication)",
+      "category": "infrastructure",
+      "status": "deployed",
+      "quantity": 1,
+      "unit": "squad",
+      "location": {
+        "latitude": 12.9725,
+        "longitude": 77.591,
+        "address": null,
+        "sector": "Sector Bravo"
+      },
+      "allocated_to": "Zone Bravo Tanker Rubble",
+      "notes": "Hydraulic cutters, spreaders and thermal search for entrapped victims"
+    }
+  ],
+  "roads": [
+    {
+      "id": "ROAD-01",
+      "name": "Outer Ring Road / Industrial Overpass 4",
+      "status": "closed",
+      "reason": "Structural concrete debris & overturned 10,000-gal fuel tanker",
+      "detour_penalty_minutes": 14.0,
+      "start_latitude": 12.978,
+      "start_longitude": 77.599,
+      "end_latitude": 12.972,
+      "end_longitude": 77.604
+    },
+    {
+      "id": "ROAD-02",
+      "name": "Kasturba Arterial Corridor",
+      "status": "congested",
+      "reason": "Evacuation bottleneck; restricted to priority emergency convoys",
+      "detour_penalty_minutes": 6.5,
+      "start_latitude": 12.973,
+      "start_longitude": 77.591,
+      "end_latitude": 12.968,
+      "end_longitude": 77.582
+    }
+  ],
+  "responders": [
+    {
+      "id": "RESP-01",
+      "name": "Battalion Capt. Marcus Vance",
+      "agency": "Metro Fire & Rescue",
+      "role": "incident_commander",
+      "status": "on_scene",
+      "location": {
+        "latitude": 12.975,
+        "longitude": 77.598,
+        "address": null,
+        "sector": "Command Post 1"
+      },
+      "assigned_sector": "Unified Command Post",
+      "radio_channel": "TAC-1"
+    },
+    {
+      "id": "RESP-02",
+      "name": "Paramedic Lt. Sarah O'Connor",
+      "agency": "City EMS Command",
+      "role": "triage_officer",
+      "status": "on_scene",
+      "location": {
+        "latitude": 12.9765,
+        "longitude": 77.598,
+        "address": null,
+        "sector": "Sector Alpha"
+      },
+      "assigned_sector": "Sector Alpha Triage",
+      "radio_channel": "TAC-2"
+    },
+    {
+      "id": "RESP-03",
+      "name": "Capt. Jorge Morales",
+      "agency": "HazMat Task Force 1",
+      "role": "hazmat_specialist",
+      "status": "on_scene",
+      "location": {
+        "latitude": 12.9725,
+        "longitude": 77.591,
+        "address": null,
+        "sector": "Sector Bravo"
+      },
+      "assigned_sector": "Sector Bravo Hot Zone",
+      "radio_channel": "HAZMAT-1"
+    },
+    {
+      "id": "RESP-04",
+      "name": "EMT Specialist Sandra Ramirez",
+      "agency": "City EMS Command",
+      "role": "lead_paramedic",
+      "status": "staging",
+      "location": {
+        "latitude": 12.968,
+        "longitude": 77.599,
+        "address": null,
+        "sector": "Sector Charlie"
+      },
+      "assigned_sector": "Sector Charlie Staging",
+      "radio_channel": "TAC-3"
+    },
+    {
+      "id": "RESP-05",
+      "name": "Dr. Angela Reyes, MD",
+      "agency": "Metro Trauma Emergency Control",
+      "role": "incident_commander",
+      "status": "on_scene",
+      "location": {
+        "latitude": 12.963,
+        "longitude": 77.575,
+        "address": null,
+        "sector": "Hospital Command"
+      },
+      "assigned_sector": "Regional Medical Direction",
+      "radio_channel": "MED-COMM"
+    }
+  ],
+  "events": [
+    {
+      "id": "EVT-01",
+      "timestamp": "11:42:00",
+      "category": "DISPATCH",
+      "title": "Freight Train Derailment Reported",
+      "detail": "911 calls report locomotive derailment, multi-car pileup, and structural collapse at Central Logistics corridor.",
+      "severity": "critical"
+    },
+    {
+      "id": "EVT-02",
+      "timestamp": "11:43:20",
+      "category": "COMMAND",
+      "title": "Mass Casualty Incident Level 3 Declared",
+      "detail": "Battalion Chief 4 establishes unified on-scene command. Mutual aid alert triggered.",
+      "severity": "critical"
+    },
+    {
+      "id": "EVT-03",
+      "timestamp": "11:45:50",
+      "category": "TRIAGE",
+      "title": "214 Casualties Estimated",
+      "detail": "Field triage reports 31 Red, 67 Yellow, 82 Green, and 34 Unknown in structural collapse zones.",
+      "severity": "warning"
+    },
+    {
+      "id": "EVT-04",
+      "timestamp": "11:47:10",
+      "category": "HOSPITAL",
+      "title": "Hospital Bed Capacity Sweep Completed",
+      "detail": "Regional EMR telemetry returns only 4 available ICU beds across Metro Trauma (2), St. Jude (1), and Harborview (1).",
+      "severity": "critical"
+    },
+    {
+      "id": "EVT-05",
+      "timestamp": "11:49:00",
+      "category": "OBSTACLE",
+      "title": "Highway 101 South Severed at Overpass 4",
+      "detail": "Collapsed gantry debris blocks road corridor. Rerouting traffic via Grand Ave (+14m detour).",
+      "severity": "warning"
+    },
+    {
+      "id": "EVT-06",
+      "timestamp": "11:51:15",
+      "category": "DISPATCH",
+      "title": "Ambulance Fleet Capacity Exhausted",
+      "detail": "All 5 emergency units committed. 27 critical casualties lack immediate transport allocation.",
+      "severity": "critical"
+    },
+    {
+      "id": "EVT-07",
+      "timestamp": "11:53:40",
+      "category": "ALERT",
+      "title": "Crisis Standards of Care Threshold Reached",
+      "detail": "Critical patient load exceeds available regional ICU capacity by a factor of 7.75x.",
+      "severity": "critical"
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "REC-01",
+      "title": "DECLARE CRISIS STANDARDS OF CARE",
+      "severity": "CRITICAL",
+      "status": "pending",
+      "action_type": "REVERSE_TRIAGE",
+      "explanation": "Regional ICU capacity deficit is extreme: 31 critical casualties competing for 4 available ICU beds (7.75x deficit). Authorizing crisis standards of care permits reverse triage, expediting the discharge of stabilized ward patients to free critical care monitors and nursing staff.",
+      "suggested_action": "Authorize Crisis Standards Declaration",
+      "badge": "DECISION REQUIRED"
+    },
+    {
+      "id": "REC-02",
+      "title": "REQUEST STATE MUTUAL AID (REGION II TIER 3)",
+      "severity": "URGENT",
+      "status": "pending",
+      "action_type": "MUTUAL_AID",
+      "explanation": "The municipal ambulance fleet is 100% committed (5 of 5 units). 27 critical red-triage patients remain unassigned at the scene. Requesting 15 mutual-aid ALS transport units from adjacent county will reduce the arrival gap by 42 minutes.",
+      "suggested_action": "Transmit Automated Mutual Aid Dispatch Call",
+      "badge": "FLEET EXHAUSTED"
+    },
+    {
+      "id": "REC-03",
+      "title": "AIR-MEDICAL CASUALTY EVACUATION",
+      "severity": "URGENT",
+      "status": "pending",
+      "action_type": "AIR_EVAC",
+      "explanation": "Highway 101 is severed at Overpass 4 (+14 min detour). Dispatching Medevac 1 to the Industrial Park helipad allows direct aerial transport of 2 severe pediatric burn/crush casualties to Harborview Memorial, completely bypassing road bottlenecks.",
+      "suggested_action": "Clear Industrial Park LZ Heli-pad",
+      "badge": "AIRWAY PRIORITY"
+    }
+  ],
+  "triage_summary": {
+    "total_assessed": 214,
+    "formula": "Priority Score = severity + urgency + capability - transport time + resource availability",
+    "counts": {
+      "P1": 31,
+      "P2": 149,
+      "P3": 0,
+      "P4": 34
+    },
+    "showcase": [
+      {
+        "victim_id": "V083",
+        "priority": "P1",
+        "score": 159.0,
+        "reason": "Critical bleeding \u2014 Trauma + ICU required. Direct arterial access open (9.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma + ICU",
+        "severity": "critical",
+        "sector": "Sector Bravo",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 28.0,
+          "capability_points": 16.0,
+          "transport_penalty": 5.0,
+          "resource_availability_points": 30.0,
+          "total_score": 159.0
+        }
+      },
+      {
+        "victim_id": "V041",
+        "priority": "P1",
+        "score": 147.9,
+        "reason": "Critical \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 18.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 147.9
+        }
+      },
+      {
+        "victim_id": "V112",
+        "priority": "P2",
+        "score": 108.7,
+        "reason": "Serious \u2014 Surgery required. Direct arterial access open (6.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Surgery",
+        "severity": "serious",
+        "sector": "Sector Charlie",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 14.0,
+          "capability_points": 13.0,
+          "transport_penalty": 3.3,
+          "resource_availability_points": 30.0,
+          "total_score": 108.7
+        }
+      }
+    ],
+    "priority_queue": [
+      {
+        "victim_id": "V083",
+        "priority": "P1",
+        "score": 159.0,
+        "reason": "Critical bleeding \u2014 Trauma + ICU required. Direct arterial access open (9.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma + ICU",
+        "severity": "critical",
+        "sector": "Sector Bravo",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 28.0,
+          "capability_points": 16.0,
+          "transport_penalty": 5.0,
+          "resource_availability_points": 30.0,
+          "total_score": 159.0
+        }
+      },
+      {
+        "victim_id": "V002",
+        "priority": "P1",
+        "score": 157.9,
+        "reason": "Severe acute neurological trauma \u2014 Neurosurgery + Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Neurosurgery + Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 20.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 157.9
+        }
+      },
+      {
+        "victim_id": "V004",
+        "priority": "P1",
+        "score": 157.9,
+        "reason": "Severe acute neurological trauma \u2014 Neurosurgery + Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Neurosurgery + Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 20.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 157.9
+        }
+      },
+      {
+        "victim_id": "V006",
+        "priority": "P1",
+        "score": 157.9,
+        "reason": "Severe acute neurological trauma \u2014 Neurosurgery + Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Neurosurgery + Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 20.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 157.9
+        }
+      },
+      {
+        "victim_id": "V008",
+        "priority": "P1",
+        "score": 157.9,
+        "reason": "Severe acute neurological trauma \u2014 Neurosurgery + Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Neurosurgery + Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 20.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 157.9
+        }
+      },
+      {
+        "victim_id": "V010",
+        "priority": "P1",
+        "score": 157.9,
+        "reason": "Severe acute neurological trauma \u2014 Neurosurgery + Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Neurosurgery + Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 20.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 157.9
+        }
+      },
+      {
+        "victim_id": "V012",
+        "priority": "P1",
+        "score": 157.9,
+        "reason": "Severe acute neurological trauma \u2014 Neurosurgery + Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Neurosurgery + Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 20.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 157.9
+        }
+      },
+      {
+        "victim_id": "V014",
+        "priority": "P1",
+        "score": 157.9,
+        "reason": "Severe acute neurological trauma \u2014 Neurosurgery + Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Neurosurgery + Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 20.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 157.9
+        }
+      },
+      {
+        "victim_id": "V016",
+        "priority": "P1",
+        "score": 157.9,
+        "reason": "Severe acute neurological trauma \u2014 Neurosurgery + Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Neurosurgery + Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 20.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 157.9
+        }
+      },
+      {
+        "victim_id": "V018",
+        "priority": "P1",
+        "score": 157.9,
+        "reason": "Severe acute neurological trauma \u2014 Neurosurgery + Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Neurosurgery + Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 20.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 157.9
+        }
+      },
+      {
+        "victim_id": "V020",
+        "priority": "P1",
+        "score": 153.0,
+        "reason": "Toxic vapor respiratory inhalation injury \u2014 Thoracic Surgery required. Direct arterial access open (9.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Thoracic Surgery",
+        "severity": "critical",
+        "sector": "Sector Bravo",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 20.0,
+          "capability_points": 18.0,
+          "transport_penalty": 5.0,
+          "resource_availability_points": 30.0,
+          "total_score": 153.0
+        }
+      },
+      {
+        "victim_id": "V022",
+        "priority": "P1",
+        "score": 153.0,
+        "reason": "Toxic vapor respiratory inhalation injury \u2014 Thoracic Surgery required. Direct arterial access open (9.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Thoracic Surgery",
+        "severity": "critical",
+        "sector": "Sector Bravo",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 20.0,
+          "capability_points": 18.0,
+          "transport_penalty": 5.0,
+          "resource_availability_points": 30.0,
+          "total_score": 153.0
+        }
+      },
+      {
+        "victim_id": "V024",
+        "priority": "P1",
+        "score": 153.0,
+        "reason": "Toxic vapor respiratory inhalation injury \u2014 Thoracic Surgery required. Direct arterial access open (9.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Thoracic Surgery",
+        "severity": "critical",
+        "sector": "Sector Bravo",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 20.0,
+          "capability_points": 18.0,
+          "transport_penalty": 5.0,
+          "resource_availability_points": 30.0,
+          "total_score": 153.0
+        }
+      },
+      {
+        "victim_id": "V026",
+        "priority": "P1",
+        "score": 153.0,
+        "reason": "Toxic vapor respiratory inhalation injury \u2014 Thoracic Surgery required. Direct arterial access open (9.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Thoracic Surgery",
+        "severity": "critical",
+        "sector": "Sector Bravo",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 20.0,
+          "capability_points": 18.0,
+          "transport_penalty": 5.0,
+          "resource_availability_points": 30.0,
+          "total_score": 153.0
+        }
+      },
+      {
+        "victim_id": "V001",
+        "priority": "P1",
+        "score": 151.9,
+        "reason": "Severe acute neurological trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 151.9
+        }
+      },
+      {
+        "victim_id": "V003",
+        "priority": "P1",
+        "score": 151.9,
+        "reason": "Severe acute neurological trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 151.9
+        }
+      },
+      {
+        "victim_id": "V005",
+        "priority": "P1",
+        "score": 151.9,
+        "reason": "Severe acute neurological trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 151.9
+        }
+      },
+      {
+        "victim_id": "V007",
+        "priority": "P1",
+        "score": 151.9,
+        "reason": "Severe acute neurological trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 151.9
+        }
+      },
+      {
+        "victim_id": "V009",
+        "priority": "P1",
+        "score": 151.9,
+        "reason": "Severe acute neurological trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 151.9
+        }
+      },
+      {
+        "victim_id": "V011",
+        "priority": "P1",
+        "score": 151.9,
+        "reason": "Severe acute neurological trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 151.9
+        }
+      },
+      {
+        "victim_id": "V013",
+        "priority": "P1",
+        "score": 151.9,
+        "reason": "Severe acute neurological trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 151.9
+        }
+      },
+      {
+        "victim_id": "V015",
+        "priority": "P1",
+        "score": 151.9,
+        "reason": "Severe acute neurological trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 151.9
+        }
+      },
+      {
+        "victim_id": "V017",
+        "priority": "P1",
+        "score": 151.9,
+        "reason": "Severe acute neurological trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 22.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 151.9
+        }
+      },
+      {
+        "victim_id": "V019",
+        "priority": "P1",
+        "score": 151.0,
+        "reason": "Toxic vapor respiratory inhalation injury \u2014 Burn ICU + Toxicology required. Direct arterial access open (9.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Burn ICU + Toxicology",
+        "severity": "critical",
+        "sector": "Sector Bravo",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 20.0,
+          "capability_points": 16.0,
+          "transport_penalty": 5.0,
+          "resource_availability_points": 30.0,
+          "total_score": 151.0
+        }
+      },
+      {
+        "victim_id": "V021",
+        "priority": "P1",
+        "score": 151.0,
+        "reason": "Toxic vapor respiratory inhalation injury \u2014 Burn ICU + Toxicology required. Direct arterial access open (9.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Burn ICU + Toxicology",
+        "severity": "critical",
+        "sector": "Sector Bravo",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 20.0,
+          "capability_points": 16.0,
+          "transport_penalty": 5.0,
+          "resource_availability_points": 30.0,
+          "total_score": 151.0
+        }
+      },
+      {
+        "victim_id": "V023",
+        "priority": "P1",
+        "score": 151.0,
+        "reason": "Toxic vapor respiratory inhalation injury \u2014 Burn ICU + Toxicology required. Direct arterial access open (9.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Burn ICU + Toxicology",
+        "severity": "critical",
+        "sector": "Sector Bravo",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 20.0,
+          "capability_points": 16.0,
+          "transport_penalty": 5.0,
+          "resource_availability_points": 30.0,
+          "total_score": 151.0
+        }
+      },
+      {
+        "victim_id": "V025",
+        "priority": "P1",
+        "score": 151.0,
+        "reason": "Toxic vapor respiratory inhalation injury \u2014 Burn ICU + Toxicology required. Direct arterial access open (9.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Burn ICU + Toxicology",
+        "severity": "critical",
+        "sector": "Sector Bravo",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 20.0,
+          "capability_points": 16.0,
+          "transport_penalty": 5.0,
+          "resource_availability_points": 30.0,
+          "total_score": 151.0
+        }
+      },
+      {
+        "victim_id": "V027",
+        "priority": "P1",
+        "score": 151.0,
+        "reason": "Toxic vapor respiratory inhalation injury \u2014 Burn ICU + Toxicology required. Direct arterial access open (9.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Burn ICU + Toxicology",
+        "severity": "critical",
+        "sector": "Sector Bravo",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 20.0,
+          "capability_points": 16.0,
+          "transport_penalty": 5.0,
+          "resource_availability_points": 30.0,
+          "total_score": 151.0
+        }
+      },
+      {
+        "victim_id": "V041",
+        "priority": "P1",
+        "score": 147.9,
+        "reason": "Critical \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Alpha",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 18.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 147.9
+        }
+      },
+      {
+        "victim_id": "V028",
+        "priority": "P1",
+        "score": 142.7,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (6.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Charlie",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 3.3,
+          "resource_availability_points": 30.0,
+          "total_score": 142.7
+        }
+      },
+      {
+        "victim_id": "V029",
+        "priority": "P1",
+        "score": 142.7,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (6.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "critical",
+        "sector": "Sector Charlie",
+        "triage_tag": "RED",
+        "breakdown": {
+          "severity_points": 90.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 3.3,
+          "resource_availability_points": 30.0,
+          "total_score": 142.7
+        }
+      },
+      {
+        "victim_id": "V112",
+        "priority": "P2",
+        "score": 108.7,
+        "reason": "Serious \u2014 Surgery required. Direct arterial access open (6.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Surgery",
+        "severity": "serious",
+        "sector": "Sector Charlie",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 14.0,
+          "capability_points": 13.0,
+          "transport_penalty": 3.3,
+          "resource_availability_points": 30.0,
+          "total_score": 108.7
+        }
+      },
+      {
+        "victim_id": "V091",
+        "priority": "P2",
+        "score": 107.7,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (6.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Charlie",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 3.3,
+          "resource_availability_points": 30.0,
+          "total_score": 107.7
+        }
+      },
+      {
+        "victim_id": "V093",
+        "priority": "P2",
+        "score": 107.7,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (6.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Charlie",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 3.3,
+          "resource_availability_points": 30.0,
+          "total_score": 107.7
+        }
+      },
+      {
+        "victim_id": "V095",
+        "priority": "P2",
+        "score": 107.7,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (6.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Charlie",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 3.3,
+          "resource_availability_points": 30.0,
+          "total_score": 107.7
+        }
+      },
+      {
+        "victim_id": "V097",
+        "priority": "P2",
+        "score": 107.7,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (6.0m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Charlie",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 3.3,
+          "resource_availability_points": 30.0,
+          "total_score": 107.7
+        }
+      },
+      {
+        "victim_id": "V033",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V035",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V037",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V039",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V043",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V045",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V047",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V049",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V051",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V053",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V055",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V057",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V059",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      },
+      {
+        "victim_id": "V061",
+        "priority": "P2",
+        "score": 106.9,
+        "reason": "Serious structural skeletal trauma \u2014 Trauma required. Direct arterial access open (7.5m transit). 4 ICU beds open, 2 ORs open, 2 transport units.",
+        "required_capability": "Trauma",
+        "severity": "serious",
+        "sector": "Sector Alpha",
+        "triage_tag": "YELLOW",
+        "breakdown": {
+          "severity_points": 55.0,
+          "urgency_points": 12.0,
+          "capability_points": 14.0,
+          "transport_penalty": 4.1,
+          "resource_availability_points": 30.0,
+          "total_score": 106.9
+        }
+      }
+    ]
+  },
+  "routing_summary": {
+    "exemplar_chain": {
+      "victim_id": "V083",
+      "victim_priority": "P1",
+      "victim_condition": "Critical bleeding from pelvic crush injury",
+      "ambulance_id": "AMB-04",
+      "ambulance_callsign": "Medic 4",
+      "ambulance_type": "ALS",
+      "hospital_id": "H-B",
+      "hospital_name": "Hospital B",
+      "active_route_id": "ROUTE-B",
+      "active_route_name": "Route B",
+      "eta_minutes": 13.0,
+      "route_options": [
+        {
+          "route_id": "ROUTE-A",
+          "name": "Route A",
+          "status": "BLOCKED",
+          "is_blocked": true,
+          "status_icon": "\u274c",
+          "eta_minutes": 27.0,
+          "distance_km": 5.4,
+          "description": "BLOCKED: Concrete structural collapse & overturned fuel tanker at Overpass 4",
+          "corridor_road_ids": [
+            "ROAD-01"
+          ],
+          "blockage_reason": "Structural concrete debris & overturned 10,000-gal fuel tanker"
+        },
+        {
+          "route_id": "ROUTE-B",
+          "name": "Route B",
+          "status": "OPTIMAL",
+          "is_blocked": false,
+          "status_icon": "\u2713",
+          "eta_minutes": 13.0,
+          "distance_km": 6.8,
+          "description": "Grand Ave Western Arterial with designated emergency contraflow lane",
+          "corridor_road_ids": [
+            "ROAD-02"
+          ],
+          "blockage_reason": null
+        },
+        {
+          "route_id": "ROUTE-C",
+          "name": "Route C",
+          "status": "CONGESTED",
+          "is_blocked": false,
+          "status_icon": "\u26a0",
+          "eta_minutes": 22.0,
+          "distance_km": 8.9,
+          "description": "Industrial perimeter bypass corridor",
+          "corridor_road_ids": [],
+          "blockage_reason": null
+        }
+      ],
+      "chain_summary": "V083 \u2192 AMB-04 \u2192 Hospital B \u2192 Route B \u2192 13 min",
+      "reroute_status": "REROUTED",
+      "reroute_note": "AMB-04: Route A \u274c | Route B \u2713 (13 min)",
+      "is_feasible": true
+    },
+    "chains": [
+      {
+        "victim_id": "V083",
+        "victim_priority": "P1",
+        "victim_condition": "Critical bleeding from pelvic crush injury",
+        "ambulance_id": "AMB-04",
+        "ambulance_callsign": "Medic 4",
+        "ambulance_type": "ALS",
+        "hospital_id": "H-B",
+        "hospital_name": "Hospital B",
+        "active_route_id": "ROUTE-B",
+        "active_route_name": "Route B",
+        "eta_minutes": 13.0,
+        "route_options": [
+          {
+            "route_id": "ROUTE-A",
+            "name": "Route A",
+            "status": "BLOCKED",
+            "is_blocked": true,
+            "status_icon": "\u274c",
+            "eta_minutes": 27.0,
+            "distance_km": 5.4,
+            "description": "BLOCKED: Concrete structural collapse & overturned fuel tanker at Overpass 4",
+            "corridor_road_ids": [
+              "ROAD-01"
+            ],
+            "blockage_reason": "Structural concrete debris & overturned 10,000-gal fuel tanker"
+          },
+          {
+            "route_id": "ROUTE-B",
+            "name": "Route B",
+            "status": "OPTIMAL",
+            "is_blocked": false,
+            "status_icon": "\u2713",
+            "eta_minutes": 13.0,
+            "distance_km": 6.8,
+            "description": "Grand Ave Western Arterial with designated emergency contraflow lane",
+            "corridor_road_ids": [
+              "ROAD-02"
+            ],
+            "blockage_reason": null
+          },
+          {
+            "route_id": "ROUTE-C",
+            "name": "Route C",
+            "status": "CONGESTED",
+            "is_blocked": false,
+            "status_icon": "\u26a0",
+            "eta_minutes": 22.0,
+            "distance_km": 8.9,
+            "description": "Industrial perimeter bypass corridor",
+            "corridor_road_ids": [],
+            "blockage_reason": null
+          }
+        ],
+        "chain_summary": "V083 \u2192 AMB-04 \u2192 Hospital B \u2192 Route B \u2192 13 min",
+        "reroute_status": "REROUTED",
+        "reroute_note": "AMB-04: Route A \u274c | Route B \u2713 (13 min)",
+        "is_feasible": true
+      },
+      {
+        "victim_id": "V041",
+        "victim_priority": "P1",
+        "victim_condition": "Critical blunt thoracic trauma",
+        "ambulance_id": "AMB-04",
+        "ambulance_callsign": "Medic 4",
+        "ambulance_type": "ALS",
+        "hospital_id": "H-B",
+        "hospital_name": "Hospital B",
+        "active_route_id": "ROUTE-B",
+        "active_route_name": "Route B",
+        "eta_minutes": 13.0,
+        "route_options": [
+          {
+            "route_id": "ROUTE-A",
+            "name": "Route A",
+            "status": "BLOCKED",
+            "is_blocked": true,
+            "status_icon": "\u274c",
+            "eta_minutes": 27.0,
+            "distance_km": 5.4,
+            "description": "BLOCKED: Concrete structural collapse & overturned fuel tanker at Overpass 4",
+            "corridor_road_ids": [
+              "ROAD-01"
+            ],
+            "blockage_reason": "Structural concrete debris & overturned 10,000-gal fuel tanker"
+          },
+          {
+            "route_id": "ROUTE-B",
+            "name": "Route B",
+            "status": "OPTIMAL",
+            "is_blocked": false,
+            "status_icon": "\u2713",
+            "eta_minutes": 13.0,
+            "distance_km": 6.8,
+            "description": "Grand Ave Western Arterial with designated emergency contraflow lane",
+            "corridor_road_ids": [
+              "ROAD-02"
+            ],
+            "blockage_reason": null
+          },
+          {
+            "route_id": "ROUTE-C",
+            "name": "Route C",
+            "status": "CONGESTED",
+            "is_blocked": false,
+            "status_icon": "\u26a0",
+            "eta_minutes": 22.0,
+            "distance_km": 8.9,
+            "description": "Industrial perimeter bypass corridor",
+            "corridor_road_ids": [],
+            "blockage_reason": null
+          }
+        ],
+        "chain_summary": "V041 \u2192 AMB-04 \u2192 Hospital B \u2192 Route B \u2192 13 min",
+        "reroute_status": "REROUTED",
+        "reroute_note": "AMB-04: Route A \u274c | Route B \u2713 (13 min)",
+        "is_feasible": true
+      },
+      {
+        "victim_id": "V112",
+        "victim_priority": "P2",
+        "victim_condition": "Serious open compound fracture requiring immediate surgical reduction",
+        "ambulance_id": "AMB-03",
+        "ambulance_callsign": "Medic 3",
+        "ambulance_type": "BLS",
+        "hospital_id": "H-B",
+        "hospital_name": "Hospital B",
+        "active_route_id": "ROUTE-B",
+        "active_route_name": "Route B",
+        "eta_minutes": 13.0,
+        "route_options": [
+          {
+            "route_id": "ROUTE-A",
+            "name": "Route A",
+            "status": "BLOCKED",
+            "is_blocked": true,
+            "status_icon": "\u274c",
+            "eta_minutes": 27.0,
+            "distance_km": 5.4,
+            "description": "BLOCKED: Concrete structural collapse & overturned fuel tanker at Overpass 4",
+            "corridor_road_ids": [
+              "ROAD-01"
+            ],
+            "blockage_reason": "Structural concrete debris & overturned 10,000-gal fuel tanker"
+          },
+          {
+            "route_id": "ROUTE-B",
+            "name": "Route B",
+            "status": "OPTIMAL",
+            "is_blocked": false,
+            "status_icon": "\u2713",
+            "eta_minutes": 13.0,
+            "distance_km": 6.8,
+            "description": "Grand Ave Western Arterial with designated emergency contraflow lane",
+            "corridor_road_ids": [
+              "ROAD-02"
+            ],
+            "blockage_reason": null
+          },
+          {
+            "route_id": "ROUTE-C",
+            "name": "Route C",
+            "status": "CONGESTED",
+            "is_blocked": false,
+            "status_icon": "\u26a0",
+            "eta_minutes": 22.0,
+            "distance_km": 8.9,
+            "description": "Industrial perimeter bypass corridor",
+            "corridor_road_ids": [],
+            "blockage_reason": null
+          }
+        ],
+        "chain_summary": "V112 \u2192 AMB-03 \u2192 Hospital B \u2192 Route B \u2192 13 min",
+        "reroute_status": "REROUTED",
+        "reroute_note": "AMB-03: Route A \u274c | Route B \u2713 (13 min)",
+        "is_feasible": true
+      }
+    ]
+  },
+  "optimization_summary": {
+    "solver": "Google OR-Tools MILP (SCIP/CBC)",
+    "objective_formula": "MAX (critical_patients + resource_utilization + expected_benefit - transit_penalty)",
+    "tracked_resources": {
+      "icu_beds": 4,
+      "blood_units_o_neg": 25,
+      "ventilators": 4,
+      "doctors": 9,
+      "trauma_teams": 2,
+      "ambulances": 5,
+      "rescue_teams": 2
+    }
+  }
+}

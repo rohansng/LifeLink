@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* Utilitarian Defense-Grade Operations Console Palette */
+  /* Utilitarian Defense-Grade Operations Console Palette (Reference Spec) */
   --canvas-dark: #0B0E13;
   --canvas-elevated: #101419;
   --panel-bg: #151B22;
@@ -11,13 +11,20 @@
   --border-subtle: #2D3748;
   --border-focused: #3B82F6;
 
-  /* Typography */
+  /* Backward-compatible variables for legacy modals */
+  --bg-primary: #0B0E13;
+  --bg-secondary: #101419;
+  --bg-card: rgba(17, 21, 28, 0.94);
+  --bg-card-hover: rgba(24, 32, 42, 0.96);
+  --border-color: #232B36;
+
+  /* High-Contrast Utilitarian Typography */
   --text-primary: #E2E8F0;
   --text-secondary: #94A3B8;
   --text-muted: #64748B;
   --text-dim: #475569;
 
-  /* Strict Semantic Triage Colors (Zero neon glow, authentic tactical hues) */
+  /* Strict Semantic Triage Colors (Reserved for Status Signals - No Neon Glow) */
   --triage-black: #4A5568;
   --triage-black-bg: #1E2530;
   --triage-red: #DC2626;
@@ -33,7 +40,7 @@
   --tactical-blue-bg: #1E293B;
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', Consolas, monospace;
 }
 
 *,
@@ -93,6 +100,14 @@ button:focus-visible {
   background: var(--panel-sub);
   border: 1px solid var(--border-hairline);
   border-radius: 4px;
+}
+
+/* Legacy panel support for modals */
+.glass-panel {
+  background: #11151C;
+  border: 1px solid var(--border-hairline);
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 /* Tabular & Badge Utilities */
@@ -160,12 +175,100 @@ button:focus-visible {
   display: inline-block;
 }
 
-/* Tactical Map Tile Filter (Converts standard map to desaturated NATO C2 dark mode) */
+/* Priority Badges for Legacy Subcomponents */
+.tactical-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-p1 {
+  background: rgba(220, 38, 38, 0.2);
+  color: #F87171;
+  border: 1px solid rgba(220, 38, 38, 0.45);
+}
+
+.badge-p2 {
+  background: rgba(217, 119, 6, 0.2);
+  color: #FBBF24;
+  border: 1px solid rgba(217, 119, 6, 0.45);
+}
+
+.badge-p3 {
+  background: rgba(21, 128, 61, 0.2);
+  color: #34D399;
+  border: 1px solid rgba(21, 128, 61, 0.45);
+}
+
+.badge-p4 {
+  background: rgba(74, 85, 104, 0.3);
+  color: #CBD5E1;
+  border: 1px solid rgba(74, 85, 104, 0.5);
+}
+
+/* Animations */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spinSlow 1s linear infinite;
+}
+
+.spin-slow {
+  animation: spinSlow 8s linear infinite;
+}
+
+/* Leaflet Container & Dark Overrides */
+.leaflet-container {
+  background-color: #0B0E13 !important;
+  font-family: var(--font-sans) !important;
+  z-index: 10 !important;
+}
+
+.leaflet-pane {
+  z-index: 10 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 20 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #11151C !important;
+  color: #E2E8F0 !important;
+  border: 1px solid #232B36 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7) !important;
+}
+
+.leaflet-popup-tip {
+  background: #11151C !important;
+}
+
+.leaflet-popup-content {
+  margin: 10px 12px !important;
+  line-height: 1.4 !important;
+}
+
 .dark-tactical-tiles {
   filter: brightness(0.65) invert(1) contrast(3) hue-rotate(200deg) saturate(0.25) !important;
 }
 
-/* Custom Scrollbars */
+/* Low-Glare Tactical Scrollbars */
 * {
   scrollbar-width: thin;
   scrollbar-color: #2D3748 #11151C;

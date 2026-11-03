@@ -1,46 +1,67 @@
-import React, { useState } from 'react';
-import { Search, SlidersHorizontal, Filter, Check } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Search, SlidersHorizontal, Filter, Check, ExternalLink } from 'lucide-react';
 
-export default function CasualtyQueueTable({ victims = [], onSelectVictim }) {
+export default function CasualtyQueueTable({
+  victims = [],
+  onSelectVictim,
+  onMatchHospital,
+}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('ALL'); // ALL, RED, YELLOW, GREEN, DECEASED
   const [selectedIds, setSelectedIds] = useState({});
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
 
-  // Generate 18 high-density rows matching the exact IDs and color badges in the reference image
-  const defaultSampleRows = [
-    { id: '#4A5551', alias: 'V000', triage: 'Deceased', type: 'DECEASED', eta: '21h 17s', dest: 'Matched', hosp: 'Morgue Facility' },
-    { id: '#4A5567', alias: 'V000', triage: 'Deceased', type: 'DECEASED', eta: '21h 12s', dest: 'Matched', hosp: 'Morgue Facility' },
-    { id: '#5C2626', alias: 'V083', triage: '#DC2626', type: 'RED', eta: '21h 20s', dest: 'Matched', hosp: 'St. Jude Regional' },
-    { id: '#445520', alias: 'V041', triage: '#DC2626', type: 'RED', eta: '21h 20s', dest: 'Matched', hosp: 'Metro Trauma Center' },
-    { id: '#4A5531', alias: 'V001', triage: '#DC2626', type: 'RED', eta: '21h 20s', dest: 'Matched', hosp: 'Harborview Medical' },
-    { id: '#187038', alias: 'V112', triage: '#DD97706', type: 'YELLOW', eta: '21h 30s', dest: 'Matched', hosp: 'St. Jude Regional' },
-    { id: '#197036', alias: 'V035', triage: '#DD97706', type: 'YELLOW', eta: '21h 30s', dest: 'Matched', hosp: 'Metro Trauma Center' },
-    { id: '#193037', alias: 'V044', triage: '#DD97706', type: 'YELLOW', eta: '21h 30s', dest: 'Matched', hosp: 'Harborview Medical' },
-    { id: '#156539', alias: 'V052', triage: '#DD97706', type: 'YELLOW', eta: '21h 40s', dest: 'Matched', hosp: 'St. Jude Regional' },
-    { id: '#158038', alias: 'V099', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Field Triage Staging' },
-    { id: '#158030', alias: 'V102', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Field Triage Staging' },
-    { id: '#158038', alias: 'V105', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Field Triage Staging' },
-    { id: '#158036', alias: 'V108', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Field Triage Staging' },
-    { id: '#158039', alias: 'V110', triage: '#15803D', type: 'GREEN', eta: '21h 46s', dest: 'Matched', hosp: 'Field Triage Staging' },
-    { id: '#B97707', alias: 'V065', triage: '#DD97706', type: 'YELLOW', eta: '21h 40s', dest: 'Matched', hosp: 'Metro Trauma Center' },
-    { id: '#E97776', alias: 'V072', triage: '#DD97706', type: 'YELLOW', eta: '21h 40s', dest: 'Matched', hosp: 'Harborview Medical' },
-    { id: '#158038', alias: 'V115', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Field Triage Staging' },
-    { id: '#158030', alias: 'V118', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Field Triage Staging' },
-    { id: '#158030', alias: 'V121', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Field Triage Staging' },
-  ];
+  // Reference-spec sample rows matching the exact tags from the reference image
+  const defaultSampleRows = useMemo(() => [
+    { id: '#4A5551', alias: 'V000', triage: 'Deceased', type: 'DECEASED', eta: '21h 17s', dest: 'Matched', hosp: 'Morgue Facility', injury: 'Traumatic arrest / non-salvageable' },
+    { id: '#4A5567', alias: 'V000', triage: 'Deceased', type: 'DECEASED', eta: '21h 12s', dest: 'Matched', hosp: 'Morgue Facility', injury: 'Crush decapitation / lethal' },
+    { id: '#5C2626', alias: 'V083', triage: '#DC2626', type: 'RED', eta: '21h 20s', dest: 'Matched', hosp: 'Victoria Hospital Fort', injury: 'Severe crush trauma / unequal pupils' },
+    { id: '#445520', alias: 'V041', triage: '#DC2626', type: 'RED', eta: '21h 20s', dest: 'Matched', hosp: 'St. Martha\'s Emergency', injury: 'Ammonia vapor inhalation pneumonitis' },
+    { id: '#4A5531', alias: 'V001', triage: '#DC2626', type: 'RED', eta: '21h 20s', dest: 'Matched', hosp: 'Bowring & Lady Curzon', injury: 'Hemorrhagic pelvic shear fracture' },
+    { id: '#187038', alias: 'V112', triage: '#DD97706', type: 'YELLOW', eta: '21h 30s', dest: 'Matched', hosp: 'Victoria Hospital Fort', injury: 'Open compound femur fracture' },
+    { id: '#197036', alias: 'V035', triage: '#DD97706', type: 'YELLOW', eta: '21h 30s', dest: 'Matched', hosp: 'St. Martha\'s Emergency', injury: 'Second-degree facial & corneal burns' },
+    { id: '#193037', alias: 'V044', triage: '#DD97706', type: 'YELLOW', eta: '21h 30s', dest: 'Matched', hosp: 'Bowring & Lady Curzon', injury: 'Blunt abdominal trauma, hemoperitoneum' },
+    { id: '#156539', alias: 'V052', triage: '#DD97706', type: 'YELLOW', eta: '21h 40s', dest: 'Matched', hosp: 'St. Martha\'s Emergency', injury: 'Bilateral humerus fracture' },
+    { id: '#158038', alias: 'V099', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Sector Charlie Staging', injury: 'Superficial glass lacerations' },
+    { id: '#158030', alias: 'V102', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Sector Charlie Staging', injury: 'Ankle sprain & mild smoke cough' },
+    { id: '#158038', alias: 'V105', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Sector Charlie Staging', injury: 'Forearm abrasion' },
+    { id: '#158036', alias: 'V108', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Sector Charlie Staging', injury: 'Minor contusion' },
+    { id: '#158039', alias: 'V110', triage: '#15803D', type: 'GREEN', eta: '21h 46s', dest: 'Matched', hosp: 'Sector Charlie Staging', injury: 'Ambulatory anxiety' },
+    { id: '#B97707', alias: 'V065', triage: '#DD97706', type: 'YELLOW', eta: '21h 40s', dest: 'Matched', hosp: 'Victoria Hospital Fort', injury: 'Closed head injury without focal deficit' },
+    { id: '#E97776', alias: 'V072', triage: '#DD97706', type: 'YELLOW', eta: '21h 40s', dest: 'Matched', hosp: 'Bowring & Lady Curzon', injury: 'Lumbar compression wedge fracture' },
+    { id: '#158038', alias: 'V115', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Sector Charlie Staging', injury: 'Mild particulate eye irritation' },
+    { id: '#158030', alias: 'V118', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Sector Charlie Staging', injury: 'Minor soft tissue bruise' },
+    { id: '#158030', alias: 'V121', triage: '#15803D', type: 'GREEN', eta: '21h 40s', dest: 'Matched', hosp: 'Sector Charlie Staging', injury: 'Ambulatory walking wounded' },
+  ], []);
 
-  const filteredRows = defaultSampleRows.filter((r) => {
-    if (searchQuery && !r.id.toLowerCase().includes(searchQuery.toLowerCase()) && !r.alias.toLowerCase().includes(searchQuery.toLowerCase())) {
-      return false;
-    }
-    if (filterType !== 'ALL' && r.type !== filterType) {
-      return false;
-    }
-    return true;
-  });
+  // Filter rows
+  const filteredRows = useMemo(() => {
+    return defaultSampleRows.filter((r) => {
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        const matchesId = r.id.toLowerCase().includes(query);
+        const matchesAlias = r.alias.toLowerCase().includes(query);
+        const matchesHosp = r.hosp.toLowerCase().includes(query);
+        if (!matchesId && !matchesAlias && !matchesHosp) return false;
+      }
+      if (filterType !== 'ALL' && r.type !== filterType) {
+        return false;
+      }
+      return true;
+    });
+  }, [defaultSampleRows, searchQuery, filterType]);
 
   const toggleSelect = (id) => {
     setSelectedIds((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const toggleSelectAll = () => {
+    const allSelected = filteredRows.every((r) => selectedIds[r.id]);
+    const next = {};
+    if (!allSelected) {
+      filteredRows.forEach((r) => { next[r.id] = true; });
+    }
+    setSelectedIds(next);
   };
 
   const getTriagePill = (type, label) => {
@@ -56,12 +77,20 @@ export default function CasualtyQueueTable({ victims = [], onSelectVictim }) {
     return <span className="triage-tag-green">{label}</span>;
   };
 
+  const handleRowClick = (item) => {
+    if (onMatchHospital) {
+      onMatchHospital(item.alias);
+    } else if (onSelectVictim) {
+      onSelectVictim(item);
+    }
+  };
+
   return (
     <div
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '10px',
+        gap: '8px',
         height: '100%',
         minWidth: '310px',
       }}
@@ -95,6 +124,7 @@ export default function CasualtyQueueTable({ victims = [], onSelectVictim }) {
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
+            position: 'relative',
           }}
         >
           {/* Search Box */}
@@ -106,11 +136,11 @@ export default function CasualtyQueueTable({ victims = [], onSelectVictim }) {
               gap: '6px',
               background: '#0D1117',
               border: '1px solid #1E2532',
-              borderRadius: '4px',
-              padding: '4px 8px',
+              borderRadius: '3px',
+              padding: '3px 8px',
             }}
           >
-            <Search size={13} color="#64748B" />
+            <Search size={12} color="#64748B" />
             <input
               type="text"
               placeholder="Search"
@@ -129,39 +159,71 @@ export default function CasualtyQueueTable({ victims = [], onSelectVictim }) {
 
           {/* Filter Chips Button */}
           <button
-            onClick={() => {
-              const types = ['ALL', 'RED', 'YELLOW', 'GREEN', 'DECEASED'];
-              const next = types[(types.indexOf(filterType) + 1) % types.length];
-              setFilterType(next);
-            }}
+            onClick={() => setShowFilterDropdown(!showFilterDropdown)}
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '5px',
-              background: '#1A222D',
-              border: '1px solid #283344',
-              borderRadius: '4px',
-              padding: '4px 8px',
-              fontSize: '11px',
-              color: filterType === 'ALL' ? '#94A3B8' : '#38BDF8',
+              gap: '4px',
+              background: filterType !== 'ALL' ? '#1E293B' : '#0D1117',
+              border: '1px solid',
+              borderColor: filterType !== 'ALL' ? '#3B82F6' : '#1E2532',
+              borderRadius: '3px',
+              padding: '3px 8px',
+              fontSize: '10.5px',
               fontWeight: '600',
+              color: filterType !== 'ALL' ? '#93C5FD' : '#8A99AD',
             }}
           >
-            <SlidersHorizontal size={12} />
-            <span>{filterType === 'ALL' ? 'Filter chips' : `Filter: ${filterType}`}</span>
+            <SlidersHorizontal size={11} />
+            <span>Filter chips</span>
           </button>
 
-          <button
-            style={{
-              background: '#1A222D',
-              border: '1px solid #283344',
-              borderRadius: '4px',
-              padding: '4px 6px',
-              color: '#94A3B8',
-            }}
-          >
-            <Filter size={12} />
-          </button>
+          {/* Filter Dropdown Menu */}
+          {showFilterDropdown && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '38px',
+                right: '10px',
+                zIndex: 100,
+                background: '#11151C',
+                border: '1px solid #232B36',
+                borderRadius: '4px',
+                padding: '6px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '3px',
+                boxShadow: '0 6px 18px rgba(0,0,0,0.7)',
+                minWidth: '130px',
+              }}
+            >
+              {[
+                { id: 'ALL', label: 'All Triage' },
+                { id: 'RED', label: 'Immediate (Red)' },
+                { id: 'YELLOW', label: 'Delayed (Yellow)' },
+                { id: 'GREEN', label: 'Minor (Green)' },
+                { id: 'DECEASED', label: 'Deceased (Black)' },
+              ].map((opt) => (
+                <button
+                  key={opt.id}
+                  onClick={() => {
+                    setFilterType(opt.id);
+                    setShowFilterDropdown(false);
+                  }}
+                  style={{
+                    textAlign: 'left',
+                    padding: '4px 8px',
+                    fontSize: '11px',
+                    borderRadius: '3px',
+                    color: filterType === opt.id ? '#FFFFFF' : '#94A3B8',
+                    background: filterType === opt.id ? '#2563EB' : 'transparent',
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Tabular Header */}
@@ -169,80 +231,97 @@ export default function CasualtyQueueTable({ victims = [], onSelectVictim }) {
           className="mono"
           style={{
             display: 'grid',
-            gridTemplateColumns: '26px 1fr 1fr 1fr 1fr',
+            gridTemplateColumns: '26px 85px 85px 75px 1fr',
             padding: '6px 10px',
-            fontSize: '10px',
-            fontWeight: '700',
-            color: '#64748B',
             borderBottom: '1px solid #1E2532',
-            background: '#11151C',
+            fontSize: '9.5px',
+            color: '#64748B',
             textTransform: 'uppercase',
+            fontWeight: '700',
             alignItems: 'center',
+            background: '#0D1117',
           }}
         >
-          <div>
-            <input type="checkbox" style={{ accentColor: '#3B82F6', cursor: 'pointer' }} />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <input
+              type="checkbox"
+              checked={filteredRows.length > 0 && filteredRows.every((r) => selectedIds[r.id])}
+              onChange={toggleSelectAll}
+              style={{ cursor: 'pointer', accentColor: '#2563EB' }}
+            />
           </div>
           <div>Patient ID</div>
           <div>Triage</div>
           <div>Transport ETA</div>
-          <div style={{ textAlign: 'right' }}>Matched Destination</div>
+          <div>Matched Destination</div>
         </div>
 
-        {/* Scrollable Table Rows */}
+        {/* Tabular Rows (Scrollable) */}
         <div
           style={{
+            flex: 1,
             overflowY: 'auto',
-            maxHeight: '460px',
-            display: 'flex',
-            flexDirection: 'column',
+            maxHeight: 'calc(100vh - 190px)',
           }}
         >
-          {filteredRows.map((row, idx) => {
-            const isChecked = !!selectedIds[row.id];
+          {filteredRows.map((row) => {
+            const isSelected = !!selectedIds[row.id];
             return (
               <div
-                key={idx}
-                onClick={() => onSelectVictim && onSelectVictim(row)}
+                key={row.id + row.alias}
+                onClick={() => handleRowClick(row)}
+                className="mono"
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '26px 1fr 1fr 1fr 1fr',
-                  padding: '5px 10px',
+                  gridTemplateColumns: '26px 85px 85px 75px 1fr',
+                  padding: '5.5px 10px',
+                  borderBottom: '1px solid #141A24',
+                  fontSize: '10.5px',
                   alignItems: 'center',
-                  fontSize: '11px',
-                  borderBottom: '1px solid #161C26',
-                  background: isChecked ? '#182435' : (idx % 2 === 0 ? '#11151C' : '#0D1117'),
+                  background: isSelected ? '#162032' : 'transparent',
                   cursor: 'pointer',
                   transition: 'background 0.1s ease',
                 }}
+                onMouseEnter={(e) => {
+                  if (!isSelected) e.currentTarget.style.background = '#111620';
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSelected) e.currentTarget.style.background = 'transparent';
+                }}
+                title={`${row.alias}: ${row.injury} -> ${row.hosp} (Click to inspect WHY matching matrix)`}
               >
-                <div>
+                {/* Checkbox */}
+                <div onClick={(e) => e.stopPropagation()} style={{ display: 'flex', alignItems: 'center' }}>
                   <input
                     type="checkbox"
-                    checked={isChecked}
-                    onChange={(e) => {
-                      e.stopPropagation();
-                      toggleSelect(row.id);
-                    }}
-                    style={{ accentColor: '#3B82F6', cursor: 'pointer' }}
+                    checked={isSelected}
+                    onChange={() => toggleSelect(row.id)}
+                    style={{ cursor: 'pointer', accentColor: '#2563EB' }}
                   />
                 </div>
 
-                <div className="mono" style={{ color: '#CBD5E1', fontWeight: '600', fontSize: '10.5px' }}>
+                {/* Patient ID */}
+                <div style={{ color: '#E2E8F0', fontWeight: '600' }}>
                   {row.id}
                 </div>
 
+                {/* Triage Tag */}
                 <div>
                   {getTriagePill(row.type, row.triage)}
                 </div>
 
-                <div className="mono" style={{ color: '#94A3B8', fontSize: '10.5px' }}>
+                {/* Transport ETA */}
+                <div style={{ color: '#8A99AD', fontSize: '10px' }}>
                   {row.eta}
                 </div>
 
-                <div style={{ textAlign: 'right' }}>
+                {/* Matched Destination */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px' }}>
                   <span className="destination-tag-matched">
                     {row.dest}
+                  </span>
+                  <span style={{ fontSize: '9.5px', color: '#64748B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {row.hosp.split(' ')[0]}
                   </span>
                 </div>
               </div>

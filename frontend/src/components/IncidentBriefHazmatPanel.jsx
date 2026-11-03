@@ -3,10 +3,10 @@ import { AlertTriangle, MoreHorizontal, Activity, Flame, Wind, Clock } from 'luc
 
 export default function IncidentBriefHazmatPanel({ incident }) {
   const [notes, setNotes] = useState(
-    'Unified Command established at KR Puram Junction. HazMat Level B hot zone cordoned 800m downwind. Industrial logistics collapse extrication underway in Sector Alpha.'
+    'Unified Command established at Bengaluru Central Rail Corridor. HazMat Level B hot zone cordoned 800m downwind. Industrial logistics collapse extrication underway in Sector Alpha.'
   );
 
-  // Generate realistic audio waveform bars (matching the reference image)
+  // High-density audio waveform bars matching the reference image
   const waveformBars = [
     12, 18, 14, 28, 42, 65, 80, 55, 34, 48, 72, 90, 85, 45, 30, 22, 50, 78,
     95, 60, 40, 25, 35, 62, 84, 70, 45, 28, 38, 55, 48, 30, 20, 16, 24, 38,
@@ -18,7 +18,7 @@ export default function IncidentBriefHazmatPanel({ incident }) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '10px',
+        gap: '8px',
         height: '100%',
         minWidth: '260px',
       }}
@@ -163,21 +163,17 @@ export default function IncidentBriefHazmatPanel({ incident }) {
         </div>
 
         <p style={{ fontSize: '11px', color: '#8A99AD', lineHeight: '1.4', margin: 0 }}>
-          Incident dispatch audio transcript timeline. New iterations HAZMAT NH3 plume vector alerts.
+          Incident dispatch audio transcript timeline. Anhydrous ammonia NH3 vapor plume vector alerts active.
         </p>
 
         <ul style={{ fontSize: '11px', color: '#94A3B8', margin: '2px 0 0 16px', padding: 0, lineHeight: '1.4' }}>
-          <li>Incident capnelen: HAZMAT NH3 plume vector</li>
+          <li>Hazard ID: UN 1005 Anhydrous Ammonia</li>
           <li>Downwind cordon: 800m WNW @ 14 kts</li>
         </ul>
 
-        <a
-          href="#hazmat"
-          onClick={(e) => e.preventDefault()}
-          style={{ fontSize: '11px', color: '#3B82F6', textDecoration: 'none', fontWeight: '600', marginTop: '2px' }}
-        >
-          Learn more
-        </a>
+        <div style={{ fontSize: '11px', color: '#3B82F6', fontWeight: '600', marginTop: '2px' }}>
+          Placard 1005 • Level B HazMat Active
+        </div>
       </div>
 
       {/* Card 3: Incident Coordinator Notes */}

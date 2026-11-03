@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutGrid, Map, ListChecks, Database, Activity, BarChart2, RotateCcw } from 'lucide-react';
+import { LayoutGrid, Map, ListChecks, Database, Activity, BarChart2, RotateCcw, Play, Zap, RefreshCw } from 'lucide-react';
 
 export default function TacticalTopNav({
   activeTab = 'Dashboard',
   onSelectTab,
   onOpenEvaluation,
   onResetScenario,
+  onRunDemo,
+  onToggleDirectives,
+  showDirectives = false,
+  isSimulating = false,
+  simulationStep = 0,
 }) {
   const [utcTime, setUtcTime] = useState('');
 
@@ -34,13 +39,14 @@ export default function TacticalTopNav({
       style={{
         background: '#101419',
         borderBottom: '1px solid #232B36',
-        padding: '8px 18px',
+        padding: '6px 16px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         height: '46px',
         color: '#E2E8F0',
         userSelect: 'none',
+        flexWrap: 'nowrap',
       }}
     >
       {/* Left: System Title & Tactical Emblem */}
@@ -85,7 +91,7 @@ export default function TacticalTopNav({
       </div>
 
       {/* Right: Time, Nav Tabs, and Quick Actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         {/* Monospace Clock */}
         <div className="mono" style={{ fontSize: '11px', color: '#94A3B8', display: 'flex', alignItems: 'center', gap: '6px' }}>
           <span style={{ color: '#E2E8F0', fontWeight: '700' }}>{utcTime || '01:35:00 UTC'}</span>
@@ -93,7 +99,7 @@ export default function TacticalTopNav({
         </div>
 
         {/* View Tabs */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -104,7 +110,7 @@ export default function TacticalTopNav({
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px',
+                  gap: '5px',
                   fontSize: '12px',
                   fontWeight: isActive ? '700' : '500',
                   color: isActive ? '#FFFFFF' : '#8A99AD',
@@ -114,21 +120,68 @@ export default function TacticalTopNav({
                   background: 'transparent',
                 }}
               >
-                <Icon size={14} color={isActive ? '#FFFFFF' : '#8A99AD'} />
+                <Icon size={13} color={isActive ? '#FFFFFF' : '#8A99AD'} />
                 <span>{item.label}</span>
               </button>
             );
           })}
         </nav>
 
-        {/* Evaluation Metrics & Reset Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', borderLeft: '1px solid #232B36', paddingLeft: '12px' }}>
+        {/* Quick Actions (Demo Runner + Directives + Benchmark + Reset) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', borderLeft: '1px solid #232B36', paddingLeft: '10px' }}>
+          {/* 5-Step Demo Simulation Runner */}
+          <button
+            onClick={onRunDemo}
+            disabled={isSimulating}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              background: isSimulating ? '#1E293B' : '#DC2626',
+              color: '#FFFFFF',
+              border: '1px solid',
+              borderColor: isSimulating ? '#334155' : '#EF4444',
+              borderRadius: '4px',
+              padding: '3px 8px',
+              fontSize: '11px',
+              fontWeight: '700',
+              cursor: isSimulating ? 'not-allowed' : 'pointer',
+            }}
+            title="Advance Scenario (Event 1 through 5)"
+          >
+            {isSimulating ? <RefreshCw size={11} className="spin" /> : <Play size={11} fill="#FFFFFF" />}
+            <span>{simulationStep > 0 ? `Step ${simulationStep}/5` : 'Run 5-Step Demo'}</span>
+          </button>
+
+          {/* Commander Directives Drawer Toggle */}
+          <button
+            onClick={onToggleDirectives}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              background: showDirectives ? '#2563EB' : '#1A2332',
+              color: showDirectives ? '#FFFFFF' : '#93C5FD',
+              border: '1px solid',
+              borderColor: showDirectives ? '#3B82F6' : '#2B3A50',
+              borderRadius: '4px',
+              padding: '3px 8px',
+              fontSize: '11px',
+              fontWeight: '600',
+            }}
+            title="Toggle OR-Tools MILP Directives & Replanning Loop"
+          >
+            <Zap size={11} />
+            <span>Directives</span>
+          </button>
+
+          {/* Evaluation Benchmark */}
           <button
             onClick={onOpenEvaluation}
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '5px',
+              gap: '4px',
               background: '#1A2332',
               border: '1px solid #2B3A50',
               borderRadius: '4px',
@@ -139,10 +192,11 @@ export default function TacticalTopNav({
             }}
             title="Open Simulation Evaluation Benchmark"
           >
-            <BarChart2 size={12} color="#60A5FA" />
+            <BarChart2 size={11} color="#60A5FA" />
             <span>Benchmark</span>
           </button>
 
+          {/* Reset Scenario Button */}
           <button
             onClick={onResetScenario}
             style={{
@@ -152,9 +206,9 @@ export default function TacticalTopNav({
               padding: '3px 6px',
               color: '#94A3B8',
             }}
-            title="Reset Scenario to Initial State"
+            title="Reset Scenario to Initial Seed"
           >
-            <RotateCcw size={12} />
+            <RotateCcw size={11} />
           </button>
         </div>
       </div>

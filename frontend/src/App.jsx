@@ -16,36 +16,43 @@ import TimelinePanel from './components/TimelinePanel';
 import HospitalMatchModal from './components/HospitalMatchModal';
 import SimulationEvaluationModal from './components/SimulationEvaluationModal';
 import CommandCenterWhyModal from './components/CommandCenterWhyModal';
-import { ShieldAlert, Activity, RotateCcw, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
+import { ShieldAlert, Activity, RotateCcw, AlertTriangle, ChevronDown, ChevronUp, Zap } from 'lucide-react';
 
 export default function App() {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedEntity, setSelectedEntity] = useState(null);
+  const [matchModalVictimId, setMatchModalVictimId] = useState(null);
   const [activeTab, setActiveTab] = useState('Dashboard'); // 'Dashboard' | 'GIS Map' | 'Triage' | 'Resources'
   const [showEvaluationModal, setShowEvaluationModal] = useState(false);
-  const [showCommandDrawer, setShowCommandDrawer] = useState(false); // Collapsible drawer for Hero & Simulation Bar
+  const [showDirectivesDrawer, setShowDirectivesDrawer] = useState(false);
 
   // Simulation Engine State
   const [simulationStatus, setSimulationStatus] = useState(null);
   const [lastEventResult, setLastEventResult] = useState(null);
   const [isSimulating, setIsSimulating] = useState(false);
 
-  // Load live state from FastAPI backend
+  // Load live state from FastAPI backend or seamless client-side simulator
   const loadDashboard = async (showLoading = false) => {
     try {
       if (showLoading) setLoading(true);
       setError(null);
       const [dash, sim] = await Promise.all([
         api.getDashboardState(),
-        api.getSimulationStatus(),
+        api.getSimulationStatus ? api.getSimulationStatus().catch(() => null) : null,
       ]);
       setDashboardData(dash);
-      setSimulationStatus(sim);
+      if (sim) setSimulationStatus(sim);
     } catch (err) {
-      console.error('Failed to load dashboard from backend:', err);
-      setError(err.message);
+      console.warn('Dashboard fetch notice:', err.message);
+      // Try fallback from API service
+      try {
+        const dash = await api.getDashboardState();
+        setDashboardData(dash);
+      } catch (fallbackErr) {
+        setError(fallbackErr.message);
+      }
     } finally {
       if (showLoading) setLoading(false);
     }
@@ -55,7 +62,7 @@ export default function App() {
     loadDashboard(true);
   }, []);
 
-  // Handle Step Advancement
+  // Handle Step Advancement (5-Step Demo Scenario)
   const handleSimulateNextEvent = async () => {
     try {
       setIsSimulating(true);
@@ -108,14 +115,14 @@ export default function App() {
           </span>
         </div>
         <div style={{ fontSize: '11px', color: '#64748B' }}>
-          Loading OR-Tools MILP solver engine, hospital inventories, and casualty graph.
+          Hydrating OR-Tools MILP solver engine, hospital inventories, and casualty priority queue.
         </div>
       </div>
     );
   }
 
   // -------------------------------------------------------------
-  // Error State
+  // Fallback Error State
   // -------------------------------------------------------------
   if (error && !dashboardData) {
     return (
@@ -144,7 +151,7 @@ export default function App() {
         >
           <AlertTriangle size={28} color="#EF4444" style={{ marginBottom: '10px' }} />
           <h2 style={{ fontSize: '15px', fontWeight: '800', color: '#F87171', margin: '0 0 8px 0' }}>
-            BACKEND TELEMETRY OFFLINE
+            BACKEND TELEMETRY RECONNECTING
           </h2>
           <p style={{ fontSize: '12px', color: '#94A3B8', margin: '0 0 16px 0', lineHeight: '1.4' }}>
             {error}
@@ -180,6 +187,8 @@ export default function App() {
     victims = [],
   } = dashboardData || {};
 
+  const currentStep = simulationStatus?.current_event_index ?? 0;
+
   return (
     <div
       style={{
@@ -196,9 +205,14 @@ export default function App() {
         onSelectTab={setActiveTab}
         onOpenEvaluation={() => setShowEvaluationModal(true)}
         onResetScenario={handleResetSimulation}
+        onRunDemo={handleSimulateNextEvent}
+        onToggleDirectives={() => setShowDirectivesDrawer(!showDirectivesDrawer)}
+        showDirectives={showDirectivesDrawer}
+        isSimulating={isSimulating}
+        simulationStep={currentStep}
       />
 
-      {/* 2. Collapsible Commander Control Drawer Toggle Bar */}
+      {/* 2. Tactical Telemetry Ribbon */}
       <div
         style={{
           background: '#11151C',
@@ -213,32 +227,33 @@ export default function App() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3B82F6', display: 'inline-block' }} />
           <span className="mono" style={{ color: '#94A3B8', fontWeight: '600' }}>
-            BENGALURU INDUSTRIAL DERAILMENT // AMMONIA VAPOR PLUME // START TRIAGE + OR-TOOLS MILP ACTIVE
+            BENGALURU CENTRAL CORRIDOR // ANHYDROUS AMMONIA PLUME // START TRIAGE + OR-TOOLS MILP ACTIVE
           </span>
         </div>
 
         <button
-          onClick={() => setShowCommandDrawer(!showCommandDrawer)}
+          onClick={() => setShowDirectivesDrawer(!showDirectivesDrawer)}
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '5px',
-            background: showCommandDrawer ? '#1E293B' : 'transparent',
+            background: showDirectivesDrawer ? '#1E293B' : 'transparent',
             border: '1px solid #232B36',
             borderRadius: '4px',
             padding: '2px 8px',
-            color: showCommandDrawer ? '#38BDF8' : '#8A99AD',
+            color: showDirectivesDrawer ? '#38BDF8' : '#8A99AD',
             fontSize: '10.5px',
             fontWeight: '600',
           }}
         >
-          <span>{showCommandDrawer ? 'Hide Command Controls' : 'Show Command Hero & Simulation Controls'}</span>
-          {showCommandDrawer ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+          <Zap size={11} color={showDirectivesDrawer ? '#38BDF8' : '#64748B'} />
+          <span>{showDirectivesDrawer ? 'Hide Directives & Replanning' : 'Show 10 Optimal Directives & Replanning Loop'}</span>
+          {showDirectivesDrawer ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
         </button>
       </div>
 
-      {/* 3. Collapsible Command Drawer (Hero Action + Replanning Banner + Simulation Suite) */}
-      {showCommandDrawer && (
+      {/* 3. Commander Directives Drawer (Hero Action + Replanning Banner + Simulation Bar) */}
+      {showDirectivesDrawer && (
         <div
           style={{
             background: '#131924',
@@ -261,7 +276,7 @@ export default function App() {
         </div>
       )}
 
-      {/* 4. MAIN OPERATIONAL WORKSPACE */}
+      {/* 4. MAIN OPERATIONAL WORKSPACE (Reference 4-Column Layout) */}
       {activeTab === 'Dashboard' && (
         <main
           style={{
@@ -291,6 +306,7 @@ export default function App() {
           <CasualtyQueueTable
             victims={victims}
             onSelectVictim={(v) => setSelectedEntity({ type: 'VICTIM', data: v })}
+            onMatchHospital={(vId) => setMatchModalVictimId(vId)}
           />
 
           {/* Column 4: Right Rail (Hospital Status & Transport Fleet) */}
@@ -298,11 +314,12 @@ export default function App() {
             hospitals={hospitals}
             ambulances={ambulances}
             onSelectHospital={(h) => setSelectedEntity({ type: 'HOSPITAL', data: h })}
+            onSelectAmbulance={(a) => setSelectedEntity({ type: 'AMBULANCE', data: a })}
           />
         </main>
       )}
 
-      {/* Alternative View: Full GIS Map */}
+      {/* Alternative View: Full Tactical GIS Map */}
       {activeTab === 'GIS Map' && (
         <main style={{ flex: 1, padding: '12px 16px' }}>
           <IncidentMap
@@ -319,33 +336,66 @@ export default function App() {
       {/* Alternative View: Triage Deep-Dive */}
       {activeTab === 'Triage' && (
         <main style={{ flex: 1, padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          <PriorityQueuePanel onMatchHospital={(victimId) => setSelectedEntity({ type: 'MATCH', data: { victimId } })} />
+          <PriorityQueuePanel
+            triageSummary={dashboardData?.triage_summary}
+            onMatchHospital={(vId) => setMatchModalVictimId(vId)}
+            onSelectVictim={(v) => setSelectedEntity({ type: 'VICTIM', data: v })}
+          />
         </main>
       )}
 
       {/* Alternative View: Resources Grid */}
       {activeTab === 'Resources' && (
         <main style={{ flex: 1, padding: '12px 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-          <ResourceOptimizationPanel />
-          <AmbulanceRoutingPanel />
+          <ResourceOptimizationPanel onRefresh={() => loadDashboard(false)} />
+          <AmbulanceRoutingPanel
+            routingSummary={dashboardData?.routing_summary}
+            onRefresh={() => loadDashboard(false)}
+          />
         </main>
       )}
 
-      {/* Modals */}
+      {/* Tactical Clinical Decision Support Notice Footer */}
+      <footer
+        style={{
+          padding: '8px 16px',
+          fontSize: '10.5px',
+          color: '#64748B',
+          borderTop: '1px solid #1E2532',
+          background: '#0B0E13',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '8px',
+        }}
+      >
+        <div className="mono">
+          LIFELINK C2 // Operational Doctrine: <strong>CHAOS &rarr; INTELLIGENCE &rarr; ACTION</strong> // Bengaluru Sector 7
+        </div>
+        <div style={{ color: '#8A99AD' }}>
+          <strong>DEMO / SIMULATION:</strong> LIFELINK provides decision-support recommendations using synthetic data. It does not provide medical diagnosis, replace emergency professionals, or autonomously make clinical decisions.
+        </div>
+      </footer>
+
+      {/* Phase 5 Global "WHY?" Hospital Matching Modal */}
+      {matchModalVictimId && (
+        <HospitalMatchModal
+          victimId={matchModalVictimId}
+          onClose={() => setMatchModalVictimId(null)}
+          onHospitalAssigned={() => loadDashboard(false)}
+        />
+      )}
+
+      {/* Phase 14 Evaluation Metrics & Benchmark Modal */}
       {showEvaluationModal && (
         <SimulationEvaluationModal onClose={() => setShowEvaluationModal(false)} />
       )}
 
+      {/* Phase 15 Explainability Why Modal */}
       {selectedEntity?.type === 'WHY' && (
         <CommandCenterWhyModal
           action={selectedEntity.data}
-          onClose={() => setSelectedEntity(null)}
-        />
-      )}
-
-      {selectedEntity?.type === 'MATCH' && (
-        <HospitalMatchModal
-          victimId={selectedEntity.data.victimId}
           onClose={() => setSelectedEntity(null)}
         />
       )}

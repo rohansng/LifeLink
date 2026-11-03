@@ -118,8 +118,8 @@ class IncidentSimulationEngine:
                 id=vid,
                 severity=sev,
                 location=Location(
-                    latitude=37.7765 + (i * 0.0001),
-                    longitude=-122.4180 + (i * 0.0001),
+                    latitude=12.9765 + (i * 0.0001),
+                    longitude=77.5980 + (i * 0.0001),
                     sector="Sector Alpha",
                 ),
                 required_capability=cap,
