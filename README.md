@@ -9,13 +9,6 @@
 [![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini%20Multimodal-blueviolet.svg)](https://deepmind.google/technologies/gemini/)
 [![React 18](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Vite-61dafb.svg)](https://react.dev)
 [![Tests Passing](https://img.shields.io/badge/Tests-68%2F68%20Passing-success.svg)](file:///tests/run_tests.py)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rohansng/LifeLink)
-[![Netlify Status](https://img.shields.io/badge/Netlify-Live%20Demo-00C7B7?logo=netlify&logoColor=white)](https://legendary-sprite-e5cbb1.netlify.app/)
-
----
-
-> 🌐 **Live Production Web App on Netlify**: [https://legendary-sprite-e5cbb1.netlify.app/](https://legendary-sprite-e5cbb1.netlify.app/)  
-> ⚡ **1-Click Cloud Deployment**: [Deploy to Netlify](https://app.netlify.com/start/deploy?repository=https://github.com/rohansng/LifeLink)
 
 ---
 
@@ -287,17 +280,6 @@ Every replan publishes:
 
 LIFELINK is engineered to be **100% reproducible** from a fresh clone.
 
-### Option 0: 1-Click Cloud Deployment (Netlify)
-
-Deploy the complete Command Center frontend to Netlify with zero configuration:
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rohansng/LifeLink)
-
-* **Production Netlify URL**: [https://legendary-sprite-e5cbb1.netlify.app/](https://legendary-sprite-e5cbb1.netlify.app/)
-* **Configuration**: Pre-configured with [`netlify.toml`](file:///d:/LifeLink/netlify.toml) (Vite build, Node 20 runtime, SPA `_redirects` proxy fallback, and security headers).
-
----
-
 ### Option A: Docker Compose (Recommended for Judges)
 
 Ensure Docker and Docker Compose are installed and running:
@@ -454,8 +436,30 @@ LIFELINK is explicitly designed around clinical safety, regulatory boundaries, a
 
 ## 11. Project Structure & Documentation Index
 
+### 📑 Specifications & Architecture Suite
+* [`01_PRODUCT_SPEC.md`](file:///d:/LifeLink/01_PRODUCT_SPEC.md) — What we're actually building: scope, capabilities, target users, and safety boundaries.
+* [`02_USER_FLOW.md`](file:///d:/LifeLink/02_USER_FLOW.md) — How users move through it: 6 end-to-end incident command workflows & state diagrams.
+* [`03_UI_DESIGN_SYSTEM.md`](file:///d:/LifeLink/03_UI_DESIGN_SYSTEM.md) — Visual consistency: utilitarian defense-grade operations console (Palantir/NATO C2 style).
+* [`04_INFORMATION_ARCHITECTURE.md`](file:///d:/LifeLink/04_INFORMATION_ARCHITECTURE.md) — Pages, components, navigation hierarchy & data flows.
+* [`05_TECH_ARCHITECTURE.md`](file:///d:/LifeLink/05_TECH_ARCHITECTURE.md) — Neuro-symbolic stack, OR-Tools MILP formulation, and continuous replanning.
+* [`06_DATA_MODEL.md`](file:///d:/LifeLink/06_DATA_MODEL.md) — Database schemas, Pydantic v2 entities, relational graph, and invariants.
+* [`07_SECURITY_SPEC.md`](file:///d:/LifeLink/07_SECURITY_SPEC.md) — Security rules, RBAC matrix, secret hygiene, and prompt injection mitigation.
+* [`08_THREAT_MODEL.md`](file:///d:/LifeLink/08_THREAT_MODEL.md) — STRIDE threat analysis, AI failure modes, and deterministic defenses.
+* [`11_ADRs.md`](file:///d:/LifeLink/11_ADRs.md) — Architecture Decision Records (Neuro-symbolic separation, OR-Tools MILP, Refusal guard).
+* [`12_BUILD_RULES.md`](file:///d:/LifeLink/12_BUILD_RULES.md) — Strict coding instructions & quality directives for AI coding agents.
+
 ```
 lifelink/
+├── 01_PRODUCT_SPEC.md             # Product specification & scope
+├── 02_USER_FLOW.md                # Incident Commander workflow & state machines
+├── 03_UI_DESIGN_SYSTEM.md         # Defense-grade UI design system & tokens
+├── 04_INFORMATION_ARCHITECTURE.md # Component tree & layout hierarchy
+├── 05_TECH_ARCHITECTURE.md        # Neuro-symbolic technical architecture
+├── 06_DATA_MODEL.md               # Domain models & Pydantic v2 schemas
+├── 07_SECURITY_SPEC.md            # Security rules & RBAC matrix
+├── 08_THREAT_MODEL.md             # STRIDE threat model & AI defenses
+├── 11_ADRs.md                     # Architecture Decision Records (ADRs)
+├── 12_BUILD_RULES.md              # AI agent coding instructions & build rules
 ├── README.md                      # Master hackathon documentation (this document)
 ├── ARCHITECTURE.md                # In-depth neuro-symbolic architecture & mathematical proofs
 ├── DEMO.md                        # Judge demo walkthrough script & pitch guide

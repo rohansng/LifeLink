@@ -72,13 +72,3 @@ This directory documents the core user interfaces, tactical displays, and intell
 - Moving ambulance GPS markers with active callsign tags.
 - Dynamic road segments showing active contraflow corridors vs. blocked hazard segments.
 
----
-
-### 7. Defense-Grade Tactical C2 Operations Console (`lifelink_tactical_bengaluru_c2.jpg`)
-*Utilitarian defense-grade 16:9 operations console inspired by Palantir Gotham, NATO C2 systems, and Bloomberg Terminal for Bengaluru mass-casualty crisis management.*
-- **Top Command Rail**: `LIFELINK TACTICAL C2 // BENGALURU DISASTER RESPONSE MANAGEMENT` with live operational status badges (`START Triage Protocol`, `OR-Tools Solver: Optimal`, `MILP Active`, `Human-in-the-Loop Confirmed`).
-- **Column 1 (Left Rail)**: Incident Brief for Whitefield Industrial Corridor Derailment, Anhydrous Ammonia ($NH_3$) vapor plume sensor and weather telemetry, plus live timestamped radio transcripts.
-- **Column 2 (Center-Left)**: High-resolution GIS tactical map of Bengaluru (Whitefield, Outer Ring Road, Hebbal, Koramangala, Indiranagar) with desaturated dark base, detour corridors, and hazard evacuation cordons.
-- **Column 3 (Center-Right)**: Deterministic casualty priority queue cards showing START triage tags (P1 Red Immediate, P2 Yellow Delayed) with Golden Hour ETAs and destination hospital routing.
-- **Column 4 (Right Rail)**: Regional hospital status grid (Manipal Hospital, Apollo Bengaluru, Narayana Health, Victoria Hospital) tracking ICU deficit bars, OR surgical readiness, and O-negative blood units, plus active ambulance fleet status (Medic 1 to 5).
-
