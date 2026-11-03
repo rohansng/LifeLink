@@ -1,236 +1,291 @@
 import React, { useState } from 'react';
-import { Building2, Truck, Droplet, Activity, MoreHorizontal, Sparkles } from 'lucide-react';
+import { Bed, Droplet, MoreHorizontal, ChevronDown, Sparkles } from 'lucide-react';
 
-export default function HospitalFleetPanel({ hospitals = [], ambulances = [] }) {
-  const [capacityTab, setCapacityTab] = useState('ICU_OR'); // 'ICU_OR' | 'BLOOD'
+export default function HospitalFleetPanel({ hospitals = [], ambulances = [], onSelectHospital }) {
+  const [filterMode, setFilterMode] = useState('ICU'); // 'ICU' | 'BLOOD'
 
-  const defaultHospitals = [
+  const sampleHospitals = [
     {
-      id: 'H-A',
-      name: 'METRO GENERAL',
-      icuLeft: 0,
-      icuTotal: 28,
-      orStatus: '0/4 Active',
-      bloodSupply: '18 Units (O-)',
-      criticalSurge: true,
+      name: 'METRO GENERAL - ICU: 2 left',
+      alias: 'MANIPAL APEX HAL',
+      type: 'bed',
+      col1: { icu: 1, or: 1, blood: 0 },
+      col2: { icu: 2, or: 1, blood: 1 },
+      col3: { icu: 60, or: 1, blood: 1 },
     },
     {
-      id: 'H-B',
-      name: 'ST. JUDE REGIONAL',
-      icuLeft: 1,
-      icuTotal: 18,
-      orStatus: '1/3 Active',
-      bloodSupply: '3 Units (O- Deficit)',
-      criticalSurge: false,
+      name: 'METRO GENERAL - ICU: 2 left',
+      alias: 'APOLLO REGIONAL',
+      type: 'bed',
+      col1: { icu: 0, or: 1, blood: 0 },
+      col2: { icu: 2, or: 1, blood: 1 },
+      col3: { icu: 60, or: 1, blood: 1 },
     },
     {
-      id: 'H-C',
-      name: 'HARBORVIEW MEMORIAL',
-      icuLeft: 3,
-      icuTotal: 20,
-      orStatus: '3/3 Ready',
-      bloodSupply: '25 Units (O- Reserve)',
-      criticalSurge: false,
+      name: 'METRO GENERAL - ICU: 2 left',
+      alias: 'VICTORIA SPECIALIZED',
+      type: 'blood',
+      col1: { icu: 0, or: 1, blood: 0 },
+      col2: { icu: 0, or: 1, blood: 1 },
+      col3: { icu: 30, or: 1, blood: 1 },
     },
   ];
 
-  const defaultAmbulances = [
-    { callsign: 'Ambulance Dispatch 1', unit: 'Medic 1 (ALS)', status: 'Queued', dest: 'Sector Alpha' },
-    { callsign: 'Ambulance Dispatch 2', unit: 'Medic 2 (ALS)', status: 'Queued', dest: 'Sector Bravo' },
-    { callsign: 'Ambulance Dispatch 3', unit: 'Medic 3 (BLS)', status: 'Queued', dest: 'Sector Charlie' },
-    { callsign: 'Ambulance Dispatch 4', unit: 'Medic 4 (ALS)', status: 'In Transit', dest: 'St. Jude (V083)' },
+  const dispatchList = [
+    { name: 'Ambulance Dispatch 1', callsign: 'Medic 1 (ALS)', status: 'Queued' },
+    { name: 'Ambulance Dispatch 2', callsign: 'Medic 2 (ALS)', status: 'Queued' },
+    { name: 'Ambulance Dispatch 3', callsign: 'Medic 3 (BLS)', status: 'Queued' },
+    { name: 'Ambulance Dispatch 4', callsign: 'Medic 4 (ALS)', status: 'Queued' },
+  ];
+
+  const queueRatios = [
+    { name: 'METRO GENERAL - ICU: 1 left', subtitle: 'Queuing queue', ratio: '5/18' },
+    { name: 'METRO GENERAL - ICU: 1 left', subtitle: 'Queuing queue', ratio: '5/12' },
   ];
 
   return (
     <div
-      className="defense-panel"
       style={{
         display: 'flex',
         flexDirection: 'column',
+        gap: '10px',
         height: '100%',
-        minHeight: '680px',
-        overflow: 'hidden',
+        minWidth: '270px',
       }}
     >
       {/* Top Header */}
-      <div className="defense-card-header">
-        <span>Hospital Status & Transport Fleet</span>
-        <span className="mono" style={{ fontSize: '10px', color: '#64748B' }}>
-          3 HOSPITALS • 5 AMB
-        </span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '2px 4px' }}>
+        <h3 style={{ fontSize: '13px', fontWeight: '700', color: '#E2E8F0', letterSpacing: '-0.2px', margin: 0 }}>
+          Hospital Status & Transport Fleet
+        </h3>
       </div>
 
-      <div style={{ padding: '12px', display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto' }}>
-        {/* Card 1: Hospital Capacity */}
-        <div className="defense-card" style={{ padding: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '12px', fontWeight: '700', color: '#E2E8F0' }}>Hospital Capacity</span>
+      {/* 1. Hospital Capacity Section */}
+      <div
+        className="tactical-card"
+        style={{
+          padding: '10px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: '11px', fontWeight: '700', color: '#CBD5E1' }}>Hospital Capacity</span>
 
-            {/* Filter Tabs */}
-            <div style={{ display: 'flex', background: '#0B0E13', borderRadius: '3px', padding: '1px', border: '1px solid #2B323D' }}>
-              <button
-                onClick={() => setCapacityTab('ICU_OR')}
-                style={{
-                  background: capacityTab === 'ICU_OR' ? '#1A202C' : 'transparent',
-                  color: capacityTab === 'ICU_OR' ? '#E2E8F0' : '#64748B',
-                  fontSize: '9px',
-                  fontWeight: '700',
-                  padding: '2px 6px',
-                  borderRadius: '2px',
-                }}
-              >
-                ICU beds, OR
-              </button>
-              <button
-                onClick={() => setCapacityTab('BLOOD')}
-                style={{
-                  background: capacityTab === 'BLOOD' ? '#1A202C' : 'transparent',
-                  color: capacityTab === 'BLOOD' ? '#E2E8F0' : '#64748B',
-                  fontSize: '9px',
-                  fontWeight: '700',
-                  padding: '2px 6px',
-                  borderRadius: '2px',
-                }}
-              >
-                Blood supply
-              </button>
-            </div>
-          </div>
-
-          {/* Hospital rows */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            {defaultHospitals.map((h) => (
-              <div
-                key={h.id}
-                style={{
-                  background: '#0B0E13',
-                  border: '1px solid #2B323D',
-                  borderRadius: '4px',
-                  padding: '7px 9px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '4px',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '11px', fontWeight: '800', color: '#E2E8F0' }}>
-                    {h.name} — <span style={{ color: h.icuLeft > 0 ? '#4ADE80' : '#F87171' }}>ICU: {h.icuLeft} left</span>
-                  </span>
-                  <Building2 size={12} color="#94A3B8" />
-                </div>
-
-                <div
-                  className="mono"
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    fontSize: '9px',
-                    color: '#94A3B8',
-                    gap: '4px',
-                    marginTop: '2px',
-                  }}
-                >
-                  <div>
-                    <span style={{ color: '#64748B' }}>ICU beds: </span>
-                    <strong style={{ color: h.icuLeft > 0 ? '#E2E8F0' : '#F87171' }}>{h.icuLeft}</strong>
-                  </div>
-                  <div>
-                    <span style={{ color: '#64748B' }}>OR status: </span>
-                    <strong style={{ color: '#E2E8F0' }}>{h.orStatus.split(' ')[0]}</strong>
-                  </div>
-                  <div>
-                    <span style={{ color: '#64748B' }}>Blood: </span>
-                    <strong style={{ color: h.criticalSurge ? '#FBBF24' : '#E2E8F0' }}>{h.bloodSupply.split(' ')[0]}</strong>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div style={{ display: 'flex', gap: '4px' }}>
+            <button
+              onClick={() => setFilterMode('ICU')}
+              style={{
+                background: filterMode === 'ICU' ? '#1E293B' : 'transparent',
+                border: '1px solid',
+                borderColor: filterMode === 'ICU' ? '#3B82F6' : '#232B36',
+                borderRadius: '3px',
+                padding: '2px 6px',
+                fontSize: '10px',
+                fontWeight: '600',
+                color: filterMode === 'ICU' ? '#93C5FD' : '#64748B',
+              }}
+            >
+              ICU beds, OR
+            </button>
+            <button
+              onClick={() => setFilterMode('BLOOD')}
+              style={{
+                background: filterMode === 'BLOOD' ? '#1E293B' : 'transparent',
+                border: '1px solid',
+                borderColor: filterMode === 'BLOOD' ? '#3B82F6' : '#232B36',
+                borderRadius: '3px',
+                padding: '2px 6px',
+                fontSize: '10px',
+                fontWeight: '600',
+                color: filterMode === 'BLOOD' ? '#93C5FD' : '#64748B',
+              }}
+            >
+              Blood supply
+            </button>
           </div>
         </div>
 
-        {/* Card 2: Ambulance / Air Transport Dispatch */}
-        <div className="defense-card" style={{ padding: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '12px', fontWeight: '700', color: '#E2E8F0' }}>Ambulance/Air Transport Dispatch</span>
-            <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-              <span className="badge-queued" style={{ fontSize: '8px', padding: '1px 4px' }}>Status</span>
-              <MoreHorizontal size={13} color="#64748B" />
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-            {defaultAmbulances.map((amb, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: '#0B0E13',
-                  border: '1px solid #2B323D',
-                  borderRadius: '4px',
-                  padding: '6px 9px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
-                  <span style={{ fontSize: '11px', fontWeight: '700', color: '#E2E8F0' }}>{amb.callsign}</span>
-                  <span style={{ fontSize: '9px', color: '#64748B' }}>{amb.unit} • {amb.dest}</span>
-                </div>
-                <span
-                  className={amb.status === 'In Transit' ? 'badge-tactical' : 'badge-queued'}
-                  style={{
-                    background: amb.status === 'In Transit' ? '#1E3A8A' : '#1E293B',
-                    color: amb.status === 'In Transit' ? '#60A5FA' : '#94A3B8',
-                    border: '1px solid #334155',
-                    fontSize: '9px',
-                    padding: '2px 6px',
-                    borderRadius: '3px',
-                    fontWeight: '700',
-                  }}
-                >
-                  {amb.status}
+        {/* Hospital Mini-Cards */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          {sampleHospitals.map((hosp, idx) => (
+            <div
+              key={idx}
+              onClick={() => onSelectHospital && onSelectHospital(hosp)}
+              style={{
+                background: '#0D1117',
+                border: '1px solid #1C2330',
+                borderRadius: '4px',
+                padding: '7px 9px',
+                cursor: 'pointer',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                <span className="mono" style={{ fontSize: '10.5px', fontWeight: '700', color: '#CBD5E1' }}>
+                  {hosp.name}
                 </span>
+                {hosp.type === 'bed' ? (
+                  <Bed size={12} color="#64748B" />
+                ) : (
+                  <Droplet size={12} color="#DC2626" fill="#DC2626" />
+                )}
               </div>
-            ))}
+
+              {/* 3-Column Metrics Row */}
+              <div
+                className="mono"
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: '6px',
+                  fontSize: '9.5px',
+                  color: '#8A99AD',
+                  lineHeight: '1.35',
+                }}
+              >
+                <div>
+                  <div>ICU beds: {hosp.col1.icu}</div>
+                  <div>OR status: {hosp.col1.or}</div>
+                  <div>Blood supply: {hosp.col1.blood}</div>
+                </div>
+                <div>
+                  <div>ICU beds: {hosp.col2.icu}</div>
+                  <div>OR status: {hosp.col2.or}</div>
+                  <div>Blood supply: {hosp.col2.blood}</div>
+                </div>
+                <div>
+                  <div>ICU beds: {hosp.col3.icu}</div>
+                  <div>OR status: {hosp.col3.or}</div>
+                  <div>Blood supply: {hosp.col3.blood}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 2. Ambulance / Air Transport Dispatch */}
+      <div
+        className="tactical-card"
+        style={{
+          padding: '10px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: '11px', fontWeight: '700', color: '#CBD5E1' }}>
+            Ambulance/Air Transport Dispatch
+          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ fontSize: '10px', color: '#64748B', display: 'flex', alignItems: 'center', gap: '2px' }}>
+              Status <ChevronDown size={10} />
+            </span>
+            <MoreHorizontal size={12} color="#64748B" />
           </div>
         </div>
 
-        {/* Card 3: Queuing Queues */}
-        <div className="defense-card" style={{ padding: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '12px', fontWeight: '700', color: '#E2E8F0' }}>Queuing Queues</span>
-            <Sparkles size={13} color="#38BDF8" />
-          </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          {dispatchList.map((amb, idx) => (
+            <div
+              key={idx}
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '4px 6px',
+                background: '#0D1117',
+                border: '1px solid #161D27',
+                borderRadius: '3px',
+                fontSize: '11px',
+              }}
+            >
+              <span style={{ color: '#CBD5E1', fontSize: '10.5px' }}>{amb.name}</span>
+              <span
+                className="mono"
+                style={{
+                  fontSize: '9.5px',
+                  fontWeight: '700',
+                  color: '#94A3B8',
+                  background: '#18202A',
+                  padding: '1px 6px',
+                  borderRadius: '3px',
+                  border: '1px solid #232B36',
+                }}
+              >
+                {amb.status}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
 
-          <div
-            className="mono"
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              fontSize: '10px',
-              color: '#64748B',
-              borderBottom: '1px solid #2B323D',
-              paddingBottom: '4px',
-            }}
-          >
-            <span>Patient ID / Facility</span>
-            <span>Status</span>
-          </div>
+      {/* 3. Queuing Queues */}
+      <div
+        className="tactical-card"
+        style={{
+          padding: '10px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+          flex: 1,
+        }}
+      >
+        <div style={{ fontSize: '11px', fontWeight: '700', color: '#CBD5E1' }}>
+          Queuing Queues
+        </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px' }}>
-              <span style={{ color: '#CBD5E1' }}>METRO GENERAL - ICU: 0 left</span>
-              <span className="mono" style={{ color: '#F87171', fontWeight: '700' }}>5/18 (QUEUE)</span>
+        <div
+          className="mono"
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            fontSize: '9.5px',
+            color: '#64748B',
+            textTransform: 'uppercase',
+            fontWeight: '700',
+            borderBottom: '1px solid #1E2532',
+            paddingBottom: '4px',
+          }}
+        >
+          <span>Patient ID</span>
+          <span>Status</span>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          {queueRatios.map((item, idx) => (
+            <div
+              key={idx}
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '4px 6px',
+                background: '#0D1117',
+                border: '1px solid #161D27',
+                borderRadius: '3px',
+                fontSize: '11px',
+              }}
+            >
+              <div>
+                <div className="mono" style={{ fontSize: '10px', color: '#CBD5E1', fontWeight: '600' }}>
+                  {item.name}
+                </div>
+                <div style={{ fontSize: '9px', color: '#64748B' }}>{item.subtitle}</div>
+              </div>
+
+              <span className="mono" style={{ fontSize: '11px', fontWeight: '800', color: '#94A3B8' }}>
+                {item.ratio}
+              </span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px' }}>
-              <span style={{ color: '#CBD5E1' }}>ST. JUDE - ICU: 1 left</span>
-              <span className="mono" style={{ color: '#FBBF24', fontWeight: '700' }}>5/12 (QUEUE)</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px' }}>
-              <span style={{ color: '#CBD5E1' }}>HARBORVIEW - ICU: 3 left</span>
-              <span className="mono" style={{ color: '#4ADE80', fontWeight: '700' }}>2/20 (ADMITTING)</span>
-            </div>
-          </div>
+          ))}
+        </div>
+
+        {/* Tactical 4-Point Star Emblem */}
+        <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'flex-end', paddingTop: '8px' }}>
+          <Sparkles size={16} color="#475569" style={{ opacity: 0.6 }} />
         </div>
       </div>
     </div>

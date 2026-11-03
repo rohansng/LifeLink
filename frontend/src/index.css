@@ -1,35 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* Defense-Grade Palette (Palantir Gotham / NATO C2 / Bloomberg Terminal) */
+  /* Utilitarian Defense-Grade Operations Console Palette */
   --canvas-dark: #0B0E13;
-  --canvas-elevated: #12171F;
-  --panel-bg: #111418;
-  --panel-card: #1A1F26;
-  --panel-border: #2B323D;
-  --panel-border-subtle: #2D3748;
-  
-  --bg-primary: #0B0E13;
-  --bg-secondary: #12171F;
-  --bg-card: #1A1F26;
-  --border-color: #2B323D;
+  --canvas-elevated: #101419;
+  --panel-bg: #151B22;
+  --panel-sub: #11151C;
+  --panel-card: #18202A;
+  --border-hairline: #232B36;
   --border-subtle: #2D3748;
-  
+  --border-focused: #3B82F6;
+
+  /* Typography */
   --text-primary: #E2E8F0;
   --text-secondary: #94A3B8;
   --text-muted: #64748B;
-  
-  /* Strict Triage Semantic Highlights (Zero Neon / High Contrast) */
-  --triage-black: #4A5568;  /* Deceased P0 */
-  --triage-red: #DC2626;    /* Immediate P1 (Crimson) */
-  --triage-yellow: #D97706; /* Delayed P2 (Amber/Ochre) */
-  --triage-green: #15803D;  /* Minor P3 (Field Olive Green) */
-  --tactical-blue: #2563EB; /* Active Tactical Blue */
-  --accent-blue: #2563EB;
-  --accent-cyan: #38bdf8;
-  
+  --text-dim: #475569;
+
+  /* Strict Semantic Triage Colors (Zero neon glow, authentic tactical hues) */
+  --triage-black: #4A5568;
+  --triage-black-bg: #1E2530;
+  --triage-red: #DC2626;
+  --triage-red-bg: #3B1214;
+  --triage-red-border: #7F1D1D;
+  --triage-yellow: #D97706;
+  --triage-yellow-bg: #382405;
+  --triage-yellow-border: #78350F;
+  --triage-green: #15803D;
+  --triage-green-bg: #0D2E1C;
+  --triage-green-border: #065F46;
+  --tactical-blue: #2563EB;
+  --tactical-blue-bg: #1E293B;
+
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
 }
 
 *,
@@ -42,7 +46,6 @@
 
 html {
   color-scheme: dark;
-  background-color: var(--canvas-dark);
 }
 
 body {
@@ -66,53 +69,35 @@ button {
   border: none;
   background: none;
   outline: none;
-  transition: all 0.15s ease;
+  transition: background 0.12s ease, border-color 0.12s ease;
 }
 
 button:focus-visible {
-  outline: 2px solid var(--tactical-blue);
+  outline: 1px solid var(--border-focused);
   outline-offset: 1px;
-}
-
-::selection {
-  background: rgba(37, 99, 235, 0.4);
-  color: #F8FAFC;
 }
 
 .mono {
   font-family: var(--font-mono);
 }
 
-/* Utilitarian Defense Panels & Cards */
-.defense-panel {
+/* Tactical Panel Shells (Zero AI glow, zero frosted blur) */
+.tactical-panel {
   background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
+  border: 1px solid var(--border-hairline);
   border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
 }
 
-.defense-card {
-  background: var(--panel-card);
-  border: 1px solid var(--panel-border-subtle);
+.tactical-card {
+  background: var(--panel-sub);
+  border: 1px solid var(--border-hairline);
   border-radius: 4px;
 }
 
-.defense-card-header {
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  color: var(--text-primary);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--panel-border);
-  padding: 8px 12px;
-}
-
-/* Semantic Triage Badges */
-.badge-deceased {
-  background: #1E2530;
+/* Tabular & Badge Utilities */
+.triage-tag-deceased {
+  background: var(--triage-black-bg);
   color: #94A3B8;
   border: 1px solid #334155;
   font-family: var(--font-mono);
@@ -120,137 +105,70 @@ button:focus-visible {
   font-weight: 700;
   padding: 2px 7px;
   border-radius: 3px;
-  text-transform: uppercase;
   display: inline-block;
-  text-align: center;
+  text-transform: uppercase;
 }
 
-.badge-immediate {
-  background: #3B1214;
+.triage-tag-red {
+  background: var(--triage-red-bg);
   color: #F87171;
-  border: 1px solid #7F1D1D;
+  border: 1px solid var(--triage-red-border);
   font-family: var(--font-mono);
   font-size: 10px;
-  font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 3px;
-  text-transform: uppercase;
-  display: inline-block;
-  text-align: center;
-}
-
-.badge-delayed {
-  background: #382405;
-  color: #FBBF24;
-  border: 1px solid #78350F;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 3px;
-  text-transform: uppercase;
-  display: inline-block;
-  text-align: center;
-}
-
-.badge-minor {
-  background: #0B291B;
-  color: #34D399;
-  border: 1px solid #065F46;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 3px;
-  text-transform: uppercase;
-  display: inline-block;
-  text-align: center;
-}
-
-.badge-queued {
-  background: #172554;
-  color: #93C5FD;
-  border: 1px solid #1E3A8A;
-  font-family: var(--font-mono);
-  font-size: 9px;
   font-weight: 700;
-  padding: 2px 6px;
+  padding: 2px 7px;
   border-radius: 3px;
+  display: inline-block;
   text-transform: uppercase;
 }
 
-/* Animations */
-@keyframes pulseLive {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.4;
-    transform: scale(1.15);
-  }
-}
-
-.live-dot {
+.triage-tag-yellow {
+  background: var(--triage-yellow-bg);
+  color: #FBBF24;
+  border: 1px solid var(--triage-yellow-border);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
   display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: #22C55E;
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
-  animation: pulseLive 2s infinite ease-in-out;
+  text-transform: uppercase;
 }
 
-.live-dot-red {
+.triage-tag-green {
+  background: var(--triage-green-bg);
+  color: #34D399;
+  border: 1px solid var(--triage-green-border);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
   display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: #EF4444;
-  box-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
-  animation: pulseLive 1.8s infinite ease-in-out;
+  text-transform: uppercase;
 }
 
-/* Leaflet Container & Containment */
-.leaflet-container {
-  background-color: #0B0E13 !important;
-  font-family: var(--font-sans) !important;
-  border-radius: 4px !important;
-  z-index: 10 !important;
+.destination-tag-matched {
+  background: rgba(37, 99, 235, 0.16);
+  color: #93C5FD;
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 3px;
+  display: inline-block;
 }
 
-.leaflet-pane {
-  z-index: 10 !important;
+/* Tactical Map Tile Filter (Converts standard map to desaturated NATO C2 dark mode) */
+.dark-tactical-tiles {
+  filter: brightness(0.65) invert(1) contrast(3) hue-rotate(200deg) saturate(0.25) !important;
 }
 
-.leaflet-top,
-.leaflet-bottom {
-  z-index: 20 !important;
-}
-
-.leaflet-popup-content-wrapper {
-  background: #111418 !important;
-  color: #E2E8F0 !important;
-  border: 1px solid #2B323D !important;
-  border-radius: 4px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7) !important;
-}
-
-.leaflet-popup-tip {
-  background: #111418 !important;
-}
-
-.custom-leaflet-pin,
-.custom-leaflet-hosp,
-.custom-leaflet-amb {
-  background: none !important;
-  border: none !important;
-}
-
-/* Custom Tactical Scrollbars */
+/* Custom Scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #2B323D #0B0E13;
+  scrollbar-color: #2D3748 #11151C;
 }
 
 ::-webkit-scrollbar {
@@ -259,14 +177,14 @@ button:focus-visible {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B0E13;
+  background: #11151C;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2B323D;
+  background: #2D3748;
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3B4554;
+  background: #475569;
 }

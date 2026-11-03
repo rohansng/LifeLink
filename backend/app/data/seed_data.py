@@ -41,21 +41,21 @@ def get_seed_incident() -> Incident:
         type="Train Derailment / Toxic Inhalation / Structural Collapse",
         severity="Level 3 Mass Casualty (Code Black)",
         location=Location(
-            latitude=37.7749,
-            longitude=-122.4194,
-            address="Metro Industrial Rail Corridor, Milepost 14",
-            sector="Sector 7",
+            latitude=12.9856,
+            longitude=77.7374,
+            address="Whitefield Freight & Logistics Corridor, Bengaluru",
+            sector="Bengaluru East",
         ),
         declared_at="11:42:00",
         elapsed_minutes=14,
         status="active",
-        summary="High-speed freight train derailment with 3 overturned pressurized ammonia tankers and catastrophic structural collapse of adjacent warehouse complex. 214 casualties reported across 3 primary impact sectors.",
+        summary="High-speed freight train derailment with 3 overturned pressurized ammonia tankers and catastrophic structural collapse of adjacent warehouse complex. 214 casualties reported across 3 primary impact sectors in Bengaluru East.",
         sectors=[
             IncidentSector(
                 id="ZONE-ALPHA",
-                name="Sector Alpha — Structural Collapse Epicenter",
+                name="Sector Alpha — Whitefield Logistics Collapse",
                 description="Warehouse B roof collapse & heavy industrial machinery crush zone",
-                location=Location(latitude=37.7765, longitude=-122.4180, sector="Sector Alpha"),
+                location=Location(latitude=12.9890, longitude=77.7420, sector="Sector Alpha"),
                 radius_meters=280.0,
                 total_victims=98,
                 critical_count=18,
@@ -67,9 +67,9 @@ def get_seed_incident() -> Incident:
             ),
             IncidentSector(
                 id="ZONE-BRAVO",
-                name="Sector Bravo — Chemical Vapor & Perimeter Highway",
+                name="Sector Bravo — KR Puram Chemical Pipeline",
                 description="Ammonia transfer pipeline rupture with toxic vapor dispersion",
-                location=Location(latitude=37.7725, longitude=-122.4230, sector="Sector Bravo"),
+                location=Location(latitude=12.9960, longitude=77.6950, sector="Sector Bravo"),
                 radius_meters=350.0,
                 total_victims=72,
                 critical_count=9,
@@ -81,9 +81,9 @@ def get_seed_incident() -> Incident:
             ),
             IncidentSector(
                 id="ZONE-CHARLIE",
-                name="Sector Charlie — Commuter Transit Concourse",
+                name="Sector Charlie — Baiyappanahalli Metro Interchange",
                 description="Secondary blast shockwave impact on commuter transit terminal",
-                location=Location(latitude=37.7710, longitude=-122.4140, sector="Sector Charlie"),
+                location=Location(latitude=12.9910, longitude=77.6520, sector="Sector Charlie"),
                 radius_meters=220.0,
                 total_victims=44,
                 critical_count=4,
@@ -118,17 +118,17 @@ def get_seed_victims() -> List[Victim]:
         v_id = f"V{i:03d}"
         if i <= 18:
             sector = "Sector Alpha"
-            lat, lon = 37.7765 + (i * 0.0001), -122.4180 - (i * 0.0001)
+            lat, lon = 12.9890 + (i * 0.0001), 77.7420 - (i * 0.0001)
             cap = "neurosurgery" if i % 2 == 0 else "trauma"
             note = "Severe crush trauma with intracranial hemorrhage and unequal pupils"
         elif i <= 27:
             sector = "Sector Bravo"
-            lat, lon = 37.7725 + (i * 0.0001), -122.4230 + (i * 0.0001)
+            lat, lon = 12.9960 + (i * 0.0001), 77.6950 + (i * 0.0001)
             cap = "cardiothoracic" if i % 2 == 0 else "burn"
             note = "Toxic ammonia inhalation, chemical pneumonitis, upper airway compromise"
         else:
             sector = "Sector Charlie"
-            lat, lon = 37.7710 - (i * 0.0001), -122.4140 + (i * 0.0001)
+            lat, lon = 12.9910 - (i * 0.0001), 77.6520 + (i * 0.0001)
             cap = "trauma"
             note = "Pelvic fracture with hemorrhagic shock"
 
@@ -238,7 +238,7 @@ def get_seed_victims() -> List[Victim]:
             Victim(
                 id=v_id,
                 severity=sev,
-                location=Location(latitude=37.7730 + (i * 0.00004), longitude=-122.4170 + (i * 0.00004), sector="Sector Charlie"),
+                location=Location(latitude=12.9890 + (i * 0.00004), longitude=77.7420 + (i * 0.00004), sector="Sector Charlie"),
                 required_capability=cap,
                 status=VictimStatus.UNASSIGNED,
                 triage_tag=tag,
@@ -254,7 +254,7 @@ def get_seed_victims() -> List[Victim]:
             Victim(
                 id=v_id,
                 severity=VictimSeverity.UNKNOWN,
-                location=Location(latitude=37.7760 + (i * 0.00003), longitude=-122.4180 - (i * 0.00003), sector=sector),
+                location=Location(latitude=12.9890 + (i * 0.00003), longitude=77.7420 - (i * 0.00003), sector=sector),
                 required_capability="trauma",
                 status=VictimStatus.UNASSIGNED,
                 triage_tag="UNKNOWN",
@@ -272,7 +272,7 @@ def get_seed_ambulances() -> List[Ambulance]:
             callsign="Medic 1",
             type=AmbulanceType.ALS,
             status=AmbulanceStatus.DISPATCHED,
-            location=Location(latitude=37.7770, longitude=-122.4160, sector="Sector Alpha"),
+            location=Location(latitude=12.9895, longitude=77.7390, sector="Sector Alpha"),
             capacity=1,
             assigned_victim_id="V001",
             destination_hospital_id="H-A",
@@ -286,7 +286,7 @@ def get_seed_ambulances() -> List[Ambulance]:
             callsign="Medic 2",
             type=AmbulanceType.ALS,
             status=AmbulanceStatus.TRANSPORTING,
-            location=Location(latitude=37.7810, longitude=-122.4110, sector="Metro Transit Corridor"),
+            location=Location(latitude=12.9935, longitude=77.7080, sector="Outer Ring Road"),
             capacity=1,
             assigned_victim_id="V004",
             destination_hospital_id="H-A",
@@ -300,7 +300,7 @@ def get_seed_ambulances() -> List[Ambulance]:
             callsign="Medic 3",
             type=AmbulanceType.BLS,
             status=AmbulanceStatus.STAGED,
-            location=Location(latitude=37.7705, longitude=-122.4190, sector="Sector Charlie Staging"),
+            location=Location(latitude=12.9915, longitude=77.6530, sector="Sector Charlie Staging"),
             capacity=2,
             assigned_victim_id=None,
             destination_hospital_id=None,
@@ -314,7 +314,7 @@ def get_seed_ambulances() -> List[Ambulance]:
             callsign="Medic 4",
             type=AmbulanceType.ALS,
             status=AmbulanceStatus.EXTRICATING,
-            location=Location(latitude=37.7740, longitude=-122.4210, sector="Sector Bravo"),
+            location=Location(latitude=12.9955, longitude=77.6960, sector="Sector Bravo"),
             capacity=1,
             assigned_victim_id="V007",
             destination_hospital_id="H-C",
@@ -328,7 +328,7 @@ def get_seed_ambulances() -> List[Ambulance]:
             callsign="Medic 5",
             type=AmbulanceType.BLS,
             status=AmbulanceStatus.TRANSPORTING,
-            location=Location(latitude=37.7670, longitude=-122.4330, sector="Southwest Corridor"),
+            location=Location(latitude=12.9620, longitude=77.6000, sector="Southwest Corridor"),
             capacity=2,
             assigned_victim_id="V012",
             destination_hospital_id="H-B",
@@ -346,7 +346,7 @@ def get_seed_hospitals() -> List[Hospital]:
             id="H-A",
             name="Metro Trauma Center",
             type="Level 1 Trauma Center",
-            location=Location(latitude=37.7870, longitude=-122.4040, address="1001 Potrero Ave"),
+            location=Location(latitude=12.9584, longitude=77.6483, address="98 HAL Old Airport Rd, Bengaluru"),
             icu=0,
             icu_total=28,
             trauma_available=False,
@@ -365,7 +365,7 @@ def get_seed_hospitals() -> List[Hospital]:
             id="H-B",
             name="St. Jude Regional Hospital",
             type="Level 2 Emergency Hospital",
-            location=Location(latitude=37.7610, longitude=-122.4410, address="450 Stanyan St"),
+            location=Location(latitude=12.9940, longitude=77.5780, address="Sheshadripuram, Bengaluru"),
             icu=2,
             icu_total=18,
             trauma_available=True,
@@ -384,7 +384,7 @@ def get_seed_hospitals() -> List[Hospital]:
             id="H-C",
             name="Harborview Memorial Medical",
             type="Level 2 Specialized Facility",
-            location=Location(latitude=37.7550, longitude=-122.3920, address="890 Third St"),
+            location=Location(latitude=12.9634, longitude=77.5746, address="KR Market Medical Enclave, Bengaluru"),
             icu=2,
             icu_total=16,
             trauma_available=True,
@@ -488,25 +488,25 @@ def get_seed_roads() -> List[Road]:
     return [
         Road(
             id="ROAD-01",
-            name="Highway 101 Southbound @ Industrial Overpass 4",
+            name="Outer Ring Road (ORR) @ KR Puram Hanging Bridge Overpass 4",
             status=RoadStatus.CLOSED,
             reason="Structural concrete debris & overturned 10,000-gal fuel tanker",
             detour_penalty_minutes=14.0,
-            start_latitude=37.7780,
-            start_longitude=-122.4140,
-            end_latitude=37.7720,
-            end_longitude=-122.4080,
+            start_latitude=12.9970,
+            start_longitude=77.6980,
+            end_latitude=12.9920,
+            end_longitude=77.7020,
         ),
         Road(
             id="ROAD-02",
-            name="Grand Avenue West Corridor",
+            name="Old Madras Road (OMR) Western Arterial Corridor",
             status=RoadStatus.CONGESTED,
             reason="Evacuation bottleneck; restricted to priority emergency convoys",
             detour_penalty_minutes=6.5,
-            start_latitude=37.7730,
-            start_longitude=-122.4270,
-            end_latitude=37.7680,
-            end_longitude=-122.4380,
+            start_latitude=12.9940,
+            start_longitude=77.6850,
+            end_latitude=12.9800,
+            end_longitude=77.6350,
         ),
     ]
 
