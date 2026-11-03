@@ -109,3 +109,4 @@ LIFELINK resolves this crisis through a **Neuro-Symbolic Architecture**:
 * **Human-in-the-Loop Sovereign**: Every allocation is an actionable recommendation until confirmed by a commander or executed via batch protocol.
 * **Deterministic Refusal**: The application will never synthesize a fictitious hospital bed or ambulance to artificially satisfy a plan.
 * **Synthetic Simulation Verification**: All benchmark metrics represent synthetic simulation scenarios designed for algorithmic validation.
+

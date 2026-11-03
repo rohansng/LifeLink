@@ -173,3 +173,4 @@ class ReplanState(BaseModel):
 
 4. **Audit Trail Immutability**:
    `TimelineEvent` records are append-only. Once an event is logged, it cannot be modified or deleted.
+

@@ -147,3 +147,4 @@ stateDiagram-v2
      * ICU Diversions / Overload: 4 overflow diversions vs. **0 conflicts**.
      * Mean Event Replanning Latency: $8.2\text{ min}$ vs. **$63.8\text{ ms}$**.
    * Prominently displays the mandatory synthetic simulation disclaimer.
+

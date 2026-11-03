@@ -119,3 +119,4 @@ sequenceDiagram
 | **Casualty Acuity Queue** | Search patient ID; Filter START tags; View ETA | `/api/v1/victims` | Empty queue state when all critical casualties assigned |
 | **WHY Explainability Modal** | Inspect score weighting; Review alternate rejections | `/api/v1/command-center/actions/{id}` | Graceful fallback when agent confidence score is low |
 | **Evaluation Benchmark** | Run deterministic 5-event benchmark; Export metrics | `/api/v1/evaluation/benchmark` | Clear synthetic simulation disclaimer displayed |
+

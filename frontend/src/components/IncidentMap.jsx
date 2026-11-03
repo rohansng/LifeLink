@@ -304,81 +304,71 @@ export default function IncidentMap({
   }, [activeFilter]);
 
   return (
-    <div className="glass-panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', height: '100%', minHeight: '520px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '10px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Navigation size={18} color="var(--accent-cyan)" />
-          <h2 style={{ fontSize: '15px', fontWeight: '800', letterSpacing: '-0.3px', textTransform: 'uppercase' }}>
-            Live Geospatial Tactical Map
-          </h2>
-          <span className="mono" style={{ fontSize: '11px', background: 'rgba(255,255,255,0.06)', padding: '2px 8px', borderRadius: '4px', color: 'var(--text-muted)' }}>
-            SECTOR 7 • SF METRO
-          </span>
-        </div>
+    <div
+      className="defense-panel"
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        minHeight: '680px',
+        overflow: 'hidden',
+      }}
+    >
+      <div className="defense-card-header">
+        <span>Tactical Map</span>
 
         {/* Controls: Basemap Toggle + Entity Filter */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          {/* Realistic Basemap Selector */}
-          <div style={{ display: 'flex', background: 'rgba(0,0,0,0.4)', borderRadius: '6px', padding: '2px', border: '1px solid var(--border-color)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {/* Basemap Toggle */}
+          <div style={{ display: 'flex', background: '#0B0E13', borderRadius: '3px', padding: '1px', border: '1px solid #2B323D' }}>
             <button
               onClick={() => setBasemapStyle('SATELLITE')}
               style={{
-                background: basemapStyle === 'SATELLITE' ? 'var(--accent-blue)' : 'transparent',
-                color: basemapStyle === 'SATELLITE' ? '#fff' : 'var(--text-muted)',
-                borderRadius: '4px',
-                padding: '3px 8px',
-                fontSize: '11px',
+                background: basemapStyle === 'SATELLITE' ? '#1A202C' : 'transparent',
+                color: basemapStyle === 'SATELLITE' ? '#E2E8F0' : '#64748B',
+                borderRadius: '2px',
+                padding: '2px 6px',
+                fontSize: '9px',
                 fontWeight: '700',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
               }}
-              title="High-resolution photorealistic satellite imagery"
+              title="Photorealistic Satellite Imagery"
             >
-              <span>🛰️</span> Satellite
+              🛰️ Satellite
             </button>
             <button
               onClick={() => setBasemapStyle('STREET')}
               style={{
-                background: basemapStyle === 'STREET' ? 'var(--accent-blue)' : 'transparent',
-                color: basemapStyle === 'STREET' ? '#fff' : 'var(--text-muted)',
-                borderRadius: '4px',
-                padding: '3px 8px',
-                fontSize: '11px',
+                background: basemapStyle === 'STREET' ? '#1A202C' : 'transparent',
+                color: basemapStyle === 'STREET' ? '#E2E8F0' : '#64748B',
+                borderRadius: '2px',
+                padding: '2px 6px',
+                fontSize: '9px',
                 fontWeight: '700',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
               }}
-              title="Detailed road and urban street grid"
+              title="Vector Street Grid"
             >
-              <span>🗺️</span> Street
+              🗺️ Street
             </button>
           </div>
 
-          {/* Layer Filters */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          {/* Quick Filter */}
+          <div style={{ display: 'flex', gap: '2px' }}>
             {[
-              { id: 'ALL', label: 'All Layers' },
-              { id: 'VICTIMS', label: 'Victims (214)' },
-              { id: 'AMBULANCES', label: 'Fleet (5)' },
-              { id: 'HOSPITALS', label: 'Hospitals (3)' },
-              { id: 'ROADS', label: 'Blockades' },
+              { id: 'ALL', label: 'All' },
+              { id: 'VICTIMS', label: 'Victims' },
+              { id: 'HOSPITALS', label: 'Hosps' },
+              { id: 'ROADS', label: 'Detours' },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveFilter(tab.id)}
                 style={{
-                  background: activeFilter === tab.id ? 'var(--accent-blue)' : 'rgba(255,255,255,0.05)',
-                  color: activeFilter === tab.id ? '#fff' : 'var(--text-secondary)',
-                  border: '1px solid',
-                  borderColor: activeFilter === tab.id ? 'var(--accent-blue)' : 'var(--border-color)',
-                  borderRadius: '5px',
-                  padding: '4px 9px',
-                  fontSize: '11px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
+                  background: activeFilter === tab.id ? '#2563EB' : '#1A202C',
+                  color: activeFilter === tab.id ? '#fff' : '#94A3B8',
+                  borderRadius: '3px',
+                  padding: '2px 6px',
+                  fontSize: '9px',
+                  fontWeight: '700',
                 }}
               >
                 {tab.label}
@@ -388,68 +378,79 @@ export default function IncidentMap({
         </div>
       </div>
 
-      <div style={{ position: 'relative', flex: 1, minHeight: '460px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: 'inset 0 0 30px rgba(0,0,0,0.6)' }}>
-        <div ref={mapContainerRef} style={{ width: '100%', height: '100%', minHeight: '460px' }} />
+      <div style={{ position: 'relative', flex: 1, minHeight: '620px', overflow: 'hidden' }}>
+        <div ref={mapContainerRef} style={{ width: '100%', height: '100%', minHeight: '620px' }} />
 
-        {/* Tactical Legend */}
-        <div style={{
-          position: 'absolute',
-          bottom: '12px',
-          left: '12px',
-          background: 'rgba(9, 13, 22, 0.94)',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid var(--border-color)',
-          borderRadius: '6px',
-          padding: '8px 12px',
-          zIndex: 1000,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '6px',
-          fontSize: '11px',
-          boxShadow: '0 4px 16px rgba(0,0,0,0.7)',
-        }}>
-          <div style={{ fontWeight: '800', color: 'var(--text-muted)', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            TACTICAL MAP LEGEND
+        {/* Tactical Legend Matching Reference Image */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '12px',
+            left: '12px',
+            background: 'rgba(11, 14, 19, 0.94)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid #2B323D',
+            borderRadius: '4px',
+            padding: '8px 10px',
+            zIndex: 1000,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px',
+            fontSize: '10px',
+            color: '#94A3B8',
+            maxWidth: '200px',
+          }}
+        >
+          <div style={{ fontWeight: '800', color: '#E2E8F0', fontSize: '11px', marginBottom: '2px' }}>
+            Triage
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444', display: 'inline-block', boxShadow: '0 0 8px rgba(239,68,68,0.8)' }} />
-            <span>Casualty Cluster (Zone Alpha / Bravo / Charlie)</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#475569' }} />
+            <span>Color coded Descanning</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ width: '12px', height: '12px', borderRadius: '3px', background: '#0284c7', display: 'inline-block', boxShadow: '0 0 8px rgba(56,189,248,0.8)' }} />
-            <span>Hospital (Metro Trauma, St. Jude, Harborview)</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#D97706' }} />
+            <span>Triage Clusters</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#8b5cf6', display: 'inline-block', boxShadow: '0 0 8px rgba(139,92,246,0.8)' }} />
-            <span>Ambulance Unit (Medic 1 to 5)</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#DC2626' }} />
+            <span>Highway Closures</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ width: '16px', height: '3px', background: '#ef4444', borderTop: '2px dashed #ffffff', display: 'inline-block' }} />
-            <span style={{ color: '#f87171', fontWeight: '700' }}>Highway 101 Blockage (+14m Detour)</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ fontSize: '10px' }}>📍</span>
+            <span>Incident Pins</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ fontSize: '10px' }}>🔺</span>
+            <span>Staging Area</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '12px', borderTop: '2px dashed #38BDF8' }} />
+            <span>EMS/Helicopter Route</span>
           </div>
         </div>
 
-        {/* Overpass Warning Banner */}
-        <div style={{
-          position: 'absolute',
-          top: '12px',
-          right: '12px',
-          background: 'rgba(239, 68, 68, 0.35)',
-          backdropFilter: 'blur(8px)',
-          border: '1px solid var(--triage-red)',
-          borderRadius: '6px',
-          padding: '6px 12px',
-          zIndex: 1000,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          fontSize: '11px',
-          color: '#ffffff',
-          fontWeight: '800',
-          boxShadow: '0 0 15px rgba(239,68,68,0.4)',
-        }}>
-          <AlertTriangle size={15} color="#ef4444" />
-          <span>ROADWAY SEVERED: HWY 101 @ OVERPASS 4</span>
+        {/* Highway 101 Overpass Alert */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            background: 'rgba(220, 38, 38, 0.35)',
+            border: '1px solid #DC2626',
+            borderRadius: '3px',
+            padding: '4px 8px',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            fontSize: '10px',
+            color: '#fff',
+            fontWeight: '700',
+          }}
+        >
+          <AlertTriangle size={12} color="#F87171" />
+          <span>HWY 101 SEVERED @ OVERPASS 4</span>
         </div>
       </div>
     </div>

@@ -169,3 +169,4 @@ Every view, table, and panel must explicitly support three states:
 1. **Loading State**: Subtle pulsing skeleton wireframe in `#1E2530` with monochromatic spinner (`Lucide.RotateCcw`). Zero full-screen jarring layout shifts.
 2. **Empty State**: Clear monochromatic icon (`Lucide.Inbox` or `Lucide.ShieldCheck`), concise caption (e.g. *"Zero unassigned critical casualties in queue"*), and optional reset action.
 3. **Error / Refusal State**: High-contrast slate-crimson banner (`#3B1214`), warning icon (`Lucide.AlertTriangle`), explicit error description, and a deterministic refusal breakdown (`NO FEASIBLE ASSIGNMENT`).
+

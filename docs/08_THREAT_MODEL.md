@@ -80,3 +80,4 @@ flowchart TD
 #### 3.4 Scarcity Handling & Refusal Integrity
 * **Vulnerability**: Under disaster conditions, demand inevitably outstrips supply. A naive system might force-fit patients into full hospitals or drop constraints to make the dashboard look successful.
 * **Defense**: **LIFELINK never fabricates success.** When the MILP solver evaluates an infeasible state, it flags `NO FEASIBLE ASSIGNMENT` with causal bottleneck attribution (e.g. `FLEET_EXHAUSTED` or `ICU_CAPACITY_ZERO`) and recommends mutual aid escalation protocols.
+

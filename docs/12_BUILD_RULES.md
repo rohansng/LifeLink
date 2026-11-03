@@ -77,3 +77,4 @@
 1. *Does a similar component already exist in `frontend/src/components/`?*
 2. *Can an existing component (`CommandCenterHero`, `VictimZonesPanel`, `HospitalsPanel`) be extended with a prop?*
 3. *Does this new component strictly conform to the 4-column defense-grade layout in `UI_DESIGN_SYSTEM.md`?*
+

@@ -97,3 +97,4 @@ All inbound endpoints validate payloads against strict Pydantic models:
   * Receiving Facility
   * Authorization Context (Manual Commander Click vs. Batch Execution)
 * Audit records cannot be altered or removed via any public REST API endpoint.
+

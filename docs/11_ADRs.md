@@ -85,3 +85,4 @@
   * **Primary**: Google Gemini 2.5 Flash multimodal API.
   * **Fallback**: Zero-dependency deterministic rule-based heuristic parser running in-process.
 * **Consequences**: 100% offline uptime guarantee; judges and commanders can test and verify all functionality without mandatory internet access or external API keys.
+

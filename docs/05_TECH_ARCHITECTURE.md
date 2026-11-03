@@ -171,3 +171,4 @@ DASHBOARD UPDATE (Hero + Replanning banner flash amber)
 LIFELINK is engineered to operate in communication-degraded disaster zones:
 * **Zero External Network Dependencies**: The core OR-Tools optimizer, road network Dijkstra traversal, and START clinical scoring engine run 100% locally in-process.
 * **Deterministic AI Fallback**: If Google Gemini API is unreachable, the system automatically falls back to deterministic rule-based NLP parsers without throwing unhandled exceptions.
+
