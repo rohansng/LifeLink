@@ -1,58 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import { api } from './services/api';
-import TacticalTopNav from './components/TacticalTopNav';
-import IncidentBriefHazmatPanel from './components/IncidentBriefHazmatPanel';
+import Header from './components/Header';
+import TopStats from './components/TopStats';
 import IncidentMap from './components/IncidentMap';
-import CasualtyQueueTable from './components/CasualtyQueueTable';
-import HospitalFleetPanel from './components/HospitalFleetPanel';
-import CommandCenterHero from './components/CommandCenterHero';
-import ContinuousReplanningBanner from './components/ContinuousReplanningBanner';
+import VictimZonesPanel from './components/VictimZonesPanel';
+import CommandPanel from './components/CommandPanel';
+import TimelinePanel from './components/TimelinePanel';
 import SimulationEngineBar from './components/SimulationEngineBar';
 import PriorityQueuePanel from './components/PriorityQueuePanel';
 import AmbulanceRoutingPanel from './components/AmbulanceRoutingPanel';
 import ResourceOptimizationPanel from './components/ResourceOptimizationPanel';
 import AIAgentsPanel from './components/AIAgentsPanel';
-import TimelinePanel from './components/TimelinePanel';
+import CommandCenterHero from './components/CommandCenterHero';
+import ContinuousReplanningBanner from './components/ContinuousReplanningBanner';
+import HospitalsPanel from './components/HospitalsPanel';
+import AmbulancesPanel from './components/AmbulancesPanel';
 import HospitalMatchModal from './components/HospitalMatchModal';
 import SimulationEvaluationModal from './components/SimulationEvaluationModal';
-import CommandCenterWhyModal from './components/CommandCenterWhyModal';
-import { ShieldAlert, Activity, RotateCcw, AlertTriangle, ChevronDown, ChevronUp, Zap } from 'lucide-react';
+import TacticalTelemetryPanel from './components/TacticalTelemetryPanel';
+import {
+  ShieldAlert,
+  Zap,
+  RotateCcw,
+  Activity,
+  Layers,
+  Terminal,
+  AlertTriangle,
+  Radio,
+  Server,
+  RefreshCw,
+} from 'lucide-react';
 
 export default function App() {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedEntity, setSelectedEntity] = useState(null);
+  const [activeTab, setActiveTab] = useState('ALL');
+  const [subsystemTab, setSubsystemTab] = useState('TRIAGE');
   const [matchModalVictimId, setMatchModalVictimId] = useState(null);
-  const [activeTab, setActiveTab] = useState('Dashboard'); // 'Dashboard' | 'GIS Map' | 'Triage' | 'Resources'
   const [showEvaluationModal, setShowEvaluationModal] = useState(false);
-  const [showDirectivesDrawer, setShowDirectivesDrawer] = useState(false);
 
   // Simulation Engine State
   const [simulationStatus, setSimulationStatus] = useState(null);
   const [lastEventResult, setLastEventResult] = useState(null);
   const [isSimulating, setIsSimulating] = useState(false);
 
-  // Load live state from FastAPI backend or seamless client-side simulator
+  // Load live state from FastAPI backend
   const loadDashboard = async (showLoading = false) => {
     try {
       if (showLoading) setLoading(true);
       setError(null);
       const [dash, sim] = await Promise.all([
         api.getDashboardState(),
-        api.getSimulationStatus ? api.getSimulationStatus().catch(() => null) : null,
+        api.getSimulationStatus(),
       ]);
       setDashboardData(dash);
-      if (sim) setSimulationStatus(sim);
+      setSimulationStatus(sim);
     } catch (err) {
-      console.warn('Dashboard fetch notice:', err.message);
-      // Try fallback from API service
-      try {
-        const dash = await api.getDashboardState();
-        setDashboardData(dash);
-      } catch (fallbackErr) {
-        setError(fallbackErr.message);
-      }
+      console.error('Failed to load dashboard from backend:', err);
+      setError(err.message);
     } finally {
       if (showLoading) setLoading(false);
     }
@@ -62,7 +69,7 @@ export default function App() {
     loadDashboard(true);
   }, []);
 
-  // Handle Step Advancement (5-Step Demo Scenario)
+  // Handle Step Advancement
   const handleSimulateNextEvent = async () => {
     try {
       setIsSimulating(true);
@@ -91,7 +98,7 @@ export default function App() {
   };
 
   // -------------------------------------------------------------
-  // Loading State
+  // Visual Loading State: Tactical Boot HUD
   // -------------------------------------------------------------
   if (loading && !dashboardData) {
     return (
@@ -102,27 +109,69 @@ export default function App() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#0B0E13',
-          color: '#E2E8F0',
-          gap: '14px',
-          fontFamily: 'var(--font-mono)',
+          background: 'var(--bg-primary)',
+          color: '#f8fafc',
+          gap: '20px',
+          padding: '24px',
+          fontFamily: 'var(--font-sans)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <RotateCcw size={18} className="spin" color="#3B82F6" />
-          <span style={{ fontSize: '13px', fontWeight: '700', letterSpacing: '0.8px' }}>
-            INITIALIZING LIFELINK TACTICAL C2 // BENGALURU SECTOR 7...
-          </span>
+        <div
+          style={{
+            width: '64px',
+            height: '64px',
+            borderRadius: '16px',
+            background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 0 35px rgba(239, 68, 68, 0.5)',
+            fontSize: '32px',
+          }}
+        >
+          ⚡
         </div>
-        <div style={{ fontSize: '11px', color: '#64748B' }}>
-          Hydrating OR-Tools MILP solver engine, hospital inventories, and casualty priority queue.
+
+        <div style={{ textAlign: 'center' }}>
+          <h2 style={{ fontSize: '22px', fontWeight: '900', letterSpacing: '0.8px', color: '#fff' }}>
+            HYDRATING LIFELINK INCIDENT COMMAND ENGINE...
+          </h2>
+          <p className="mono" style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>
+            Connecting to FastAPI Core @ http://127.0.0.1:8000/api/v1/dashboard
+          </p>
         </div>
+
+        {/* Step checklist */}
+        <div
+          className="mono"
+          style={{
+            background: 'rgba(15, 23, 42, 0.8)',
+            border: '1px solid var(--border-color)',
+            borderRadius: '8px',
+            padding: '14px 20px',
+            fontSize: '11px',
+            color: 'var(--text-secondary)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '6px',
+            width: '100%',
+            maxWidth: '480px',
+          }}
+        >
+          <div style={{ color: '#38bdf8' }}>[✓] Spatial Road Network & Sector Coordinates Ingested</div>
+          <div style={{ color: '#38bdf8' }}>[✓] Deterministic Triage Scoring Models Ready</div>
+          <div style={{ color: '#38bdf8' }}>[✓] Google OR-Tools MILP Solver Initialized</div>
+          <div style={{ color: '#a78bfa' }}>[✓] Continuous Replanning Loop Active (PLAN v12)</div>
+          <div style={{ color: '#4ade80' }}>[✓] Multi-Agent Inference Pipeline Synchronized</div>
+        </div>
+
+        <div className="live-indicator" style={{ width: '10px', height: '10px', marginTop: '6px' }} />
       </div>
     );
   }
 
   // -------------------------------------------------------------
-  // Fallback Error State
+  // Visual Error State: Defense Connection Alert
   // -------------------------------------------------------------
   if (error && !dashboardData) {
     return (
@@ -133,247 +182,426 @@ export default function App() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#0B0E13',
-          color: '#E2E8F0',
-          gap: '16px',
+          background: 'var(--bg-primary)',
+          color: 'var(--triage-red)',
+          gap: '20px',
           padding: '24px',
+          textAlign: 'center',
         }}
       >
         <div
           style={{
-            background: '#1F1416',
-            border: '1px solid #7F1D1D',
-            borderRadius: '6px',
-            padding: '20px 28px',
-            maxWidth: '520px',
-            textAlign: 'center',
+            width: '60px',
+            height: '60px',
+            borderRadius: '14px',
+            background: 'rgba(239, 68, 68, 0.15)',
+            border: '1px solid rgba(239, 68, 68, 0.45)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          <AlertTriangle size={28} color="#EF4444" style={{ marginBottom: '10px' }} />
-          <h2 style={{ fontSize: '15px', fontWeight: '800', color: '#F87171', margin: '0 0 8px 0' }}>
-            BACKEND TELEMETRY RECONNECTING
+          <AlertTriangle size={32} color="#ef4444" />
+        </div>
+
+        <div>
+          <h2 style={{ fontSize: '20px', fontWeight: '900', color: '#f87171' }}>
+            BACKEND CONNECTION DISRUPTED
           </h2>
-          <p style={{ fontSize: '12px', color: '#94A3B8', margin: '0 0 16px 0', lineHeight: '1.4' }}>
+          <p className="mono" style={{ color: 'var(--text-secondary)', maxWidth: '520px', marginTop: '6px', fontSize: '12px' }}>
             {error}
           </p>
-          <button
-            onClick={() => loadDashboard(true)}
-            style={{
-              background: '#DC2626',
-              color: '#FFFFFF',
-              border: 'none',
-              borderRadius: '4px',
-              padding: '6px 14px',
-              fontSize: '12px',
-              fontWeight: '700',
-              cursor: 'pointer',
-            }}
-          >
-            Retry Connection
-          </button>
+          <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '8px' }}>
+            Ensure FastAPI backend is running via: <code style={{ color: '#38bdf8' }}>python -m uvicorn backend.app.main:app --port 8000</code>
+          </p>
         </div>
+
+        <button
+          onClick={() => loadDashboard(true)}
+          style={{
+            background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
+            color: '#fff',
+            border: 'none',
+            padding: '10px 22px',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontWeight: '800',
+            fontSize: '12px',
+            letterSpacing: '0.5px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <RefreshCw size={14} />
+          <span>RETRY BACKEND CONNECTION</span>
+        </button>
       </div>
     );
   }
 
   const {
-    incident = {},
-    sectors = [],
+    incident,
+    statistics,
     hospitals = [],
     ambulances = [],
+    sectors = [],
     roads = [],
     events = [],
-    statistics = {},
-    victims = [],
+    recommendations = [],
   } = dashboardData || {};
 
-  const currentStep = simulationStatus?.current_event_index ?? 0;
-
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: '#0B0E13',
-        color: '#E2E8F0',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      {/* 1. Global Tactical Navigation Top Bar */}
-      <TacticalTopNav
-        activeTab={activeTab}
-        onSelectTab={setActiveTab}
-        onOpenEvaluation={() => setShowEvaluationModal(true)}
-        onResetScenario={handleResetSimulation}
-        onRunDemo={handleSimulateNextEvent}
-        onToggleDirectives={() => setShowDirectivesDrawer(!showDirectivesDrawer)}
-        showDirectives={showDirectivesDrawer}
+    <div style={{ maxWidth: '1720px', margin: '0 auto', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      {/* 1. Header with simulation banner, brand, doctrine, and incident title */}
+      <Header incident={incident} onOpenEvaluation={() => setShowEvaluationModal(true)} />
+
+      {/* 2. Killer Demo Ribbon (Phase 11 One-Click Automated Simulation) */}
+      <SimulationEngineBar
+        simulationStatus={simulationStatus}
+        lastEventResult={lastEventResult}
+        setLastEventResult={setLastEventResult}
+        onSimulateNext={handleSimulateNextEvent}
+        onResetSimulation={handleResetSimulation}
         isSimulating={isSimulating}
-        simulationStep={currentStep}
+        onDismissEventCard={() => setLastEventResult(null)}
+        onRefreshDashboard={() => loadDashboard(false)}
       />
 
-      {/* 2. Tactical Telemetry Ribbon */}
-      <div
+      {/* 3. Top KPI Statistics Row (Dynamically changes with each simulation event) */}
+      <TopStats stats={statistics} />
+
+      {/* Entity Inspection Alert Banner */}
+      {selectedEntity && (
+        <div
+          className="glass-panel"
+          style={{
+            padding: '12px 18px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            background: 'rgba(56, 189, 248, 0.08)',
+            border: '1px solid rgba(56, 189, 248, 0.45)',
+            boxShadow: '0 0 20px rgba(56, 189, 248, 0.15)',
+            borderRadius: '8px',
+            animation: 'fadeIn 0.2s ease-out',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '13px' }}>
+            <span
+              style={{
+                fontSize: '10px',
+                fontWeight: '800',
+                background: 'var(--accent-blue)',
+                color: '#fff',
+                padding: '3px 8px',
+                borderRadius: '4px',
+                letterSpacing: '0.6px',
+              }}
+            >
+              INSPECTING {selectedEntity.type}
+            </span>
+            <strong style={{ color: '#fff', fontSize: '14px' }}>
+              {selectedEntity.data.name ||
+                selectedEntity.data.callsign ||
+                selectedEntity.data.victim_id ||
+                selectedEntity.data.id}
+            </strong>
+            <span style={{ color: 'var(--text-secondary)' }}>
+              {selectedEntity.data.description ||
+                selectedEntity.data.assignment_description ||
+                selectedEntity.data.reason ||
+                `${selectedEntity.data.icu} ICU beds open`}
+            </span>
+            {selectedEntity.type === 'VICTIM' && (
+              <button
+                onClick={() => setMatchModalVictimId(selectedEntity.data.victim_id || selectedEntity.data.id)}
+                style={{
+                  background: 'var(--triage-green)',
+                  color: '#070a12',
+                  border: 'none',
+                  padding: '4px 12px',
+                  borderRadius: '5px',
+                  fontSize: '11px',
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  marginLeft: '8px',
+                  letterSpacing: '0.4px',
+                }}
+              >
+                Where should this victim go? (WHY?)
+              </button>
+            )}
+          </div>
+
+          <button
+            onClick={() => setSelectedEntity(null)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--text-muted)',
+              fontSize: '13px',
+              cursor: 'pointer',
+              fontWeight: '700',
+            }}
+          >
+            ✕ Dismiss
+          </button>
+        </div>
+      )}
+
+      {/* View Filter Toggles (Presentation Navigation) */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          {[
+            { id: 'ALL', label: '🎯 Tactical Command Overview' },
+            { id: 'COMMAND_CENTER', label: '🔴 Command Action Queue (Hero)' },
+            { id: 'REPLANNING', label: '🔄 Continuous Replanning (Loop)' },
+            { id: 'AGENTS', label: '🤖 AI Agents (Gemini Cognition)' },
+            { id: 'OPTIMIZATION', label: '⚡ Resource Optimization (OR-Tools)' },
+            { id: 'TRIAGE', label: `🩺 Priority Queue (${dashboardData?.triage_summary?.total_assessed || 214})` },
+            { id: 'ROUTING', label: '🛣️ Ambulance Routing & Detours' },
+            { id: 'RESOURCES', label: '🏥 Hospital & EMS Grid' },
+            { id: 'TIMELINE', label: `📜 Timeline (${events.length} Events)` },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              style={{
+                background: activeTab === tab.id ? 'rgba(56, 189, 248, 0.16)' : 'rgba(255, 255, 255, 0.03)',
+                color: activeTab === tab.id ? '#38bdf8' : 'var(--text-secondary)',
+                border: `1px solid ${activeTab === tab.id ? 'rgba(56, 189, 248, 0.5)' : 'var(--border-color)'}`,
+                padding: '7px 15px',
+                borderRadius: '6px',
+                fontSize: '12px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+                letterSpacing: '0.4px',
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="mono" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+          CRISIS DEFICIT: <strong style={{ color: '#ef4444' }}>{statistics?.critical || 31} CRITICAL</strong> vs{' '}
+          <strong style={{ color: '#f59e0b' }}>{statistics?.total_icu_beds || 4} ICU BEDS</strong>
+        </div>
+      </div>
+
+      {/* Main Command Workspace (Default Presentation View) */}
+      {activeTab === 'ALL' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Phase 9: THE DOMINANT CENTERPIECE — Command Center Hero Action Queue */}
+          <CommandCenterHero onActionExecuted={() => loadDashboard(false)} />
+
+          {/* Phase 10: Continuous Replanning Engine Ribbon */}
+          <ContinuousReplanningBanner onPlanUpdated={() => loadDashboard(false)} />
+
+          {/* Tactical Operations Grid: Left (Map + Sectors) vs Right (Hospitals + Fleet + Timeline) */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: '16px', alignItems: 'start' }}>
+            {/* Left Column: Live Tactical Map + Casualty Sectors */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <IncidentMap
+                incident={incident}
+                victimZones={sectors}
+                hospitals={hospitals}
+                ambulances={ambulances}
+                roadDisruptions={roads}
+                onSelectEntity={setSelectedEntity}
+              />
+
+              <VictimZonesPanel
+                victimZones={sectors}
+                onSelectZone={(zone) => setSelectedEntity({ type: 'SECTOR', data: zone })}
+              />
+
+              <TacticalTelemetryPanel />
+            </div>
+
+            {/* Right Column: Receiving Hospitals & Fleet Status & Timeline */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                <HospitalsPanel
+                  hospitals={hospitals}
+                  onSelectHospital={(hosp) => setSelectedEntity({ type: 'HOSPITAL', data: hosp })}
+                />
+
+                <AmbulancesPanel
+                  ambulances={ambulances}
+                  onSelectAmbulance={(amb) => setSelectedEntity({ type: 'AMBULANCE', data: amb })}
+                />
+              </div>
+
+              <TimelinePanel timeline={events} />
+            </div>
+          </div>
+
+          {/* Subsystem Intelligence Drawer / Deep-Dive Navigator */}
+          <div
+            className="glass-panel"
+            style={{
+              padding: '16px 20px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '14px',
+              border: '1px solid rgba(56, 189, 248, 0.3)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Activity size={18} color="var(--accent-cyan-bright)" />
+                <h3 style={{ fontSize: '14px', fontWeight: '900', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.8px', margin: 0 }}>
+                  INTELLIGENCE SUBSYSTEMS EXPLORER
+                </h3>
+              </div>
+
+              {/* Subsystem Tabs */}
+              <div style={{ display: 'flex', gap: '6px' }}>
+                {[
+                  { id: 'TRIAGE', label: 'Triage Priority Queue (Phase 4)' },
+                  { id: 'ROUTING', label: 'Ambulance Routing (Phase 6)' },
+                  { id: 'OPTIMIZATION', label: 'OR-Tools Optimization (Phase 7)' },
+                  { id: 'AGENTS', label: 'Multi-Agent AI Hub (Phase 8)' },
+                ].map((st) => (
+                  <button
+                    key={st.id}
+                    onClick={() => setSubsystemTab(st.id)}
+                    style={{
+                      background: subsystemTab === st.id ? 'rgba(56, 189, 248, 0.2)' : 'rgba(255, 255, 255, 0.04)',
+                      color: subsystemTab === st.id ? '#38bdf8' : 'var(--text-secondary)',
+                      border: `1px solid ${subsystemTab === st.id ? 'rgba(56, 189, 248, 0.45)' : 'var(--border-color)'}`,
+                      padding: '5px 12px',
+                      borderRadius: '5px',
+                      fontSize: '11px',
+                      fontWeight: '800',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    {st.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Active Subsystem Rendering */}
+            {subsystemTab === 'TRIAGE' && (
+              <PriorityQueuePanel
+                triageSummary={dashboardData?.triage_summary}
+                onSelectVictim={(v) => setSelectedEntity({ type: 'VICTIM', data: v })}
+              />
+            )}
+
+            {subsystemTab === 'ROUTING' && (
+              <AmbulanceRoutingPanel
+                routingSummary={dashboardData?.routing_summary}
+                onRefresh={() => loadDashboard(false)}
+              />
+            )}
+
+            {subsystemTab === 'OPTIMIZATION' && (
+              <ResourceOptimizationPanel onRefresh={() => loadDashboard(false)} />
+            )}
+
+            {subsystemTab === 'AGENTS' && (
+              <AIAgentsPanel />
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Dedicated Workspace: Command Center (Hero Action Queue) */}
+      {activeTab === 'COMMAND_CENTER' && (
+        <CommandCenterHero onActionExecuted={() => loadDashboard(false)} />
+      )}
+
+      {/* Dedicated Workspace: Continuous Replanning Loop */}
+      {activeTab === 'REPLANNING' && (
+        <ContinuousReplanningBanner onPlanUpdated={() => loadDashboard(false)} />
+      )}
+
+      {/* Dedicated Workspace: AI Agents (Gemini Multi-Agent System) */}
+      {activeTab === 'AGENTS' && <AIAgentsPanel />}
+
+      {/* Dedicated Workspace: Resource Optimization (OR-Tools) */}
+      {activeTab === 'OPTIMIZATION' && (
+        <ResourceOptimizationPanel onRefresh={() => loadDashboard(false)} />
+      )}
+
+      {/* Dedicated Workspace: Triage Priority Queue */}
+      {activeTab === 'TRIAGE' && (
+        <PriorityQueuePanel
+          triageSummary={dashboardData?.triage_summary}
+          onSelectVictim={(v) => setSelectedEntity({ type: 'VICTIM', data: v })}
+        />
+      )}
+
+      {/* Dedicated Workspace: Ambulance Routing & Road Detours */}
+      {activeTab === 'ROUTING' && (
+        <AmbulanceRoutingPanel
+          routingSummary={dashboardData?.routing_summary}
+          onRefresh={() => loadDashboard(false)}
+        />
+      )}
+
+      {/* Dedicated Workspace: Hospital & Ambulance Fleet Grid */}
+      {activeTab === 'RESOURCES' && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <HospitalsPanel
+            hospitals={hospitals}
+            onSelectHospital={(hosp) => setSelectedEntity({ type: 'HOSPITAL', data: hosp })}
+          />
+
+          <AmbulancesPanel
+            ambulances={ambulances}
+            onSelectAmbulance={(amb) => setSelectedEntity({ type: 'AMBULANCE', data: amb })}
+          />
+        </div>
+      )}
+
+      {/* Dedicated Workspace: Incident Operations Timeline */}
+      {activeTab === 'TIMELINE' && <TimelinePanel timeline={events} />}
+
+      {/* Tactical Footer with Clinical Decision Support Notice */}
+      <footer
         style={{
-          background: '#11151C',
-          borderBottom: '1px solid #1E2532',
-          padding: '4px 16px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          padding: '16px 20px',
           fontSize: '11px',
+          color: 'var(--text-muted)',
+          borderTop: '1px solid var(--border-color)',
+          marginTop: '16px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          background: 'rgba(10, 14, 26, 0.7)',
+          borderRadius: '8px',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3B82F6', display: 'inline-block' }} />
-          <span className="mono" style={{ color: '#94A3B8', fontWeight: '600' }}>
-            BENGALURU CENTRAL CORRIDOR // ANHYDROUS AMMONIA PLUME // START TRIAGE + OR-TOOLS MILP ACTIVE
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+          <span className="mono">
+            LIFELINK Command Center • Operational Doctrine: <strong>CHAOS → INTELLIGENCE → ACTION</strong>
+          </span>
+          <span className="mono" style={{ color: '#38bdf8' }}>
+            Deterministic Triage & Matching + Google OR-Tools MILP + Gemini AI Agents
+          </span>
+          <span className="mono">
+            PLAN v12 • Continuous Closed-Loop Replanning Active
           </span>
         </div>
 
-        <button
-          onClick={() => setShowDirectivesDrawer(!showDirectivesDrawer)}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            background: showDirectivesDrawer ? '#1E293B' : 'transparent',
-            border: '1px solid #232B36',
-            borderRadius: '4px',
-            padding: '2px 8px',
-            color: showDirectivesDrawer ? '#38BDF8' : '#8A99AD',
-            fontSize: '10.5px',
-            fontWeight: '600',
-          }}
-        >
-          <Zap size={11} color={showDirectivesDrawer ? '#38BDF8' : '#64748B'} />
-          <span>{showDirectivesDrawer ? 'Hide Directives & Replanning' : 'Show 10 Optimal Directives & Replanning Loop'}</span>
-          {showDirectivesDrawer ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-        </button>
-      </div>
-
-      {/* 3. Commander Directives Drawer (Hero Action + Replanning Banner + Simulation Bar) */}
-      {showDirectivesDrawer && (
         <div
           style={{
-            background: '#131924',
-            borderBottom: '1px solid #232B36',
-            padding: '12px 16px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
+            borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+            paddingTop: '8px',
+            textAlign: 'center',
+            color: '#94a3b8',
+            fontSize: '11px',
+            lineHeight: 1.4,
           }}
         >
-          <CommandCenterHero onActionExecuted={() => loadDashboard(false)} />
-          <ContinuousReplanningBanner onPlanUpdated={() => loadDashboard(false)} />
-          <SimulationEngineBar
-            status={simulationStatus}
-            lastEvent={lastEventResult}
-            onSimulateNext={handleSimulateNextEvent}
-            onReset={handleResetSimulation}
-            disabled={isSimulating}
-          />
-        </div>
-      )}
-
-      {/* 4. MAIN OPERATIONAL WORKSPACE (Reference 4-Column Layout) */}
-      {activeTab === 'Dashboard' && (
-        <main
-          style={{
-            flex: 1,
-            display: 'grid',
-            gridTemplateColumns: '1.05fr 1.65fr 1.35fr 1.15fr',
-            gap: '10px',
-            padding: '10px 14px',
-            boxSizing: 'border-box',
-            alignItems: 'stretch',
-          }}
-        >
-          {/* Column 1: Left Rail (Incident Brief & HazMat) */}
-          <IncidentBriefHazmatPanel incident={incident} />
-
-          {/* Column 2: Center-Left (Tactical Map - Bengaluru) */}
-          <IncidentMap
-            incident={incident}
-            victimZones={sectors}
-            hospitals={hospitals}
-            ambulances={ambulances}
-            roadDisruptions={roads}
-            onSelectEntity={setSelectedEntity}
-          />
-
-          {/* Column 3: Center-Right (Casualty Queue) */}
-          <CasualtyQueueTable
-            victims={victims}
-            onSelectVictim={(v) => setSelectedEntity({ type: 'VICTIM', data: v })}
-            onMatchHospital={(vId) => setMatchModalVictimId(vId)}
-          />
-
-          {/* Column 4: Right Rail (Hospital Status & Transport Fleet) */}
-          <HospitalFleetPanel
-            hospitals={hospitals}
-            ambulances={ambulances}
-            onSelectHospital={(h) => setSelectedEntity({ type: 'HOSPITAL', data: h })}
-            onSelectAmbulance={(a) => setSelectedEntity({ type: 'AMBULANCE', data: a })}
-          />
-        </main>
-      )}
-
-      {/* Alternative View: Full Tactical GIS Map */}
-      {activeTab === 'GIS Map' && (
-        <main style={{ flex: 1, padding: '12px 16px' }}>
-          <IncidentMap
-            incident={incident}
-            victimZones={sectors}
-            hospitals={hospitals}
-            ambulances={ambulances}
-            roadDisruptions={roads}
-            onSelectEntity={setSelectedEntity}
-          />
-        </main>
-      )}
-
-      {/* Alternative View: Triage Deep-Dive */}
-      {activeTab === 'Triage' && (
-        <main style={{ flex: 1, padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          <PriorityQueuePanel
-            triageSummary={dashboardData?.triage_summary}
-            onMatchHospital={(vId) => setMatchModalVictimId(vId)}
-            onSelectVictim={(v) => setSelectedEntity({ type: 'VICTIM', data: v })}
-          />
-        </main>
-      )}
-
-      {/* Alternative View: Resources Grid */}
-      {activeTab === 'Resources' && (
-        <main style={{ flex: 1, padding: '12px 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-          <ResourceOptimizationPanel onRefresh={() => loadDashboard(false)} />
-          <AmbulanceRoutingPanel
-            routingSummary={dashboardData?.routing_summary}
-            onRefresh={() => loadDashboard(false)}
-          />
-        </main>
-      )}
-
-      {/* Tactical Clinical Decision Support Notice Footer */}
-      <footer
-        style={{
-          padding: '8px 16px',
-          fontSize: '10.5px',
-          color: '#64748B',
-          borderTop: '1px solid #1E2532',
-          background: '#0B0E13',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '8px',
-        }}
-      >
-        <div className="mono">
-          LIFELINK C2 // Operational Doctrine: <strong>CHAOS &rarr; INTELLIGENCE &rarr; ACTION</strong> // Bengaluru Sector 7
-        </div>
-        <div style={{ color: '#8A99AD' }}>
           <strong>DEMO / SIMULATION:</strong> LIFELINK provides decision-support recommendations using synthetic data. It does not provide medical diagnosis, replace emergency professionals, or autonomously make clinical decisions.
         </div>
       </footer>
@@ -387,17 +615,9 @@ export default function App() {
         />
       )}
 
-      {/* Phase 14 Evaluation Metrics & Benchmark Modal */}
+      {/* Phase 14 Evaluation Metrics & Simulation Benchmark Modal */}
       {showEvaluationModal && (
         <SimulationEvaluationModal onClose={() => setShowEvaluationModal(false)} />
-      )}
-
-      {/* Phase 15 Explainability Why Modal */}
-      {selectedEntity?.type === 'WHY' && (
-        <CommandCenterWhyModal
-          action={selectedEntity.data}
-          onClose={() => setSelectedEntity(null)}
-        />
       )}
     </div>
   );

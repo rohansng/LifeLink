@@ -1,52 +1,37 @@
 import React, { useState } from 'react';
 import { Bed, Droplet, MoreHorizontal, ChevronDown, Sparkles } from 'lucide-react';
 
-export default function HospitalFleetPanel({
-  hospitals = [],
-  ambulances = [],
-  onSelectHospital,
-  onSelectAmbulance,
-}) {
+export default function HospitalFleetPanel({ hospitals = [], ambulances = [], onSelectHospital }) {
   const [filterMode, setFilterMode] = useState('ICU'); // 'ICU' | 'BLOOD'
 
-  // Default tactical hospitals matching reference image structure
-  const displayHospitals = hospitals.length > 0 ? hospitals.map((h, i) => ({
-    name: `${h.name.toUpperCase()} - ICU: ${h.icu ?? 1} left`,
-    raw: h,
-    type: (h.blood && h.blood.O_negative <= 15) ? 'blood' : 'bed',
-    col1: { icu: h.icu ?? (i === 0 ? 0 : 2), or: h.operating_rooms_open ?? 1, blood: h.blood?.O_negative ?? 18 },
-    col2: { icu: (h.icu ?? 2) + 1, or: 1, blood: 14 },
-    col3: { icu: h.icu_total ?? 28, or: 2, blood: 28 },
-  })) : [
+  const sampleHospitals = [
     {
-      name: 'VICTORIA TRAUMA - ICU: 0 left',
+      name: 'METRO GENERAL - ICU: 2 left',
+      alias: 'MANIPAL APEX HAL',
       type: 'bed',
-      col1: { icu: 0, or: 0, blood: 18 },
-      col2: { icu: 2, or: 1, blood: 14 },
-      col3: { icu: 28, or: 1, blood: 28 },
+      col1: { icu: 1, or: 1, blood: 0 },
+      col2: { icu: 2, or: 1, blood: 1 },
+      col3: { icu: 60, or: 1, blood: 1 },
     },
     {
-      name: 'ST. MARTHA\'S EMERGENCY - ICU: 2 left',
+      name: 'METRO GENERAL - ICU: 2 left',
+      alias: 'APOLLO REGIONAL',
       type: 'bed',
-      col1: { icu: 2, or: 1, blood: 15 },
-      col2: { icu: 2, or: 1, blood: 22 },
-      col3: { icu: 18, or: 2, blood: 30 },
+      col1: { icu: 0, or: 1, blood: 0 },
+      col2: { icu: 2, or: 1, blood: 1 },
+      col3: { icu: 60, or: 1, blood: 1 },
     },
     {
-      name: 'BOWRING & LADY CURZON - ICU: 2 left',
+      name: 'METRO GENERAL - ICU: 2 left',
+      alias: 'VICTORIA SPECIALIZED',
       type: 'blood',
-      col1: { icu: 2, or: 1, blood: 7 },
-      col2: { icu: 1, or: 1, blood: 12 },
-      col3: { icu: 16, or: 1, blood: 20 },
+      col1: { icu: 0, or: 1, blood: 0 },
+      col2: { icu: 0, or: 1, blood: 1 },
+      col3: { icu: 30, or: 1, blood: 1 },
     },
   ];
 
-  const dispatchList = ambulances.length > 0 ? ambulances.map((a, i) => ({
-    name: `Ambulance Dispatch ${i + 1}`,
-    callsign: `${a.callsign} (${a.type})`,
-    status: a.status === 'in_transit' ? 'En Route' : a.status === 'at_scene' ? 'At Scene' : 'Queued',
-    raw: a,
-  })) : [
+  const dispatchList = [
     { name: 'Ambulance Dispatch 1', callsign: 'Medic 1 (ALS)', status: 'Queued' },
     { name: 'Ambulance Dispatch 2', callsign: 'Medic 2 (ALS)', status: 'Queued' },
     { name: 'Ambulance Dispatch 3', callsign: 'Medic 3 (BLS)', status: 'Queued' },
@@ -54,8 +39,8 @@ export default function HospitalFleetPanel({
   ];
 
   const queueRatios = [
-    { name: 'VICTORIA TRAUMA - ICU: 0 left', subtitle: 'Queuing queue', ratio: '5/18' },
-    { name: 'ST. MARTHA\'S - OR: 1 left', subtitle: 'Queuing queue', ratio: '5/12' },
+    { name: 'METRO GENERAL - ICU: 1 left', subtitle: 'Queuing queue', ratio: '5/18' },
+    { name: 'METRO GENERAL - ICU: 1 left', subtitle: 'Queuing queue', ratio: '5/12' },
   ];
 
   return (
@@ -63,7 +48,7 @@ export default function HospitalFleetPanel({
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '8px',
+        gap: '10px',
         height: '100%',
         minWidth: '270px',
       }}
@@ -124,20 +109,17 @@ export default function HospitalFleetPanel({
 
         {/* Hospital Mini-Cards */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          {displayHospitals.map((hosp, idx) => (
+          {sampleHospitals.map((hosp, idx) => (
             <div
               key={idx}
-              onClick={() => onSelectHospital && onSelectHospital(hosp.raw || hosp)}
+              onClick={() => onSelectHospital && onSelectHospital(hosp)}
               style={{
                 background: '#0D1117',
                 border: '1px solid #1C2330',
                 borderRadius: '4px',
                 padding: '7px 9px',
                 cursor: 'pointer',
-                transition: 'border-color 0.15s ease',
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#2D3748'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#1C2330'; }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                 <span className="mono" style={{ fontSize: '10.5px', fontWeight: '700', color: '#CBD5E1' }}>
@@ -209,7 +191,6 @@ export default function HospitalFleetPanel({
           {dispatchList.map((amb, idx) => (
             <div
               key={idx}
-              onClick={() => onSelectAmbulance && amb.raw && onSelectAmbulance(amb.raw)}
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -219,7 +200,6 @@ export default function HospitalFleetPanel({
                 border: '1px solid #161D27',
                 borderRadius: '3px',
                 fontSize: '11px',
-                cursor: amb.raw ? 'pointer' : 'default',
               }}
             >
               <span style={{ color: '#CBD5E1', fontSize: '10.5px' }}>{amb.name}</span>

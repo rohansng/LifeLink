@@ -1,46 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  /* Utilitarian Defense-Grade Operations Console Palette (Reference Spec) */
-  --canvas-dark: #0B0E13;
-  --canvas-elevated: #101419;
-  --panel-bg: #151B22;
-  --panel-sub: #11151C;
-  --panel-card: #18202A;
-  --border-hairline: #232B36;
-  --border-subtle: #2D3748;
-  --border-focused: #3B82F6;
+  --bg-primary: #060810;
+  --bg-secondary: #0b0f1a;
+  --bg-card: rgba(13, 19, 34, 0.88);
+  --bg-card-hover: rgba(18, 26, 46, 0.94);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-glow: rgba(56, 189, 248, 0.25);
 
-  /* Backward-compatible variables for legacy modals */
-  --bg-primary: #0B0E13;
-  --bg-secondary: #101419;
-  --bg-card: rgba(17, 21, 28, 0.94);
-  --bg-card-hover: rgba(24, 32, 42, 0.96);
-  --border-color: #232B36;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
 
-  /* High-Contrast Utilitarian Typography */
-  --text-primary: #E2E8F0;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --text-dim: #475569;
+  --accent-blue: #0284c7;
+  --accent-cyan: #06b6d4;
+  --accent-cyan-bright: #38bdf8;
+  --accent-violet: #8b5cf6;
+  --accent-indigo: #6366f1;
 
-  /* Strict Semantic Triage Colors (Reserved for Status Signals - No Neon Glow) */
-  --triage-black: #4A5568;
-  --triage-black-bg: #1E2530;
-  --triage-red: #DC2626;
-  --triage-red-bg: #3B1214;
-  --triage-red-border: #7F1D1D;
-  --triage-yellow: #D97706;
-  --triage-yellow-bg: #382405;
-  --triage-yellow-border: #78350F;
-  --triage-green: #15803D;
-  --triage-green-bg: #0D2E1C;
-  --triage-green-border: #065F46;
-  --tactical-blue: #2563EB;
-  --tactical-blue-bg: #1E293B;
+  --triage-red: #ef4444;
+  --triage-red-bright: #f87171;
+  --triage-red-dark: #991b1b;
+  --triage-yellow: #f59e0b;
+  --triage-yellow-bright: #fbbf24;
+  --triage-green: #10b981;
+  --triage-green-bright: #34d399;
+  --triage-black: #475569;
 
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', Consolas, monospace;
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
 }
 
 *,
@@ -56,11 +45,16 @@ html {
 }
 
 body {
-  background-color: var(--canvas-dark);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-sans);
   min-height: 100vh;
   overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at 12% 10%, rgba(2, 132, 199, 0.07) 0%, transparent 45%),
+    radial-gradient(circle at 88% 85%, rgba(239, 68, 68, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 50% 45%, rgba(99, 102, 241, 0.04) 0%, transparent 60%);
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -76,106 +70,168 @@ button {
   border: none;
   background: none;
   outline: none;
-  transition: background 0.12s ease, border-color 0.12s ease;
+  transition: all 0.15s ease;
 }
 
 button:focus-visible {
-  outline: 1px solid var(--border-focused);
-  outline-offset: 1px;
+  outline: 2px solid var(--accent-cyan-bright);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(56, 189, 248, 0.3);
+  color: #f8fafc;
 }
 
 .mono {
   font-family: var(--font-mono);
 }
 
-/* Tactical Panel Shells (Zero AI glow, zero frosted blur) */
-.tactical-panel {
-  background: var(--panel-bg);
-  border: 1px solid var(--border-hairline);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.tactical-card {
-  background: var(--panel-sub);
-  border: 1px solid var(--border-hairline);
-  border-radius: 4px;
-}
-
-/* Legacy panel support for modals */
+/* Glassmorphic tactical panels */
 .glass-panel {
-  background: #11151C;
-  border: 1px solid var(--border-hairline);
-  border-radius: 6px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  background: var(--bg-card);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
 }
 
-/* Tabular & Badge Utilities */
-.triage-tag-deceased {
-  background: var(--triage-black-bg);
-  color: #94A3B8;
-  border: 1px solid #334155;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 3px;
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.13);
+}
+
+/* Tactical glowing card states */
+.glow-card-critical {
+  border: 1px solid rgba(239, 68, 68, 0.5) !important;
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.15), inset 0 0 15px rgba(239, 68, 68, 0.05) !important;
+}
+
+.glow-card-active {
+  border: 1px solid rgba(56, 189, 248, 0.5) !important;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.15), inset 0 0 15px rgba(56, 189, 248, 0.05) !important;
+}
+
+/* Pulse Animations */
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes pulseBorderRed {
+
+  0%,
+  100% {
+    border-color: rgba(239, 68, 68, 0.7);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.35);
+  }
+
+  50% {
+    border-color: rgba(239, 68, 68, 0.3);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.15);
+  }
+}
+
+@keyframes pulseBorderCyan {
+
+  0%,
+  100% {
+    border-color: rgba(56, 189, 248, 0.7);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+  }
+
+  50% {
+    border-color: rgba(56, 189, 248, 0.3);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spinSlow 1s linear infinite;
+}
+
+.spin-slow {
+  animation: spinSlow 8s linear infinite;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Live Beacon Indicators */
+.live-indicator {
   display: inline-block;
-  text-transform: uppercase;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--triage-red);
+  box-shadow: 0 0 10px var(--triage-red);
+  animation: pulseGlow 1.8s infinite ease-in-out;
 }
 
-.triage-tag-red {
-  background: var(--triage-red-bg);
-  color: #F87171;
-  border: 1px solid var(--triage-red-border);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 3px;
+.live-indicator-green {
   display: inline-block;
-  text-transform: uppercase;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--triage-green);
+  box-shadow: 0 0 10px var(--triage-green);
+  animation: pulseGlow 2s infinite ease-in-out;
 }
 
-.triage-tag-yellow {
-  background: var(--triage-yellow-bg);
-  color: #FBBF24;
-  border: 1px solid var(--triage-yellow-border);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 3px;
+.live-indicator-cyan {
   display: inline-block;
-  text-transform: uppercase;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-cyan-bright);
+  box-shadow: 0 0 10px var(--accent-cyan-bright);
+  animation: pulseGlow 2s infinite ease-in-out;
 }
 
-.triage-tag-green {
-  background: var(--triage-green-bg);
-  color: #34D399;
-  border: 1px solid var(--triage-green-border);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 3px;
+.live-indicator-amber {
   display: inline-block;
-  text-transform: uppercase;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--triage-yellow-bright);
+  box-shadow: 0 0 10px var(--triage-yellow-bright);
+  animation: pulseGlow 2s infinite ease-in-out;
 }
 
-.destination-tag-matched {
-  background: rgba(37, 99, 235, 0.16);
-  color: #93C5FD;
-  border: 1px solid rgba(37, 99, 235, 0.35);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 3px;
-  display: inline-block;
-}
-
-/* Priority Badges for Legacy Subcomponents */
+/* Tactical Badges */
 .tactical-badge {
   display: inline-flex;
   align-items: center;
@@ -190,51 +246,46 @@ button:focus-visible {
 }
 
 .badge-p1 {
-  background: rgba(220, 38, 38, 0.2);
-  color: #F87171;
-  border: 1px solid rgba(220, 38, 38, 0.45);
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.45);
 }
 
 .badge-p2 {
-  background: rgba(217, 119, 6, 0.2);
-  color: #FBBF24;
-  border: 1px solid rgba(217, 119, 6, 0.45);
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.45);
 }
 
 .badge-p3 {
-  background: rgba(21, 128, 61, 0.2);
-  color: #34D399;
-  border: 1px solid rgba(21, 128, 61, 0.45);
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.45);
 }
 
 .badge-p4 {
-  background: rgba(74, 85, 104, 0.3);
-  color: #CBD5E1;
-  border: 1px solid rgba(74, 85, 104, 0.5);
+  background: rgba(139, 92, 246, 0.2);
+  color: #c4b5fd;
+  border: 1px solid rgba(139, 92, 246, 0.45);
 }
 
-/* Animations */
-@keyframes spinSlow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.badge-cyan {
+  background: rgba(6, 182, 212, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(6, 182, 212, 0.35);
 }
 
-.spin {
-  animation: spinSlow 1s linear infinite;
+.badge-green {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
 }
 
-.spin-slow {
-  animation: spinSlow 8s linear infinite;
-}
-
-/* Leaflet Container & Dark Overrides */
+/* Leaflet dark theme customizations & z-index containment */
 .leaflet-container {
-  background-color: #0B0E13 !important;
+  background-color: #050811 !important;
   font-family: var(--font-sans) !important;
+  border-radius: 8px !important;
   z-index: 10 !important;
 }
 
@@ -248,46 +299,49 @@ button:focus-visible {
 }
 
 .leaflet-popup-content-wrapper {
-  background: #11151C !important;
-  color: #E2E8F0 !important;
-  border: 1px solid #232B36 !important;
-  border-radius: 6px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7) !important;
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
 }
 
 .leaflet-popup-tip {
-  background: #11151C !important;
+  background: #0f172a !important;
 }
 
 .leaflet-popup-content {
-  margin: 10px 12px !important;
+  margin: 10px 14px !important;
   line-height: 1.4 !important;
 }
 
-.dark-tactical-tiles {
-  filter: brightness(0.65) invert(1) contrast(3) hue-rotate(200deg) saturate(0.25) !important;
+.custom-leaflet-pin,
+.custom-leaflet-hosp,
+.custom-leaflet-amb {
+  background: none !important;
+  border: none !important;
 }
 
-/* Low-Glare Tactical Scrollbars */
+/* Custom scrollbars (Webkit & Firefox) */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #2D3748 #11151C;
+  scrollbar-color: rgba(255, 255, 255, 0.15) rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #11151C;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2D3748;
-  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: rgba(255, 255, 255, 0.28);
 }

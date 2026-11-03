@@ -8,6 +8,7 @@
 [![Google OR-Tools](https://img.shields.io/badge/Optimization-Google%20OR--Tools%20MILP-orange.svg)](https://developers.google.com/optimization)
 [![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini%20Multimodal-blueviolet.svg)](https://deepmind.google/technologies/gemini/)
 [![React 18](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Vite-61dafb.svg)](https://react.dev)
+[![Netlify Status](https://img.shields.io/badge/Netlify-Live%20Deployment-00C7B7?logo=netlify&logoColor=white)](https://legendary-sprite-e5cbb1.netlify.app/)
 [![Tests Passing](https://img.shields.io/badge/Tests-68%2F68%20Passing-success.svg)](file:///tests/run_tests.py)
 
 ---
@@ -278,7 +279,11 @@ Every replan publishes:
 
 ## 8. How to Run (Fresh Installation & Verification)
 
-LIFELINK is engineered to be **100% reproducible** from a fresh clone.
+### 🚀 Instant Cloud Evaluation (Zero Install)
+* **Live Netlify Production Web App**: [https://legendary-sprite-e5cbb1.netlify.app/](https://legendary-sprite-e5cbb1.netlify.app/)
+*(Pre-configured continuous deployment from the `main` branch with automated Vite builds and high-performance CDN edge delivery).*
+
+---
 
 ### Option A: Docker Compose (Recommended for Judges)
 

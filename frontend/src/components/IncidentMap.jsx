@@ -17,21 +17,19 @@ export default function IncidentMap({
   const layersGroupRef = useRef({});
 
   const [activeFilter, setActiveFilter] = useState('ALL');
-  const [basemapStyle, setBasemapStyle] = useState('TACTICAL_DARK'); // TACTICAL_DARK | SATELLITE | STREET
+  const [basemapStyle, setBasemapStyle] = useState('SATELLITE'); // SATELLITE | STREET
 
-  // Default coordinate: Bengaluru Central Freight Corridor, Sector 7
-  const BENGALURU_CENTER = [12.9716, 77.5946];
-
+  // Helper coordinate normalizers for backend and synthetic models
   const getIncidentCoords = () => {
     if (incident?.coordinates) return [incident.coordinates.lat, incident.coordinates.lng];
     if (incident?.location) return [incident.location.latitude, incident.location.longitude];
-    return BENGALURU_CENTER;
+    return [37.7749, -122.4194];
   };
 
   const getEntityCoords = (item) => {
     if (Array.isArray(item.coordinates)) return item.coordinates;
     if (item.location) return [item.location.latitude, item.location.longitude];
-    return BENGALURU_CENTER;
+    return [37.7749, -122.4194];
   };
 
   useEffect(() => {
@@ -39,8 +37,6 @@ export default function IncidentMap({
     if (mapInstanceRef.current) return;
 
     const centerCoords = getIncidentCoords();
-
-    // Initialize Leaflet map
     const map = L.map(mapContainerRef.current, {
       center: centerCoords,
       zoom: 13,
@@ -48,168 +44,213 @@ export default function IncidentMap({
       attributionControl: false,
     });
 
-    // 1. Tactical Dark Gray Canvas (High-contrast military C2 basemap)
-    const darkCanvasBase = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
-      { maxZoom: 19 }
-    );
-    const darkCanvasRef = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
-      { maxZoom: 19 }
-    );
-
-    // 2. Photorealistic Satellite Imagery (Esri World Imagery)
-    const satelliteLayer = L.tileLayer(
+    // 1. Photorealistic Satellite Imagery (Esri World Imagery — High Res Aerial Satellite)
+    const satelliteTileLayer = L.tileLayer(
       'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      { maxZoom: 19 }
-    );
-    const satelliteRef = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
-      { maxZoom: 19 }
+      {
+        maxZoom: 19,
+        attribution: 'Tiles &copy; Esri World Imagery',
+      }
     );
 
-    // 3. OpenStreetMap Crisp Vector Map with tactical filter
-    const streetLayer = L.tileLayer(
+    // 2. High-Contrast Reference Overlay (Highways, Streets & Place Names)
+    const referenceLayer = L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
+      {
+        maxZoom: 19,
+      }
+    );
+
+    // 3. OpenStreetMap Crisp Vector Street Map
+    const streetTileLayer = L.tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      { maxZoom: 19, className: 'dark-tactical-tiles' }
+      {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors',
+      }
     );
 
     tileLayersRef.current = {
-      darkBase: darkCanvasBase,
-      darkRef: darkCanvasRef,
-      satBase: satelliteLayer,
-      satRef: satelliteRef,
-      street: streetLayer,
+      satellite: satelliteTileLayer,
+      reference: referenceLayer,
+      street: streetTileLayer,
     };
 
-    // Default to Tactical Dark Canvas
-    darkCanvasBase.addTo(map);
-    darkCanvasRef.addTo(map);
+    // Default to Photorealistic Satellite with Road & Landmark Reference Overlay
+    satelliteTileLayer.addTo(map);
+    referenceLayer.addTo(map);
 
     mapInstanceRef.current = map;
 
     const groups = {
-      polygons: L.layerGroup().addTo(map),
-      routes: L.layerGroup().addTo(map),
-      pins: L.layerGroup().addTo(map),
+      zones: L.layerGroup().addTo(map),
+      hospitals: L.layerGroup().addTo(map),
+      ambulances: L.layerGroup().addTo(map),
+      roads: L.layerGroup().addTo(map),
     };
     layersGroupRef.current = groups;
 
-    // 1. Triage Cluster Polygons in Bengaluru Central (Sector Alpha, Bravo, Charlie)
-    // Red Polygon (Sector Alpha - Structural Collapse Epicenter)
-    const redPolygonCoords = [
-      [12.9790, 77.5950],
-      [12.9820, 77.6020],
-      [12.9750, 77.6050],
-      [12.9710, 77.5990],
-      [12.9730, 77.5930],
-    ];
-    L.polygon(redPolygonCoords, {
-      color: '#DC2626',
-      weight: 1.5,
-      fillColor: '#DC2626',
-      fillOpacity: 0.28,
-    }).addTo(groups.polygons);
+    // 1. Victim Zones
+    victimZones.forEach((zone) => {
+      const coords = getEntityCoords(zone);
+      const totalVictims = zone.total_victims ?? zone.totalVictims ?? 0;
+      const criticalCount = zone.critical_count ?? zone.triage?.critical ?? 0;
+      const seriousCount = zone.serious_count ?? zone.triage?.serious ?? 0;
+      const radius = zone.radius_meters ?? zone.radiusMeters ?? 250;
+      const desc = zone.description ?? '';
+      const hazard = zone.hazard ?? 'HAZARD ZONE';
+      const access = zone.access_status ?? zone.accessStatus ?? 'RESTRICTED';
 
-    // Amber Polygon (Sector Bravo - Ammonia Plume & Highway Perimeter)
-    const amberPolygonCoords = [
-      [12.9760, 77.5870],
-      [12.9780, 77.5940],
-      [12.9700, 77.5950],
-      [12.9680, 77.5890],
-      [12.9710, 77.5850],
-    ];
-    L.polygon(amberPolygonCoords, {
-      color: '#D97706',
-      weight: 1.5,
-      fillColor: '#D97706',
-      fillOpacity: 0.26,
-    }).addTo(groups.polygons);
+      L.circle(coords, {
+        radius: radius,
+        color: '#ef4444',
+        weight: 2,
+        fillColor: '#ef4444',
+        fillOpacity: 0.18,
+        dashArray: '5, 5',
+      }).addTo(groups.zones);
 
-    // 2. Routes (Blue dashed EMS/Helicopter Corridor + Red/Amber Severed Highway)
-    // Blue Dashed EMS Route to Victoria Hospital
-    const emsRouteCoords = [
-      [12.9765, 77.5980],
-      [12.9716, 77.5946],
-      [12.9680, 77.5850],
-      [12.9630, 77.5750],
-    ];
-    L.polyline(emsRouteCoords, {
-      color: '#3B82F6',
-      weight: 2.5,
-      dashArray: '6, 6',
-      opacity: 0.85,
-    }).addTo(groups.routes);
-
-    // Red Highway Severance (Outer Ring Road / Industrial Overpass 4)
-    const roadSeveredCoords = [
-      [12.9780, 77.5990],
-      [12.9750, 77.6020],
-      [12.9720, 77.6040],
-    ];
-    L.polyline(roadSeveredCoords, {
-      color: '#DC2626',
-      weight: 4,
-      opacity: 0.95,
-      dashArray: '8, 6',
-    }).addTo(groups.routes);
-
-    // 3. Tactical Markers & Pins
-    // Incident Pin (Center Red)
-    const incidentPinHtml = `
-      <div style="background: #DC2626; border: 2px solid #FFFFFF; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(220, 38, 38, 0.8); cursor: pointer;">
-        <div style="width: 6px; height: 6px; border-radius: 50%; background: #FFFFFF;"></div>
-      </div>
-    `;
-    L.marker([12.9716, 77.5946], {
-      icon: L.divIcon({ html: incidentPinHtml, className: '', iconSize: [22, 22], iconAnchor: [11, 11] }),
-    }).addTo(groups.pins);
-
-    // Staging Area Pin (Sector Charlie Triage Staging)
-    const stagingPinHtml = `
-      <div style="background: #11151C; border: 1.5px solid #64748B; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: 700; color: #E2E8F0; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.6); cursor: pointer; white-space: nowrap;">
-        <span style="color: #38BDF8;">&#9650;</span> Staging Area
-      </div>
-    `;
-    L.marker([12.9680, 77.5990], {
-      icon: L.divIcon({ html: stagingPinHtml, className: '', iconSize: [95, 22], iconAnchor: [47, 11] }),
-    }).addTo(groups.pins);
-
-    // Air Med / Helicopter Pin
-    const heliPinHtml = `
-      <div style="background: #18202A; border: 1.5px solid #3B82F6; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 8px rgba(59, 130, 246, 0.7); cursor: pointer; font-size: 11px; color: #60A5FA;">
-        H
-      </div>
-    `;
-    L.marker([12.9750, 77.6010], {
-      icon: L.divIcon({ html: heliPinHtml, className: '', iconSize: [24, 24], iconAnchor: [12, 12] }),
-    }).addTo(groups.pins);
-
-    // Hospital Pins (Victoria, St. Martha's, Bowring)
-    hospitals.forEach((hosp) => {
-      const coords = getEntityCoords(hosp);
-      const isCritical = hosp.status && hosp.status.includes('CRITICAL');
-      const hospHtml = `
-        <div style="background: #11151C; border: 1.5px solid ${isCritical ? '#EF4444' : '#38BDF8'}; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: 700; color: ${isCritical ? '#F87171' : '#38BDF8'}; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.6); cursor: pointer; white-space: nowrap;">
-          <span style="font-weight: 900;">+</span> ${hosp.name.split(' ')[0]}
+      const zoneHtml = `
+        <div class="map-pin-zone" style="text-align: center; cursor: pointer; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8));">
+          <div style="background: rgba(220, 38, 38, 0.95); border: 2.5px solid #ffffff; border-radius: 50%; width: 36px; height: 36px; margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(239, 68, 68, 0.9);">
+            <span style="color: #ffffff; font-weight: 900; font-size: 13px; font-family: monospace;">${totalVictims}</span>
+          </div>
+          <div style="background: rgba(10, 15, 29, 0.92); border: 1px solid rgba(248, 113, 113, 0.6); padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 800; color: #f8fafc; margin-top: 4px; white-space: nowrap; display: inline-block; letter-spacing: 0.3px;">
+            ${zone.id}: <span style="color: #f87171;">${criticalCount} Red</span>
+          </div>
         </div>
       `;
-      L.marker(coords, {
-        icon: L.divIcon({ html: hospHtml, className: '', iconSize: [85, 24], iconAnchor: [42, 12] }),
-      }).addTo(groups.pins).on('click', () => onSelectEntity && onSelectEntity({ type: 'HOSPITAL', data: hosp }));
+
+      const marker = L.marker(coords, {
+        icon: L.divIcon({ html: zoneHtml, className: 'custom-leaflet-pin', iconSize: [84, 54], iconAnchor: [42, 27] }),
+      }).addTo(groups.zones);
+
+      marker.bindPopup(`
+        <div style="color: #0f172a; padding: 4px; font-family: sans-serif;">
+          <h4 style="margin: 0 0 4px 0; color: #b91c1c; font-size: 14px; font-weight: 800;">${zone.name}</h4>
+          <p style="font-size: 12px; margin: 0 0 6px 0; color: #475569;">${desc}</p>
+          <div style="font-size: 11px; background: #fee2e2; border-left: 3px solid #dc2626; padding: 5px 8px; margin-bottom: 6px; border-radius: 2px;">
+            <strong>Casualties:</strong> ${totalVictims} Total | <span style="color: #dc2626; font-weight: bold;">${criticalCount} Critical (P1)</span> | ${seriousCount} Serious (P2)
+          </div>
+          <div style="font-size: 11px; color: #64748b; line-height: 1.4;">
+            <strong>Hazard:</strong> ${hazard}<br />
+            <strong>Access:</strong> ${access}
+          </div>
+        </div>
+      `);
+
+      marker.on('click', () => onSelectEntity && onSelectEntity({ type: 'ZONE', data: zone }));
     });
 
-    // Ambulance Pins
-    ambulances.forEach((amb) => {
-      const coords = getEntityCoords(amb);
-      const ambHtml = `
-        <div style="background: #151B22; border: 1.5px solid #94A3B8; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.6); cursor: pointer; font-size: 9px; font-weight: 800; color: #E2E8F0;">
-          A
+    // 2. Receiving Hospitals
+    hospitals.forEach((hosp) => {
+      const coords = getEntityCoords(hosp);
+      const icuAvailable = hosp.icu ?? hosp.icuBedsAvailable ?? 0;
+      const icuTotal = hosp.icu_total ?? hosp.icuTotalBeds ?? 20;
+      const specialties = hosp.supported_specialties ?? hosp.specialties ?? [];
+      const eta = hosp.eta_minutes ?? hosp.etaMinutes ?? 10.0;
+      const dist = hosp.distance_km ?? hosp.distanceKm ?? 5.0;
+
+      const hospHtml = `
+        <div class="map-pin-hosp" style="text-align: center; cursor: pointer; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8));">
+          <div style="background: #0284c7; border: 2.5px solid #38bdf8; border-radius: 8px; width: 34px; height: 34px; margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 18px rgba(56, 189, 248, 0.75);">
+            <span style="font-size: 15px;">🏥</span>
+          </div>
+          <div style="background: rgba(10, 15, 29, 0.92); border: 1px solid #38bdf8; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 800; color: #38bdf8; margin-top: 4px; white-space: nowrap; display: inline-block;">
+            ${hosp.name.split(' ')[0]}: <span style="color: ${icuAvailable > 0 ? '#4ade80' : '#f87171'}">${icuAvailable} ICU</span>
+          </div>
         </div>
       `;
-      L.marker(coords, {
-        icon: L.divIcon({ html: ambHtml, className: '', iconSize: [20, 20], iconAnchor: [10, 10] }),
-      }).addTo(groups.pins).on('click', () => onSelectEntity && onSelectEntity({ type: 'AMBULANCE', data: amb }));
+
+      const marker = L.marker(coords, {
+        icon: L.divIcon({ html: hospHtml, className: 'custom-leaflet-hosp', iconSize: [96, 54], iconAnchor: [48, 27] }),
+      }).addTo(groups.hospitals);
+
+      marker.bindPopup(`
+        <div style="color: #0f172a; padding: 4px; font-family: sans-serif;">
+          <h4 style="margin: 0 0 4px 0; color: #0369a1; font-size: 14px; font-weight: 800;">${hosp.name}</h4>
+          <div style="font-size: 12px; font-weight: bold; color: ${icuAvailable > 0 ? '#047857' : '#b91c1c'}; margin-bottom: 6px;">
+            ICU Beds Open: ${icuAvailable} of ${icuTotal}
+          </div>
+          <div style="font-size: 11px; margin-bottom: 4px;">
+            <strong>Specialties:</strong> ${specialties.join(', ')}
+          </div>
+          <div style="font-size: 11px; color: #64748b;">
+            <strong>Transit ETA:</strong> ${eta} min (${dist} km)
+          </div>
+        </div>
+      `);
+
+      marker.on('click', () => onSelectEntity && onSelectEntity({ type: 'HOSPITAL', data: hosp }));
+    });
+
+    // 3. Ambulances
+    ambulances.forEach((amb) => {
+      const coords = getEntityCoords(amb);
+      const isALS = amb.type?.includes('ALS');
+      const assignment = amb.assignment_description ?? amb.assignedTo ?? 'Active Transport';
+      const crew = amb.crew_lead ?? amb.crewLead ?? 'Paramedic Unit';
+
+      const ambHtml = `
+        <div class="map-pin-amb" style="text-align: center; cursor: pointer; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));">
+          <div style="background: ${isALS ? '#8b5cf6' : '#0d9488'}; border: 2px solid #ffffff; border-radius: 50%; width: 30px; height: 30px; margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 14px ${isALS ? 'rgba(139, 92, 246, 0.8)' : 'rgba(13, 148, 136, 0.8)'};">
+            <span style="font-size: 13px;">🚑</span>
+          </div>
+          <div style="background: rgba(10, 15, 29, 0.92); border: 1px solid rgba(255, 255, 255, 0.25); padding: 1px 6px; border-radius: 4px; font-size: 9px; font-weight: 800; color: #f8fafc; margin-top: 3px; white-space: nowrap; display: inline-block;">
+            ${amb.callsign}
+          </div>
+        </div>
+      `;
+
+      const marker = L.marker(coords, {
+        icon: L.divIcon({ html: ambHtml, className: 'custom-leaflet-amb', iconSize: [64, 46], iconAnchor: [32, 23] }),
+      }).addTo(groups.ambulances);
+
+      marker.bindPopup(`
+        <div style="color: #0f172a; padding: 4px; font-family: sans-serif;">
+          <h4 style="margin: 0 0 2px 0; color: #6d28d9; font-size: 13px; font-weight: 800;">${amb.callsign} (${amb.type})</h4>
+          <div style="font-size: 11px; font-weight: bold; color: #1e293b; margin-bottom: 4px;">
+            Status: ${amb.status}
+          </div>
+          <div style="font-size: 11px; margin-bottom: 4px; color: #475569;">
+            <strong>Assignment:</strong> ${assignment}
+          </div>
+          <div style="font-size: 11px; color: #64748b;">
+            <strong>Lead:</strong> ${crew}
+          </div>
+        </div>
+      `);
+
+      marker.on('click', () => onSelectEntity && onSelectEntity({ type: 'AMBULANCE', data: amb }));
+    });
+
+    // 4. Road Disruptions & Highway Detours
+    roadDisruptions.forEach((road) => {
+      const start = road.start_latitude !== undefined ? [road.start_latitude, road.start_longitude] : road.coordinatesStart;
+      const end = road.end_latitude !== undefined ? [road.end_latitude, road.end_longitude] : road.coordinatesEnd;
+      const delay = road.detour_penalty_minutes ?? road.detourPenaltyMinutes ?? 0.0;
+
+      if (start && end) {
+        const polyline = L.polyline([start, end], {
+          color: '#ef4444',
+          weight: 6,
+          opacity: 0.9,
+          dashArray: '8, 8',
+        }).addTo(groups.roads);
+
+        polyline.bindPopup(`
+          <div style="color: #0f172a; padding: 4px; font-family: sans-serif;">
+            <h4 style="margin: 0 0 4px 0; color: #b91c1c; font-size: 13px; font-weight: 800;">⛔ ${road.name}</h4>
+            <div style="font-size: 11px; font-weight: bold; color: #dc2626; margin-bottom: 4px;">
+              Status: ${road.status}
+            </div>
+            <p style="font-size: 11px; margin: 0 0 4px 0; color: #475569;">${road.reason}</p>
+            <div style="font-size: 11px; color: #b91c1c;">
+              <strong>Detour Penalty:</strong> +${delay} min
+            </div>
+          </div>
+        `);
+      }
     });
 
     return () => {
@@ -218,177 +259,197 @@ export default function IncidentMap({
     };
   }, [incident, victimZones, hospitals, ambulances, roadDisruptions]);
 
-  // Basemap Switcher Handler
-  const handleBasemapChange = (style) => {
-    if (!mapInstanceRef.current || !tileLayersRef.current.darkBase) return;
+  // Basemap Switcher (Satellite vs Street)
+  useEffect(() => {
+    if (!mapInstanceRef.current || !tileLayersRef.current.satellite) return;
     const map = mapInstanceRef.current;
-    const { darkBase, darkRef, satBase, satRef, street } = tileLayersRef.current;
+    const { satellite, reference, street } = tileLayersRef.current;
 
-    // Remove all base layers
-    [darkBase, darkRef, satBase, satRef, street].forEach((l) => {
-      if (l && map.hasLayer(l)) map.removeLayer(l);
-    });
-
-    if (style === 'TACTICAL_DARK') {
-      darkBase.addTo(map);
-      darkRef.addTo(map);
-    } else if (style === 'SATELLITE') {
-      satBase.addTo(map);
-      satRef.addTo(map);
+    if (basemapStyle === 'SATELLITE') {
+      if (map.hasLayer(street)) map.removeLayer(street);
+      if (!map.hasLayer(satellite)) satellite.addTo(map);
+      if (!map.hasLayer(reference)) reference.addTo(map);
     } else {
-      street.addTo(map);
+      if (map.hasLayer(satellite)) map.removeLayer(satellite);
+      if (map.hasLayer(reference)) map.removeLayer(reference);
+      if (!map.hasLayer(street)) street.addTo(map);
     }
-    setBasemapStyle(style);
-  };
+  }, [basemapStyle]);
+
+  // Entity Layer Filtering
+  useEffect(() => {
+    if (!mapInstanceRef.current || !layersGroupRef.current.zones) return;
+    const map = mapInstanceRef.current;
+    const { zones, hospitals: hospGroup, ambulances: ambGroup, roads } = layersGroupRef.current;
+
+    if (map.hasLayer(zones)) map.removeLayer(zones);
+    if (map.hasLayer(hospGroup)) map.removeLayer(hospGroup);
+    if (map.hasLayer(ambGroup)) map.removeLayer(ambGroup);
+    if (map.hasLayer(roads)) map.removeLayer(roads);
+
+    if (activeFilter === 'ALL') {
+      map.addLayer(zones);
+      map.addLayer(hospGroup);
+      map.addLayer(ambGroup);
+      map.addLayer(roads);
+    } else if (activeFilter === 'VICTIMS') {
+      map.addLayer(zones);
+    } else if (activeFilter === 'HOSPITALS') {
+      map.addLayer(hospGroup);
+    } else if (activeFilter === 'AMBULANCES') {
+      map.addLayer(ambGroup);
+    } else if (activeFilter === 'ROADS') {
+      map.addLayer(roads);
+    }
+  }, [activeFilter]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px',
-        height: '100%',
-        position: 'relative',
-      }}
-    >
-      {/* Title & Coordinate Metadata */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '2px 4px' }}>
-        <h3 style={{ fontSize: '13px', fontWeight: '700', color: '#E2E8F0', letterSpacing: '-0.2px', margin: 0 }}>
-          Tactical Map
-        </h3>
-        <span className="mono" style={{ fontSize: '11px', color: '#64748B' }}>
-          BENGALURU CENTRAL FREIGHT CORRIDOR • SECTOR 7
-        </span>
-      </div>
-
-      {/* Map Container */}
-      <div
-        style={{
-          position: 'relative',
-          flex: 1,
-          minHeight: '520px',
-          borderRadius: '4px',
-          overflow: 'hidden',
-          border: '1px solid #232B36',
-          background: '#0B0E13',
-        }}
-      >
-        <div ref={mapContainerRef} style={{ width: '100%', height: '100%', minHeight: '520px' }} />
-
-        {/* Top-Right Basemap Switcher Overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            zIndex: 1000,
-            display: 'flex',
-            gap: '4px',
-            background: 'rgba(17, 21, 28, 0.94)',
-            border: '1px solid #232B36',
-            borderRadius: '4px',
-            padding: '3px 4px',
-          }}
-        >
-          <button
-            onClick={() => handleBasemapChange('TACTICAL_DARK')}
-            style={{
-              background: basemapStyle === 'TACTICAL_DARK' ? '#2563EB' : 'transparent',
-              color: basemapStyle === 'TACTICAL_DARK' ? '#FFFFFF' : '#94A3B8',
-              fontSize: '10px',
-              fontWeight: '700',
-              padding: '2px 8px',
-              borderRadius: '3px',
-            }}
-          >
-            Tactical Dark
-          </button>
-          <button
-            onClick={() => handleBasemapChange('SATELLITE')}
-            style={{
-              background: basemapStyle === 'SATELLITE' ? '#2563EB' : 'transparent',
-              color: basemapStyle === 'SATELLITE' ? '#FFFFFF' : '#94A3B8',
-              fontSize: '10px',
-              fontWeight: '700',
-              padding: '2px 8px',
-              borderRadius: '3px',
-            }}
-          >
-            Satellite
-          </button>
-          <button
-            onClick={() => handleBasemapChange('STREET')}
-            style={{
-              background: basemapStyle === 'STREET' ? '#2563EB' : 'transparent',
-              color: basemapStyle === 'STREET' ? '#FFFFFF' : '#94A3B8',
-              fontSize: '10px',
-              fontWeight: '700',
-              padding: '2px 8px',
-              borderRadius: '3px',
-            }}
-          >
-            Street
-          </button>
+    <div className="glass-panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', height: '100%', minHeight: '520px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Navigation size={18} color="var(--accent-cyan)" />
+          <h2 style={{ fontSize: '15px', fontWeight: '800', letterSpacing: '-0.3px', textTransform: 'uppercase' }}>
+            Live Geospatial Tactical Map
+          </h2>
+          <span className="mono" style={{ fontSize: '11px', background: 'rgba(255,255,255,0.06)', padding: '2px 8px', borderRadius: '4px', color: 'var(--text-muted)' }}>
+            SECTOR 7 • SF METRO
+          </span>
         </div>
 
-        {/* Floating Triage Legend Overlay (Matching Reference Image) */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '12px',
-            left: '12px',
-            background: 'rgba(17, 21, 28, 0.94)',
-            border: '1px solid #232B36',
-            borderRadius: '4px',
-            padding: '8px 12px',
-            zIndex: 1000,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '5px',
-            fontSize: '11px',
-            color: '#CBD5E1',
-            boxShadow: '0 4px 14px rgba(0, 0, 0, 0.6)',
-            userSelect: 'none',
-          }}
-        >
-          <div style={{ fontWeight: '700', color: '#E2E8F0', fontSize: '11px', marginBottom: '2px' }}>
-            Triage
+        {/* Controls: Basemap Toggle + Entity Filter */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          {/* Realistic Basemap Selector */}
+          <div style={{ display: 'flex', background: 'rgba(0,0,0,0.4)', borderRadius: '6px', padding: '2px', border: '1px solid var(--border-color)' }}>
+            <button
+              onClick={() => setBasemapStyle('SATELLITE')}
+              style={{
+                background: basemapStyle === 'SATELLITE' ? 'var(--accent-blue)' : 'transparent',
+                color: basemapStyle === 'SATELLITE' ? '#fff' : 'var(--text-muted)',
+                borderRadius: '4px',
+                padding: '3px 8px',
+                fontSize: '11px',
+                fontWeight: '700',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+              title="High-resolution photorealistic satellite imagery"
+            >
+              <span>🛰️</span> Satellite
+            </button>
+            <button
+              onClick={() => setBasemapStyle('STREET')}
+              style={{
+                background: basemapStyle === 'STREET' ? 'var(--accent-blue)' : 'transparent',
+                color: basemapStyle === 'STREET' ? '#fff' : 'var(--text-muted)',
+                borderRadius: '4px',
+                padding: '3px 8px',
+                fontSize: '11px',
+                fontWeight: '700',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+              title="Detailed road and urban street grid"
+            >
+              <span>🗺️</span> Street
+            </button>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#3B82F6', display: 'inline-block' }} />
-            <span style={{ color: '#94A3B8' }}>Color coded Descanning</span>
+          {/* Layer Filters */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            {[
+              { id: 'ALL', label: 'All Layers' },
+              { id: 'VICTIMS', label: 'Victims (214)' },
+              { id: 'AMBULANCES', label: 'Fleet (5)' },
+              { id: 'HOSPITALS', label: 'Hospitals (3)' },
+              { id: 'ROADS', label: 'Blockades' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveFilter(tab.id)}
+                style={{
+                  background: activeFilter === tab.id ? 'var(--accent-blue)' : 'rgba(255,255,255,0.05)',
+                  color: activeFilter === tab.id ? '#fff' : 'var(--text-secondary)',
+                  border: '1px solid',
+                  borderColor: activeFilter === tab.id ? 'var(--accent-blue)' : 'var(--border-color)',
+                  borderRadius: '5px',
+                  padding: '4px 9px',
+                  fontSize: '11px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
+        </div>
+      </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#D97706', display: 'inline-block' }} />
-            <span style={{ color: '#94A3B8' }}>Triage Clusters</span>
-          </div>
+      <div style={{ position: 'relative', flex: 1, minHeight: '460px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: 'inset 0 0 30px rgba(0,0,0,0.6)' }}>
+        <div ref={mapContainerRef} style={{ width: '100%', height: '100%', minHeight: '460px' }} />
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#DC2626', display: 'inline-block' }} />
-            <span style={{ color: '#94A3B8' }}>Highway Closures</span>
+        {/* Tactical Legend */}
+        <div style={{
+          position: 'absolute',
+          bottom: '12px',
+          left: '12px',
+          background: 'rgba(9, 13, 22, 0.94)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid var(--border-color)',
+          borderRadius: '6px',
+          padding: '8px 12px',
+          zIndex: 1000,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '6px',
+          fontSize: '11px',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.7)',
+        }}>
+          <div style={{ fontWeight: '800', color: 'var(--text-muted)', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            TACTICAL MAP LEGEND
           </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444', display: 'inline-block', boxShadow: '0 0 8px rgba(239,68,68,0.8)' }} />
+            <span>Casualty Cluster (Zone Alpha / Bravo / Charlie)</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '12px', height: '12px', borderRadius: '3px', background: '#0284c7', display: 'inline-block', boxShadow: '0 0 8px rgba(56,189,248,0.8)' }} />
+            <span>Hospital (Metro Trauma, St. Jude, Harborview)</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#8b5cf6', display: 'inline-block', boxShadow: '0 0 8px rgba(139,92,246,0.8)' }} />
+            <span>Ambulance Unit (Medic 1 to 5)</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '16px', height: '3px', background: '#ef4444', borderTop: '2px dashed #ffffff', display: 'inline-block' }} />
+            <span style={{ color: '#f87171', fontWeight: '700' }}>Highway 101 Blockage (+14m Detour)</span>
+          </div>
+        </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#DC2626', border: '1px solid #FFF', display: 'inline-block' }} />
-            <span style={{ color: '#94A3B8' }}>Incident Pins</span>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <span style={{ width: '0', height: '0', borderLeft: '4px solid transparent', borderRight: '4px solid transparent', borderBottom: '7px solid #38BDF8', display: 'inline-block' }} />
-            <span style={{ color: '#94A3B8' }}>Staging Area</span>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <span style={{ width: '12px', height: '2px', background: '#3B82F6', display: 'inline-block' }} />
-            <span style={{ color: '#94A3B8' }}>EMS/Helicopter Route</span>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <span style={{ width: '12px', height: '2px', background: '#DC2626', display: 'inline-block' }} />
-            <span style={{ color: '#94A3B8' }}>Highway Detours</span>
-          </div>
+        {/* Overpass Warning Banner */}
+        <div style={{
+          position: 'absolute',
+          top: '12px',
+          right: '12px',
+          background: 'rgba(239, 68, 68, 0.35)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid var(--triage-red)',
+          borderRadius: '6px',
+          padding: '6px 12px',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          fontSize: '11px',
+          color: '#ffffff',
+          fontWeight: '800',
+          boxShadow: '0 0 15px rgba(239,68,68,0.4)',
+        }}>
+          <AlertTriangle size={15} color="#ef4444" />
+          <span>ROADWAY SEVERED: HWY 101 @ OVERPASS 4</span>
         </div>
       </div>
     </div>
